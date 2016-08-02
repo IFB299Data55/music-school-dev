@@ -17,7 +17,7 @@ app.get('/dev', function(request, response) {
   response.render('pages/dev-info');
 });
 
-require('./apiTemplate.js').include(app);
+require('./ownerAPI.js').include(app);
 
 app.use(function(request, response) {
 	response.render('pages/404');
