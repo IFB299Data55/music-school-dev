@@ -2,6 +2,10 @@
 <html>
 <head>
   <% include ../../partials/header.ejs %>
+  <!-- 2. Load our 'modules' -->
+  <script src='app/app.component.js'></script>
+  <script src='app/app.module.js'></script>
+  <script src='app/main.js'></script>
 </head>
 
 <body>
@@ -20,6 +24,8 @@
     <form action="/owner" method="post">
     <input type="submit"/>
     </form>
+
+    <my-app>Loading...</my-app>
   </div>
 </div>
 </body>
