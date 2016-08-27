@@ -3,25 +3,25 @@ var app = express();
 
 app.set('port', (process.env.PORT || 5000));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/website'));
 app.use(express.static(__dirname + '/node_modules'));
 
 // views is directory for all template files
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/website');
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
-	response.render('pages/index');
+	response.render('main/index');
 });
 
 app.get('/dev', function(request, response) {
-	response.render('pages/dev-info');
+	response.render('dev-info/dev-info');
 });
 
 require('./ownerAPI.js').include(app);
 
 app.use(function(request, response) {
-	response.render('pages/404');
+	response.render('404');
 });
 
 app.listen(app.get('port'), function() {
