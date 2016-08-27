@@ -4,7 +4,6 @@ var app = express();
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/website'));
-app.use(express.static(__dirname + '/node_modules'));
 
 // views is directory for all template files
 app.set('views', __dirname + '/website');
