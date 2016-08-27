@@ -19,6 +19,7 @@ app.get('/dev', function(request, response) {
 });
 
 require('./ownerAPI.js').include(app);
+require('./teacherRegistration.js').include(app);
 
 app.use(function(request, response) {
 	response.render('404');
