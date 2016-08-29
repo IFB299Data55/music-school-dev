@@ -1,6 +1,8 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+require('./database.js').include(app);
+
 
 app.set('port', (process.env.PORT || 5000));
 
