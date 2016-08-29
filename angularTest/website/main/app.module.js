@@ -14,7 +14,7 @@
         , app.HeroDetailComponent
         , app.DashboardComponent
       ],
-      providers: [app.HeroService],
+      providers: [app.HeroService ],
       bootstrap: [ app.AppComponent ]
     })
     .Class({
