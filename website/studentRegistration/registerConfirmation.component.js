@@ -2,8 +2,8 @@
   app.RegisterConfirmationComponent =
     ng.core.Component({
       selector: 'register-confirmation' ,
-      templateUrl: localPath+'views/registerConfirmation.component.ejs'
-      //styleUrls: ['main/app.component.css']
+      templateUrl: localPath+'views/registerConfirmation.component.ejs',
+      styleUrls: [localPath+'views/registerConfirmation.component.css']
     })
     .Class({
       constructor: [
