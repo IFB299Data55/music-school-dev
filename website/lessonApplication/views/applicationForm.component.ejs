@@ -1,0 +1,9 @@
+<p *ngIf="error">{{error}}</p>
+<form [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
+	<div>
+		<button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>
+	</div>
+</form>
+<div [hidden]="!submitted">
+	<p>Attempting to Register your new account...</p>
+</div>
