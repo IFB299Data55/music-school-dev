@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/register/student/">
+  <% include ../shared/header.ejs %>
+  <script>var localPath = '/studentRegistration/';</script>
+  <script src="/studentRegistration/student.js"></script>
+  <script src="/studentRegistration/registration.service.js"></script>
+  <script src="/studentRegistration/registerConfirmation.component.js"></script>
+  <script src="/studentRegistration/registerForm.component.js"></script>
+  <script src="/studentRegistration/stdntReg.component.js"></script>
+  <script src="/studentRegistration/stdntReg.routing.js"></script>
+  <script src="/studentRegistration/stdntReg.module.js"></script>
+  <script src="/studentRegistration/stdntReg.main.js"></script>
+</head>
+<body>
+
+  <% include ../shared/nav.ejs %>
+
+<div class="jumbotron text-center">
+  <div class="container">
+    <h1>Music School: Student Registration</h1>
+    <p>This is where you can register as a Student.</p>
+  </div>
+</div>
+<div class="container">
+  <student-registration-app></student-registration-app>
+</div>
+</body>
+</html>
