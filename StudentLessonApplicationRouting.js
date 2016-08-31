@@ -17,7 +17,7 @@ exports.include = (app) => {
 		//response.sendStatus('500');
 	});*/
 
-	app.get('/register/student/*', function(request, response) {
+	app.get('/lessons/application/*', function(request, response) {
 	  response.render('lessonApplication/index');
 	});
 }

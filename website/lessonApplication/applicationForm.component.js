@@ -13,6 +13,13 @@
           this.LessonApplicationService = LessonApplicationService;
           this.Router = Router;
           this.submitted = false;
+          this.lesson = new Lesson();
+
+          this.instrumentList = [
+              {id: 1, name:"drums"}
+            , {id: 2, name:"trumpet"}
+            , {id: 3, name:"flute"}
+          ];
 
           this.Register = function() {
             this.submitted = true;
