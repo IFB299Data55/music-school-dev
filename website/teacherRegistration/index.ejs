@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../shared/header.ejs %>
+    
+     <meta charset="utf-8" />
+        <title>Teacher Registration</title>
+        <link rel="stylesheet" type="text/css" href="teacherRegistration/teachReg.css" />
+</head>
+
+<body>
+
+  <% include ../shared/nav.ejs %>
+
+
+<div class="header">
+           
+           <div class="container">
+               
+               <div class="logo">
+                   <h2>SCHOOL OF <br/>MUSIC</h2>
+               </div>
+               
+               <div class="nav">
+                   <ul>
+                       <li><a href="#">HOME</a></li>
+                       <li><a href="#">STUDY</a></li>
+                       <li><a href="#">CONTACTS</a></li>
+                       <li><a href="#">MY.PORTAL</a></li>
+                   </ul>
+                   <form class="search">
+                    <input type="text" name="search" placeholder="Search.."  />
+                   </form>
+               </div>
+           </div>
+        </div>
+        <div class="header2">
+            <div class="bar">
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="#">STUDY</a></li>
+                    <li><a href="#">OUR PEOPLE</a></li>
+                    <li><a href="#">CONTACTS</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2 class="background"><span>Teacher Registration</span></h2>
+        
+        <div id="box">
+        <form action="">
+            
+            <fieldset id="teacherinfo">
+                <legend><span>Teacher Information</span></legend>
+                
+                <div class="first">
+                <label>
+                    First Name:<br>
+                    <input type="text" name="name" id="nameinput" placeholder="First Name"/>
+                </label>
+                <label>
+                    Last Name:<br>
+                    <input type="text" name="name" id="nameinput" placeholder="Last Name"/>
+                </label>
+                <label>
+                    Email:<br>
+                    <input type="email" name="email" id="emailinput" placeholder="address@example.com"/>
+                </label>
+                </div>
+                
+                <div class="second">
+                <label>
+                    Phone:<br>
+                    <input type="text" name="phone" id="phoneinput" />
+                </label>
+                <label>
+                    Teacher ID:<br>
+                    <input type="text" name="teacerid" id="teacheridinput" placeholder="T000000" />
+                </label>
+                <label for="male">
+                    Gender:<br>
+                    <input type="radio" name="gender" value="male"> Male
+                    <input type="radio" name="gender" value="female"> Female
+                </label> 
+                </div> 
+                
+            </fieldset>
+    
+            <br><br>
+            
+             <fieldset id="locationinfo">
+                <legend><span>Location Information</span></legend>
+                
+                 <div class="first">
+                <label>
+                    Address 1:<br>
+                    <input type="text" name="address1" id="address1input" />
+                </label>
+                <label>
+                    City:<br>
+                    <input type="text" name="city" id="cityinput" />
+                </label>
+                <label>
+                    Country:<br>
+                    <input type="text" name="country" id="countryinput" />
+                </label>
+                </div>
+                
+                <div class="second">
+                <label>
+                    Address 2:<br>
+                    <input type="text" name="address2" id="address2input" />
+                </label>
+                <label>
+                    State:<br>
+                    <input type="text" name="state" id="stateinput" />
+                </label>
+                <label>
+                    Postal Code:<br>
+                    <input type="text" name="postal" id="postalinput" />
+                </label> 
+                </div> 
+            </fieldset>
+            
+            <br><br>
+            
+            <fieldset id="additionalinformation">
+                <legend><span>Additional Information</span></legend>
+                <div class="addinfo">
+                <label>
+                    Feedback, special requests, or other information
+                    <textarea id="feedback" name="feedback" rows="7" cols="55"></textarea>
+                </label>
+                </div>
+            </fieldset>
+            
+            <br><br>
+            
+            <input type="submit" value="submit" id="submitbutton">
+        </form>
+        </div>
+</body>
+</html>
