@@ -1,4 +1,4 @@
-.jumbotron {
+/*.jumbotron {
   background: #385DA7;
   color: white;
   padding-bottom: 80px; }
@@ -12,7 +12,7 @@
     max-width: 75%;
     margin: 1em auto 2em; }
   .navbar + .jumbotron {
-    margin-top: -20px; }
+    margin-top: -20px; }*/
 
 body {
     width:100%;
@@ -79,7 +79,7 @@ a {
     font-size: 15px;
     font-family: Avenir;
     background-color: white;
-    background-image: url('Search-icon.png');
+    background-image: url('../images/Search-icon.png');
     background-repeat: no-repeat;
     background-size: 16px;
     background-position: 231px 4px;
