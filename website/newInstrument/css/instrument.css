@@ -1,0 +1,211 @@
+/* Add A New Instrument stylesheet*/
+
+body {
+    width:100%;
+    margin: auto;
+
+}
+p {
+    padding-top: 50px;
+}
+
+.header {
+    background: #191970;
+    width: 100%;
+    top:0;
+    border-bottom:1px solid #EEE;
+    height: 120px;
+    position: absolute;
+}
+
+.logo {
+    border-color: #EEE;
+    border-left-style: double;
+    margin-top: 20px;
+    line-height: 20px;
+    float: left;
+    font-family: Apple Chancery;
+    font-size: 15px;
+    color: aliceblue;
+    margin-left: 145px;
+    padding-left: 5px; 
+}
+
+a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.nav ul {
+    top:0;
+    padding-right: 50px;
+    margin-top: 5px;
+    
+}
+.nav li {
+    font-family: Adobe Gothic Std;
+    list-style: none;
+    float: left;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.nav {
+    float: right;
+}
+
+.search input[type=text] {
+    float: right;
+    margin-top: 30px;
+    margin-right: 50px;
+    width: 250px;
+    height: 20px;
+    border-style: #191970;
+    font-size: 15px;
+    font-family: Avenir;
+    background-color: white;
+    background-image: url('Search-icon.png');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 231px 4px;
+}
+
+.background {
+    padding-top: 180px;
+    font-family: Cambria;
+    margin-left: 140px;
+    
+}
+
+.header2 {
+    background: black;
+    width: 100%;
+    top: 120px;
+    border-bottom:1px solid #EEE;
+    height: 30px;
+    position: absolute;
+}
+
+.bar ul {
+    float: left;
+    padding-left: 80px;
+}
+
+.bar li {
+    margin-top: -9px;
+    font-family: Avenir;
+    list-style: none;
+    float: left;
+    margin-left: 40px;
+    font-size: 12px;
+}
+
+#instrumentinfo label {
+    display: block;
+    position: relative;
+    margin: 12px 0;
+} 
+
+#instrumentinfo input {
+    left: 100px
+}
+
+.first1 {
+    width: 200px;
+    margin-left: 40px;
+    font-family: Avenir;
+    font-size: 15px;
+}
+
+
+#typeinput, #serialinput, #priceinput, #purchaseinput, #hirefeeinput {
+    width: 15em;
+}
+
+.style_select select {
+    width: 15.40em;
+    background: white;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-color: #EEE;
+}
+
+.second2 {
+    width: 200px;
+    margin-left: 330px; 
+    margin-top: -158px;
+    margin-bottom: 30px;
+    font-family: Avenir;
+    font-size: 15px;
+}
+
+
+input[type="radio"] {
+    list-style: inline;
+}
+
+conditioninput {
+    width: 15em;
+}
+
+
+#locationinfo label{
+    display: block;
+    position: relative;
+    margin: 12px 0;
+}
+
+#locationinfo input {
+    left: 100px
+
+}
+
+input:focus, textarea:focus {
+    background: white;
+    resize: none;
+}
+
+.addinfo {
+    width: 400px;
+    margin-left: 15px;
+    margin-top: 15px;
+    font-family: Avenir;
+    font-size: 15px;
+}
+
+#submitbutton {
+    margin-top: 10px;
+    margin-left: 255px;
+    padding: 3px 15px;
+    border: none;
+    text-align: center;
+    background: #e3d5ba;
+    font-size: 12px;
+	font-family: Adobe Gothic Std;
+	background:#191970;
+	text-transform:uppercase;
+    color: #FFF;
+	border:none;
+	text-decoration: none;
+	outline: 0;
+	
+
+}
+.mybutton:hover {
+	text-shadow: 0px 0px 1px #000;
+	background: #292929;
+}
+
+#box {
+    border-width: 0.25em;
+    margin-left: 240px;
+    margin-right: 400px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 1em;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 20px;
+}
+
