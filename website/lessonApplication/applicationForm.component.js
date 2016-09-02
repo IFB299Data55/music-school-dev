@@ -21,17 +21,45 @@
             , {id: 3, name:"flute"}
           ];
 
+          this.dayList = [
+              {short: "mon", name:"Monday"}
+            , {short: "tue", name:"Tuesday"}
+            , {short: "wed", name:"Wednesday"}
+            , {short: "thu", name:"Thursday"}
+            , {short: "fri", name:"Friday"}
+          ];
+
+          this.ProcessStartTime = function() {
+            if(this.lesson.startTime.search(":") == -1) {
+              if(this.lesson.startTime.search("pm") == -1) {
+                var hours = parseInt(this.lesson.startTime);
+                this.lesson.startTime = hours + ":00";
+              } else {
+                var hours = parseInt(this.lesson.startTime) + 12;
+                this.lesson.startTime = hours + ":00";
+              }
+            } else if(this.lesson.startTime.search("pm") == -1) {
+              var hours = parseInt(this.lesson.startTime);
+              this.lesson.startTime = hours + ":30";
+            } else {
+              var hours = parseInt(this.lesson.startTime) + 12;
+              this.lesson.startTime = hours + ":30";
+            }
+          }
+
           this.Register = function() {
             this.submitted = true;
+            //Fix startTime
+            this.ProcessStartTime();
             //Send to registration Service
             //then redirect
-            /*this.RegistrationService.AttemptRegistration(this.student).then(() => {
+            this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(() => {
               var link = ['/Confirmation'];
               this.Router.navigate(link);
             }).catch(() => {
               this.submitted = false;
               this.error = 'An error has occured. Please try again later';
-            });*/
+            });
           }
 	      }
       ]

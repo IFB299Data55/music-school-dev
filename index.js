@@ -24,6 +24,7 @@ app.get('/dev', function(request, response) {
 	response.render('dev-info/dev-info');
 });
 
+require('./database/databaseFunctions.js').include(app);
 require('./ownerAPI.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);

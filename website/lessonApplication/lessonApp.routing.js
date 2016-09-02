@@ -4,6 +4,9 @@ var lessonAppRouting = [
 		component: app.ApplicationFormComponent
 	}
 	, {
+		path: 'Confirmation',
+		component: app.LessonConfirmationComponent
+	}, {
 		path: '',
 		redirectTo: 'ApplicationForm',
 		pathMatch: 'full'
