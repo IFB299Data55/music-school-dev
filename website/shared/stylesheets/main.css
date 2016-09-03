@@ -1,4 +1,40 @@
-body {
+#firstHeader {
+    background: #191970;
+    border-bottom:1px solid #EEE;
+}
+
+#firstHeader .navbar-header {
+    color: white;
+    border-color: #EEE;
+    border-left-style: double;
+    font-family: Apple Chancery;
+    font-size: 24px;
+    margin-top: 20px;
+    padding-left: 10px; 
+    height: 100px;
+    line-height: 100px;
+    margin-bottom: 20px;
+    margin-left: 120px;
+    text-align: center;
+}
+
+#firstHeader a {
+    color: white;
+    text-align: center;
+}
+
+#secondHeader {
+    background: black;
+}
+
+#secondHeader a {
+    color: white;
+    height: 30px;
+    padding: 0px 50px 0px 50px;
+    line-height: 30px;
+    text-align: center;
+}
+/*body {
     width:100%;
     margin: auto;
 }
@@ -109,4 +145,4 @@ a {
     border-radius: 5px;
     background-color: whitesmoke;
     padding: 20px;
-}
+}*/
