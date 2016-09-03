@@ -10,6 +10,7 @@
       declarations: [ 
           app.LessonApplicationRouterComponent
         , app.ApplicationFormComponent
+        , app.LessonConfirmationComponent
       ],
       providers: [ app.LessonApplicationService ],
       bootstrap: [ app.LessonApplicationRouterComponent ]

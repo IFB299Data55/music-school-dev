@@ -1,5 +1,6 @@
 <p *ngIf="error">{{error}}</p>
-<form [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
+
+<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
 	<div>
 		<label 	for="instrument">Instrument: </label>
 		<select id="instrument" name="instrument"
@@ -8,14 +9,31 @@
 		</select>
 	</div>
 	<div>
-		<label 	for="startTime">Start Time: </label>
-		<input 	title="Between 6am and 5:30pm. To the nearest 30 minutes." type="text" id="startTime" name="startTime"
-				[(ngModel)]="lesson.startTime" pattern="^([6-9]|1[0-1])(:(00|30))?am$|(12|[1-5])(:(00|30))?pm$" required/>
+		<label 	for="day">day: </label>
+		<select id="day" name="day"
+				[(ngModel)]="lesson.day" required>
+			<option *ngFor="let day of dayList" value="{{day.short}}" required>{{day.name}}</option>
+		</select>
 	</div>
 	<div>
-		<button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>
+		<label 	for="startTime">Start Time: </label>
+		<input 	title="Between 6am and 5:30pm. To the nearest 30 minutes." type="text" id="startTime" name="startTime"
+				[(ngModel)]="lesson.startTime" pattern="^([6-9]|1[0-1])(:(00|30))?am$|(12|[1-5])(:(00|30))?pm$|^((0[6-9])|(1[0-7])):(00|30)$" required/>
+	</div>
+	<div>
+		<label 	for="duration">Duration: </label>
+		<select id="duration" name="duration"
+				[(ngModel)]="lesson.duration" 
+				required>
+			<option value="30">30 Minutes</option>
+			<option value="60">1 Hour</option>
+		</select>
+	</div>
+	<div>
+		<button [disabled]="!lessonForm.form.valid" type="Submit">Submit</button>
 	</div>
 </form>
+
 <div [hidden]="!submitted">
 	<p>Attempting to Register your new account...</p>
 </div>
