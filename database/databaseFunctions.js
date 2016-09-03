@@ -12,12 +12,14 @@ exports.include = (app) => {
 			{
 				studentId: ,
 				startTime: ,
-				EndTime:   ,
-				Day:       
+				duration:   ,
+				day:       
 			}
 		*/
-		//response.send('Student Registered');
-		response.send('Available');
-		//response.sendStatus('500');
+		if(availabilityCheck.studentId == '' 
+		 ||availabilityCheck.startTime == ''
+		 ||availabilityCheck.duration == ''
+		 ||availabilityCheck.day == '') response.send('Unavailable');
+		else response.send('Available');
 	});
 }

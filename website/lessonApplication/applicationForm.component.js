@@ -13,7 +13,9 @@
           this.LessonApplicationService = LessonApplicationService;
           this.Router = Router;
           this.submitted = false;
+          this.available = false;
           this.lesson = new Lesson();
+          this.error = '';
 
           this.instrumentList = [
               {id: 1, name:"drums"}
@@ -33,6 +35,7 @@
             if(this.lesson.startTime.search(":") == -1) {
               if(this.lesson.startTime.search("pm") == -1) {
                 var hours = parseInt(this.lesson.startTime);
+                if (hours < 10) hours = "0" + hours.toString();
                 this.lesson.startTime = hours + ":00";
               } else {
                 var hours = parseInt(this.lesson.startTime) + 12;
@@ -40,6 +43,7 @@
               }
             } else if(this.lesson.startTime.search("pm") == -1) {
               var hours = parseInt(this.lesson.startTime);
+              if (hours < 10) hours = "0" + hours.toString();
               this.lesson.startTime = hours + ":30";
             } else {
               var hours = parseInt(this.lesson.startTime) + 12;
@@ -53,12 +57,29 @@
             this.ProcessStartTime();
             //Send to registration Service
             //then redirect
-            this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(() => {
-              var link = ['/Confirmation'];
-              this.Router.navigate(link);
-            }).catch(() => {
+            var availabilityCheck = {
+                                      studentId: 1,
+                                      startTime: this.lesson.startTime,
+                                      duration:  this.lesson.duration,
+                                      day:       this.lesson.day
+                                    };
+            this.LessonApplicationService.CheckAvailability(availabilityCheck).then(response => {
+              if(response._body == 'Available') {
+                this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(() => {
+                  var link = ['/Confirmation'];
+                  this.Router.navigate(link);
+                }).catch(() => {
+                  this.submitted = false;
+                  this.error = 'An error has occured. Please try again later';
+                });
+              } else {
+                this.submitted = false;
+                this.error = 'Timeslot not Available.'
+              }
+            })
+            .catch(() => {
               this.submitted = false;
-              this.error = 'An error has occured. Please try again later';
+              this.error = 'Timeslot not available.';
             });
           }
 	      }

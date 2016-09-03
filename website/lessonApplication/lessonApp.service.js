@@ -10,7 +10,9 @@
           this.CheckAvailability = function(availabilityCheck) {
               var url = '/database/checkAvailability/';
               return this.http.post(url, availabilityCheck, this.headers).toPromise()
-              .then(response => {console.log(response);})
+              .then(response => {
+                return response;
+              })
               .catch(this.handleError);
           }
 

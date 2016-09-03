@@ -1,0 +1,14 @@
+<li *ngIf="!loggedIn && !showForm" (click)="ShowForm()"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log-in</a></li>
+<form *ngIf="showForm && !loggingIn" (ngSubmit)="Login()" #loginForm="ngForm" method="POST">
+	<div>
+		<label for="username">Username: </label><input type="text" [(ngModel)]="user.username" id="username" name="username"/>
+	</div>
+	<div>
+		<label for="Password">Password: </label><input type="password" [(ngModel)]="user.password" id="Password" name="Password"/>
+	</div>
+	<button type="submit"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log-in</a></button>
+</form>
+
+<div *ngIf="loggingIn">Attempting to Log in</div>
+
+<logged-in-app *ngIf="loggedIn" class="nav navbar-nav navbar-right"></logged-in-app>
