@@ -17,7 +17,7 @@
           this.showForm = false;
 
           this.user = {
-            username: '',
+            email: '',
             password: ''
           };
 
@@ -33,7 +33,8 @@
               this.loggedIn = true;
               this.loggingIn = false;
               this.showForm = false;
-              this.CookieService.SetCookie('username', response.username);
+              this.CookieService.SetCookie('userId', response.id);
+              this.CookieService.SetCookie('email', response.email);
               this.CookieService.SetCookie('validation', response.validation);
             })
             .catch(()=>{});
@@ -44,7 +45,7 @@
     });
 
   app.LoginComponent.prototype.ngOnInit = function() {
-    if(this.CookieService.CookieExists('username')) {
+    if(this.CookieService.CookieExists('email')) {
       this.loggedIn = true;
     }
   };

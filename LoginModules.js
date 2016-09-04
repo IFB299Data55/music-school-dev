@@ -2,22 +2,23 @@ exports.include = (app) => {
 	require('./database.js');
 
 	app.post('/login/', function(request, response) {
-		/* DATABASE CONNECTION
-		app.client.query("SELECT * FROM test;")
+		var user = request.body;
+
+		app.client.query("SELECT passwordid FROM musicschool.students WHERE email = '" + user.email + "' UNION SELECT passwordid FROM musicschool.managers WHERE email = 'rvanw9@hotmail.com' UNION SELECT passwordid FROM musicschool.teachers WHERE email = 'rvanw9@hotmail.com';")
 		.on('row', function(row) {
 		    console.log(row);
 		});
-		*/
-		var user = request.body;
+
 		/*
 			{
-				username: ,
+				email: ,
 				password: 
 			}
 		*/
 
 		userCookie = {
-			username: user.username,
+			id: 1,
+			email: user.email,
 			validation: user.password.HashCode()
 		};
 
