@@ -2,8 +2,7 @@
   app.LoginComponent =
     ng.core.Component({
       selector: 'login-app',
-      templateUrl: '/shared/views/loginForm.ejs',
-
+      templateUrl: '/shared/views/loginForm.ejs'
     })
     .Class({
       constructor: [

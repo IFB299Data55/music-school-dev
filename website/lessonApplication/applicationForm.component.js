@@ -3,7 +3,7 @@
     ng.core.Component({
       selector: 'register-form' ,
       templateUrl: localPath+'views/applicationForm.component.ejs',
-      styleUrls: [localPath+'css/applicationForm.component.css']
+      styleUrls: ['../..'+localPath+'css/applicationForm.component.css'],
     })
     .Class({
       constructor: [

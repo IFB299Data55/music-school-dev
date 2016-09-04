@@ -4,7 +4,7 @@
       selector: 'lesson-registration-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
       templateUrl: localPath+'views/lessonApp.component.ejs',
-      styleUrls: [localPath+'css/lessonApp.component.css']
+      styleUrls: ['../..'+localPath+'css/lessonApp.component.css']
     })
     .Class({
       constructor: [
