@@ -4,6 +4,11 @@ fieldset {
     margin-bottom: 30px;
     font-family: Avenir;
 }
+
+fieldset div {
+    display: block;
+}
+
 fieldset label {
     display: block;
 }
@@ -22,11 +27,11 @@ input:required {
 }
 
 .ng-valid {
-    border-left: 3px solid green;
+    border-left: 3px solid rgb(70,200,70);
 }
 
 .ng-invalid {
-    border-left: 3px solid red;
+    border-left: 3px solid rgb(225,0,0);
 }
 
 textarea {
@@ -42,4 +47,8 @@ button {
 
 button[disabled] {
     opacity: 0.5;
+}
+
+.errorMessage {
+    color: rgb(200,0,0);
 }
