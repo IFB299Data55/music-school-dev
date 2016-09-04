@@ -26,7 +26,7 @@ exports.include = (app) => {
 			status:false,
 			errorArray:isValid
 		};
-
+		console.log(teacher);
 		if (validateAll(teacher, isValid)) {
 			valid.status = true;
 			valid.errorArray = null;
@@ -85,17 +85,17 @@ function validateLastName(lastName, isValid) {
 }
 
 function validateBirthday(birthday, isValid) {
-	var regexp1 = new RegExp("^(\d){2}/(\d){2}/(\d){4}$");
-	var regexp2 = new RegExp("^(\d){2}-(\d){2}-(\d){4}$");
+	var regexp1 = new RegExp("^([0-9]){2}\/([0-9]){2}\/([0-9]){4}$");
+	var regexp2 = new RegExp("^([0-9]]){2}-([0-9]){2}-([0-9]){4}$");
 	var days, months, years;
 	if (regexp1.test(birthday)) {
-		var days = parseInt(birthday.split('/')[0]);
-		var months = parseInt(birthday.split('/')[1]);
-		var years = parseInt(birthday.split('/')[2]);
+		days = parseInt(birthday.split('/')[0]);
+		months = parseInt(birthday.split('/')[1]);
+		years = parseInt(birthday.split('/')[2]);
 	} else if (regexp2.test(birthday)) {
-		var days = parseInt(birthday.split('-')[0]);
-		var months = parseInt(birthday.split('-')[1]);
-		var years = parseInt(birthday.split('-')[2]);
+		days = parseInt(birthday.split('-')[0]);
+		months = parseInt(birthday.split('-')[1]);
+		years = parseInt(birthday.split('-')[2]);
 	}
 	if (days && months && years) {
 		if (days > 0 && days < 32 &&
@@ -109,7 +109,7 @@ function validateBirthday(birthday, isValid) {
 }
 
 function validateAddress(address, isValid) {
-	var regexp = new RegExp("^[A-Za-z0-9,/-. ]+$");
+	var regexp = new RegExp("^[A-Za-z0-9\-,/. ]+$");
 	if (regexp.test(address)) {
 		return true;
 	}
@@ -118,7 +118,7 @@ function validateAddress(address, isValid) {
 }
 
 function validatePhoneNumber(phoneNumber, isValid) {
-	var regexp = new RegExp("^\d{8}$|^04\d{8}$");
+	var regexp = new RegExp("^[0-9]{8}$|^04[0-9]{8}$");
 	if (regexp.test(phoneNumber)) {
 		return true;
 	}

@@ -5,11 +5,11 @@
         ng.http.Http,
         function(http) {
           this.http = http;
-          this.registerUrl = '/register/student';
+          this.registerUrl = '/register/teacher';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.AttemptRegistration = function(student) {
-              return this.http.post(this.registerUrl, student, this.headers).toPromise()
+          this.AttemptRegistration = function(teacher) {
+              return this.http.post(this.registerUrl, teacher, this.headers).toPromise()
               .then(response => {
                 var valid = JSON.parse(response._body);
                 return valid;

@@ -28,6 +28,7 @@ require('./database/databaseFunctions.js').include(app);
 require('./loginModules.js').include(app);
 require('./ownerAPI.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
+require('./TeacherRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);
 
 app.use(function(request, response) {

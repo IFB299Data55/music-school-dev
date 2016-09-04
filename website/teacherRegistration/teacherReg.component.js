@@ -1,10 +1,10 @@
 (function(app) {
-  app.StudentRegistrationRouterComponent =
+  app.TeacherRegistrationRouterComponent =
     ng.core.Component({
-      selector: 'student-registration-app',
+      selector: 'teacher-registration-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
-      templateUrl: localPath+'views/stdntReg.component.ejs',
-      styleUrls: [localPath+'views/stdntReg.component.css']
+      templateUrl: localPath+'views/teacherReg.component.ejs',
+      styleUrls: [localPath+'views/teacherReg.component.css']
     })
     .Class({
       constructor: [

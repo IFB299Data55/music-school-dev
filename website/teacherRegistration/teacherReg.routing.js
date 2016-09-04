@@ -1,4 +1,4 @@
-var stdntRegRouting = [
+var teacherRegRouting = [
 	{
 		path: 'RegisterForm',
 		component: app.RegisterFormComponent

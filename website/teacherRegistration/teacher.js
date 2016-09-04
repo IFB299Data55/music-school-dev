@@ -1,4 +1,4 @@
-function Student(firstName = '', middleName = '', lastName = '', birthday = '', address = '', phoneNumber = '', email = '') {
+function Teacher(firstName = '', middleName = '', lastName = '', birthday = '', address = '', phoneNumber = '', email = '') {
   this.firstName = firstName;
   this.middleName = middleName;
   this.lastName = lastName;

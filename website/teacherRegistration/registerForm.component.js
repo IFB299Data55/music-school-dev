@@ -12,7 +12,7 @@
 	      function(RegistrationService, Router) {
           this.RegistrationService = RegistrationService;
           this.Router = Router;
-	    	  this.student = new Student();
+	        this.teacher = new Teacher();
           this.submitted = false;
           this.isValid = {
             firstName:true,
@@ -28,7 +28,7 @@
             this.submitted = true;
             //Send to registration Service
             //then redirect
-            this.RegistrationService.AttemptRegistration(this.student)
+            this.RegistrationService.AttemptRegistration(this.teacher)
               .then(response => {
                 if (response.status) {
                   var link = ['/Confirmation'];

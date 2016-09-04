@@ -2,6 +2,6 @@
   document.addEventListener('DOMContentLoaded', function() {
     ng.platformBrowserDynamic
       .platformBrowserDynamic()
-      .bootstrapModule(app.StudentRegistrationModule);
+      .bootstrapModule(app.TeacherRegistrationModule);
   });
 })(window.app || (window.app = {}));

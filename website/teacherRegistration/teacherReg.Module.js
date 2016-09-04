@@ -1,19 +1,19 @@
 (function(app) {
-  app.StudentRegistrationModule =
+  app.TeacherRegistrationModule =
     ng.core.NgModule({
       imports: [ 
 	      ng.platformBrowser.BrowserModule
       , ng.forms.FormsModule
-      , ng.router.RouterModule.forRoot(stdntRegRouting)
+      , ng.router.RouterModule.forRoot(teacherRegRouting)
       , ng.http.HttpModule
       ],
       declarations: [ 
-          app.StudentRegistrationRouterComponent
+          app.TeacherRegistrationRouterComponent
         , app.RegisterFormComponent
         , app.RegisterConfirmationComponent
       ],
       providers: [ app.RegistrationService ],
-      bootstrap: [ app.StudentRegistrationRouterComponent ]
+      bootstrap: [ app.TeacherRegistrationRouterComponent ]
     })
     .Class({
       constructor: function() {}
