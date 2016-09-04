@@ -1,10 +1,16 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+require('./database.js').include(app);
+
 
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/website'));
-app.use(express.static(__dirname + '/node_modules'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+      extended: true
+}));
 
 // views is directory for all template files
 app.set('views', __dirname + '/website');
@@ -18,7 +24,11 @@ app.get('/dev', function(request, response) {
 	response.render('dev-info/dev-info');
 });
 
+require('./database/databaseFunctions.js').include(app);
+require('./loginModules.js').include(app);
 require('./ownerAPI.js').include(app);
+require('./StudentRegistrationRouting.js').include(app);
+require('./StudentLessonApplicationRouting.js').include(app);
 
 app.use(function(request, response) {
 	response.render('404');
