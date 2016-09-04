@@ -85,14 +85,16 @@ function validateLastName(lastName, isValid) {
 }
 
 function validateBirthday(birthday, isValid) {
-	var regexp1 = new RegExp("^(\d){2}/(\d){2}/(\d){4}$");
-	var regexp2 = new RegExp("^(\d){2}-(\d){2}-(\d){4}$");
+	var regexp1 = "^([0-9]]){2}\/([0-9]]){2}\/([0-9]]){4}$";
+	var regexp2 = "^([0-9]]){2}-([0-9]]){2}-([0-9]]){4}$";
 	var days, months, years;
-	if (regexp1.test(birthday)) {
+	//if (regexp1.test(birthday)) {
+	if (birthday.match(regexp1)) {
 		var days = parseInt(birthday.split('/')[0]);
 		var months = parseInt(birthday.split('/')[1]);
 		var years = parseInt(birthday.split('/')[2]);
-	} else if (regexp2.test(birthday)) {
+	//} else if (regexp2.test(birthday)) {
+	} else if (birthday.match(regexp2)) {
 		var days = parseInt(birthday.split('-')[0]);
 		var months = parseInt(birthday.split('-')[1]);
 		var years = parseInt(birthday.split('-')[2]);
@@ -109,7 +111,7 @@ function validateBirthday(birthday, isValid) {
 }
 
 function validateAddress(address, isValid) {
-	var regexp = new RegExp("^[A-Za-z0-9,/-. ]+$");
+	var regexp = new RegExp("^[A-Za-z0-9,\/-. ]+$");
 	if (regexp.test(address)) {
 		return true;
 	}
@@ -118,7 +120,7 @@ function validateAddress(address, isValid) {
 }
 
 function validatePhoneNumber(phoneNumber, isValid) {
-	var regexp = new RegExp("^\d{8}$|^04\d{8}$");
+	var regexp = new RegExp("^[0-9]]{8}$|^04[0-9]]{8}$");
 	if (regexp.test(phoneNumber)) {
 		return true;
 	}
