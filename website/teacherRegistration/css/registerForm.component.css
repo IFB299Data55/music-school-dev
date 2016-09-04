@@ -1,61 +1,15 @@
 /* Registration teacher stylesheet*/
 
-#teacherinfo label {
-    display: block;
-    position: relative;
-    margin: 12px 0;
-} 
-
-#teacherinfo input {
-    left: 100px
-}
-
-.first {
-    width: 200px;
-    margin-left: 40px;
+fieldset {
+    margin-bottom: 30px;
     font-family: Avenir;
-    font-size: 15px;
 }
-
-
-#nameinput, #emailinput {
-    width: 15em;
-}
-
-.second {
-    width: 200px;
-    margin-left: 330px; 
-    margin-top: -156px;
-    margin-bottom: 40px;
-    font-family: Avenir;
-    font-size: 15px;
-}
-
-input[type="radio"] {
-    list-style: inline;
-}
-
-#phoneinput {
-    width: 15em;
-}
-
-#teacheridinput {
-    width: 15em;
-}
-
-#locationinfo label{
+fieldset label {
     display: block;
-    position: relative;
-    margin: 12px 0;
 }
 
-#locationinfo input {
-    left: 100px
-
-}
-
-#address1input, #address2input, #cityinput, #countryinput, #stateinput, #postalinput {
-     width: 15em;
+input {
+    width: 15em;
 }
 
 input:focus, textarea:focus {
@@ -63,33 +17,29 @@ input:focus, textarea:focus {
     resize: none;
 }
 
-.addinfo {
+input:required {
+    box-shadow:none;
+}
+
+.ng-valid {
+    border-left: 3px solid green;
+}
+
+.ng-invalid {
+    border-left: 3px solid red;
+}
+
+textarea {
     width: 400px;
-    margin-left: 15px;
     margin-top: 15px;
     font-family: Avenir;
     font-size: 15px;
 }
 
-#submitbutton {
-    margin-top: 10px;
-    margin-left: 255px;
-    padding: 3px 15px;
-    border: none;
-    text-align: center;
-    background: #e3d5ba;
-    font-size: 12px;
-	font-family: Adobe Gothic Std;
-	background:#191970;
-	text-transform:uppercase;
-    color: #FFF;
-	border:none;
-	text-decoration: none;
-	outline: 0;
-	
-
+button {
+   
 }
-.mybutton:hover {
-	text-shadow: 0px 0px 1px #000;
-	background: #292929;
+
+button[disabled] {
+    opacity: 0.5;
 }

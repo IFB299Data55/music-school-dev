@@ -4,12 +4,12 @@
       selector: 'teacher-registration-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
       templateUrl: localPath+'views/teacherReg.component.ejs',
-      styleUrls: [localPath+'views/teacherReg.component.css']
+      styleUrls: ['../..'+localPath+'css/teacherReg.component.css']
     })
     .Class({
       constructor: [
 	      function() {
-	    	  this.title = 'Registration';
+	    	  this.title = 'Teacher Registration';
 	      }
       ]
     });
