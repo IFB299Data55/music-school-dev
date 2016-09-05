@@ -2,26 +2,38 @@ exports.include = (app) => {
 	require('./database.js');
 
 	app.post('/login/', function(request, response) {
-		/* DATABASE CONNECTION
-		app.client.query("SELECT * FROM test;")
-		.on('row', function(row) {
-		    console.log(row);
-		});
-		*/
 		var user = request.body;
-		/*
-			{
-				username: ,
-				password: 
+
+		//ADD EMAIL VALIDATION
+
+		var salt = '';
+		var password = '';
+		app.client.query("SELECT salt, password FROM music_school.passwords WHERE password_id = (SELECT password_id FROM music_school.students WHERE email='"+user.email+"');")
+		.on('row', function(row) {
+			console.log(row);
+		    salt = row.salt;
+		    password = row.password;
+
+		    var inputPassSalted = user.password + salt;
+
+			console.log(inputPassSalted);
+			console.log(inputPassSalted.HashCode());
+			if(inputPassSalted.HashCode() == password) {
+				userCookie = {
+					valid: 'valid',
+					email: user.email,
+					validation: user.password.HashCode()
+				};
+
+				response.send(userCookie);
+			} else {
+				var valid = {
+					valid: 'invalid'
+				}
+				response.send(valid);
 			}
-		*/
+		});
 
-		userCookie = {
-			username: user.username,
-			validation: user.password.HashCode()
-		};
-
-		response.send(userCookie);
 		//response.send('Student Registered');
 		//response.sendStatus('201');
 		//response.sendStatus('500');

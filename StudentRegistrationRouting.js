@@ -17,6 +17,7 @@ exports.include = (app) => {
 			address:true,
 			phoneNumber:true,
 			email:true,
+			password:true,
 		};
 		var valid = {
 			status:false,
@@ -49,13 +50,13 @@ exports.include = (app) => {
 									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
 									+ "FALSE, "
 									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
-			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");"
+			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
 			app.client.query(passQuery);
 			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) VALUES("+insertValuesString+");";
 			app.client.query(regQuery);
 
 			//response.send('Student Registered');
-			response.sendStatus('201');
+			response.send(valid);
 			//response.sendStatus('500');
 		}
 	});
@@ -83,7 +84,8 @@ function validateAll(student, isValid) {
 		validateBirthday(student.birthday, isValid) &&
 		validateAddress(student.address, isValid) &&
 		validatePhoneNumber(student.phoneNumber, isValid) &&
-		validateEmail(student.email, isValid)) {
+		validateEmail(student.email, isValid) &&
+		validatePassword(student.password, isValid)) {
 		return true;
 	} else {
 		return false;
@@ -118,8 +120,8 @@ function validateLastName(lastName, isValid) {
 }
 
 function validateBirthday(birthday, isValid) {
-	var regexp1 = "^([0-9]]){2}\/([0-9]]){2}\/([0-9]]){4}$";
-	var regexp2 = "^([0-9]]){2}-([0-9]]){2}-([0-9]]){4}$";
+	var regexp1 = "^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$";
+	var regexp2 = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
 	var days, months, years;
 	//if (regexp1.test(birthday)) {
 	if (birthday.match(regexp1)) {
@@ -144,7 +146,7 @@ function validateBirthday(birthday, isValid) {
 }
 
 function validateAddress(address, isValid) {
-	var regexp = new RegExp("^[A-Za-z0-9,\/-. ]+$");
+	var regexp = new RegExp("^[A-Za-z0-9, ]+$");
 	if (regexp.test(address)) {
 		return true;
 	}
@@ -153,7 +155,7 @@ function validateAddress(address, isValid) {
 }
 
 function validatePhoneNumber(phoneNumber, isValid) {
-	var regexp = new RegExp("^[0-9]]{8}$|^04[0-9]]{8}$");
+	var regexp = new RegExp("^[0-9]{8}$|^04[0-9]{8}$");
 	if (regexp.test(phoneNumber)) {
 		return true;
 	}
@@ -170,6 +172,14 @@ function validateEmail(email, isValid) {
 	return false;
 }
 
+function validatePassword(password, isValid) {
+	var regexp = new RegExp("^.{6,}$");
+	if (regexp.test(password)) {
+		return true;
+	}
+	isValid.password = false;
+	return false;
+}
 /* DATABASE STUFF
 
 var query = client.query("SELECT * FROM junk");

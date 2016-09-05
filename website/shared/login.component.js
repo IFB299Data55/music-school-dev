@@ -17,7 +17,7 @@
           this.showForm = false;
 
           this.user = {
-            username: '',
+            email: '',
             password: ''
           };
 
@@ -30,11 +30,16 @@
 
             this.LoginService.AttemptLogin(this.user)
             .then(response => {
-              this.loggedIn = true;
-              this.loggingIn = false;
-              this.showForm = false;
-              this.CookieService.SetCookie('username', response.username);
-              this.CookieService.SetCookie('validation', response.validation);
+              if(response.valid != 'invalid') {
+                this.loggedIn = true;
+                this.loggingIn = false;
+                this.showForm = false;
+                this.CookieService.SetCookie('email', response.email);
+                this.CookieService.SetCookie('validation', response.validation);
+              } else {
+                this.loggingIn = false;
+                this.error = 'Invalid Details';
+              }
             })
             .catch(()=>{});
           }
@@ -44,7 +49,7 @@
     });
 
   app.LoginComponent.prototype.ngOnInit = function() {
-    if(this.CookieService.CookieExists('username')) {
+    if(this.CookieService.CookieExists('email')) {
       this.loggedIn = true;
     }
   };

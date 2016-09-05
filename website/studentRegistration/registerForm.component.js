@@ -22,6 +22,7 @@
             address:true,
             phoneNumber:true,
             email:true,
+            password:true,
           };
 
           this.Register = function() {

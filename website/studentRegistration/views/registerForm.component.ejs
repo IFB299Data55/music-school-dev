@@ -3,7 +3,7 @@
 	<div>
 		<label 	for="email">Email: </label>
 		<input 	type="email" id="email" name="email" #email="ngModel"
-				[(ngModel)]="student.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
+				[(ngModel)]="student.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required/>
 		<p [hidden]="(email.valid || email.untouched) && isValid.email">Invalid input. Must be a valid email format.</p>
 	</div>
 	<div>
@@ -27,32 +27,26 @@
 	<div>
 		<label 	for="lastName">Last Name: </label>
 		<input 	type="text" id="lastName" name="lastName" #lastName="ngModel"
-				[(ngModel)]="student.lastName" pattern="^[A-Za-z ]+$" />
+				[(ngModel)]="student.lastName" pattern="^[A-Za-z ]+$" required/>
 		<p [hidden]="(lastName.valid || lastName.untouched) && isValid.lastName">Invalid input. Must only contain letters.</p>
 	</div>
 	<div>
 		<label 	for="birthday">Date of Birth: </label>
 		<input 	type="text" id="birthday" name="birthday" #birthday="ngModel"
-				[(ngModel)]="student.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" />
+				[(ngModel)]="student.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" required/>
 		<p [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy or dd-mm-yyyy.</p>
 	</div>
 	<div>
 		<label 	for="address">Address: </label>
 		<input 	type="text" id="address" name="address" #address="ngModel"
-				[(ngModel)]="student.address" />
+				[(ngModel)]="student.address" required/>
 		<p [hidden]="(address.valid || address.untouched) && isValid.address">Invalid input. Must be a valid address.</p>
 	</div>
 	<div>
 		<label 	for="phoneNumber">Phone Number: </label>
 		<input 	id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel"
-				[(ngModel)]="student.phoneNumber" pattern="^\d{8}$|^04\d{8}$" />
+				[(ngModel)]="student.phoneNumber" pattern="^\d{8}$|^04\d{8}$" required/>
 		<p [hidden]="(phoneNumber.valid || phoneNumber.untouched) && isValid.phoneNumber">Invalid input. Must be a valid mobile or home number (without area codes).</p>
-	</div>
-	<div>
-		<label 	for="email">Email: </label>
-		<input 	type="email" id="email" name="email" #email="ngModel"
-				[(ngModel)]="student.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" />
-		<p [hidden]="(email.valid || email.untouched) && isValid.email">Invalid input. Must be a valid email format.</p>
 	</div>
 	<div>
 		<button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>

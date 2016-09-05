@@ -23,6 +23,10 @@
             document.cookie = name + "=" + value +"; " + expires;
           }
 
+          this.ClearCookie = function(name) {
+            document.cookie = name + "=";
+          }
+
           this.GetCookie = function(name) {
             var nameString = name + "=";
             var cookies = document.cookie.split(";");
