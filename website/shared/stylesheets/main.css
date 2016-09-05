@@ -1,16 +1,208 @@
-.jumbotron {
-  background: #385DA7;
-  color: white;
-  padding-bottom: 80px; }
-  .jumbotron .btn-primary {
-    background: #5076C3;
-    border-color: #5076C3; }
-    .jumbotron .btn-primary:hover {
-      background: #4768AC; }
-  .jumbotron p {
-    color: #CCCDEE;
-    max-width: 75%;
-    margin: 1em auto 2em; }
-  .navbar + .jumbotron {
-    margin-top: -20px; }
+#firstHeader {
+    background: #191970;
+    border-bottom:1px solid #EEE;
+}
 
+#firstHeader .navbar-header {
+    color: white;
+    border-color: #EEE;
+    border-left-style: double;
+    font-family: Apple Chancery;
+    font-size: 24px;
+    margin-top: 20px;
+    padding-left: 10px; 
+    height: 100px;
+    line-height: 100px;
+    margin-bottom: 20px;
+    margin-left: 120px;
+    text-align: center;
+}
+
+@media screen and (max-width: 767px) {
+    #firstHeader .navbar-header {
+        color: white;
+        border-left-style: none;
+        font-family: Apple Chancery;
+        font-size: 24px;
+        margin-top: 20px;
+        height: auto;
+        line-height: 24px;
+        margin-bottom: 20px;
+        margin-left: 0px;
+        text-align: center;
+    }
+}
+
+#firstHeader a {
+    color: white;
+    text-align: center;
+}
+
+#secondHeader {
+    background: black;
+}
+
+#secondHeader a:hover {
+    background: rgb(40,40,40);
+}
+
+#secondHeader a {
+    color: white;
+    height: 30px;
+    padding: 0px 50px 0px 50px;
+    line-height: 30px;
+    text-align: center;
+}
+
+#secondHeader .dropdown-toggle {
+    background: black;
+}
+#secondHeader .dropdown-menu {
+    background: black;
+}
+
+#secondHeader .dropdown-menu a:hover {
+    background: rgb(40,40,40);
+}
+
+login-app form {
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+login-app label {
+    color: white;
+    padding-right: 10px;
+    text-align: right;
+}
+
+login-app div {
+    clear: both;
+    margin: 5px;
+}
+
+login-app input {
+    float: right
+}
+
+login-app button {
+    background: none;
+    border: none;
+    float: right;
+}
+
+logged-in-app {
+    padding-right: 20px;
+}
+/*body {
+    width:100%;
+    margin: auto;
+}
+
+p {
+    padding-top: 50px;
+}
+
+.header {
+    background: #191970;
+    width: 100%;
+    top:0;
+    border-bottom:1px solid #EEE;
+    height: 120px;
+    position: absolute;
+}
+
+.logo {
+    border-color: #EEE;
+    border-left-style: double;
+    margin-top: 20px;
+    line-height: 20px;
+    float: left;
+    font-family: Apple Chancery;
+    font-size: 15px;
+    color: aliceblue;
+    margin-left: 145px;
+    padding-left: 5px; 
+}
+
+a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+.nav ul {
+    top:0;
+    padding-right: 50px;
+    margin-top: 5px;
+    
+}
+.nav li {
+    font-family: Adobe Gothic Std;
+    list-style: none;
+    float: left;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.nav {
+    float: right;
+}
+
+.search input[type=text] {
+    float: right;
+    margin-top: 30px;
+    margin-right: 50px;
+    width: 250px;
+    height: 20px;
+    border-style: #191970;
+    font-size: 15px;
+    font-family: Avenir;
+    background-color: white;
+    background-image: url('../images/Search-icon.png');
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 231px 4px;
+}
+
+.background {
+    padding-top: 180px;
+    font-family: Cambria;
+    margin-left: 140px;
+    
+}
+
+.header2 {
+    background: black;
+    width: 100%;
+    top: 120px;
+    border-bottom:1px solid #EEE;
+    height: 30px;
+    position: absolute;
+}
+
+.bar ul {
+    float: left;
+    padding-left: 80px;
+}
+
+.bar li {
+    margin-top: -9px;
+    font-family: Avenir;
+    list-style: none;
+    float: left;
+    margin-left: 40px;
+    font-size: 12px;
+}
+
+#box {
+    border-width: 0.25em;
+    margin-left: 240px;
+    margin-right: 400px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 1em;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 20px;
+}*/
