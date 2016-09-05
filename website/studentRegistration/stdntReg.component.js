@@ -9,7 +9,7 @@
     .Class({
       constructor: [
 	      function() {
-	    	  this.title = 'Registration';
+	    	  this.title = 'Student Registration';
 	      }
       ]
     });
