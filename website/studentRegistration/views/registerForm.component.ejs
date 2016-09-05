@@ -1,6 +1,17 @@
 <p *ngIf="error">{{error}}</p>
 <form [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
 	<div>
+		<label 	for="email">Email: </label>
+		<input 	type="text" id="email" name="email" 
+				[(ngModel)]="student.email"
+				pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" required/>
+	</div>
+	<div>
+		<label 	for="password">Password: </label>
+		<input 	type="password" id="password" name="password" 
+				[(ngModel)]="student.password" pattern="^.{6,}" required/>
+	</div>
+	<div>
 		<label 	for="firstName">First Name: </label>
 		<input 	type="text" id="firstName" name="firstName"
 				[(ngModel)]="student.firstName" pattern="^[A-Za-z ]+$" required/>
@@ -13,27 +24,22 @@
 	<div>
 		<label 	for="lastName">Last Name: </label>
 		<input 	type="text" id="lastName" name="lastName"
-				[(ngModel)]="student.lastName" pattern="^[A-Za-z ]+$" />
+				[(ngModel)]="student.lastName" pattern="^[A-Za-z ]+$" required/>
 	</div>
 	<div>
 		<label 	for="birthday">Date of Birth: </label>
 		<input 	type="date" id="birthday" name="birthday"
-				[(ngModel)]="student.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$" />
+				[(ngModel)]="student.birthday" pattern="^(\d){2}[\/\\-](\d){2}[\/\\-](\d){4}$" required/>
 	</div>
 	<div>
 		<label 	for="address">Address: </label>
 		<input 	type="text" id="address" name="address"
-				[(ngModel)]="student.address" />
+				[(ngModel)]="student.address" required/>
 	</div>
 	<div>
 		<label 	for="phoneNumber">Phone Number: </label>
-		<input 	id="phoneNumber" name="phoneNumber" 
-				[(ngModel)]="student.phoneNumber" />
-	</div>
-	<div>
-		<label 	for="email">Email: </label>
-		<input 	type="email" id="email" name="email" 
-				[(ngModel)]="student.email" />
+		<input 	type="text" id="phoneNumber" name="phoneNumber" 
+				[(ngModel)]="student.phoneNumber" pattern="^04[0-9]{8}$|^[0-9]{8}$" required/>
 	</div>
 	<div>
 		<button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>

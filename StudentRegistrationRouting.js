@@ -6,13 +6,29 @@ exports.include = (app) => {
 	});
 
 	app.post('/register/student/', function(request, response) {
-		/* DATABASE CONNECTION
-		app.client.query("SELECT * FROM test;")
-		.on('row', function(row) {
-		    console.log(row);
-		});
-		*/
+		//DATABASE CONNECTION
 		var student = request.body;
+		var d = new Date();
+		var n = d.getTime();
+
+		var saltedPassword = student.password + n;
+		var hashedPassword = saltedPassword.hashCode();
+		var insertValuesString = "(SELECT MAX(student_id + 1) FROM music_school.students), '" 
+								+ student.firstName + "', '"
+								+ student.middleName + "', '"
+								+ student.lastName + "', "
+								+ "to_date('"+student.birthday+"', 'DD MM YYYY'), '"
+								+ student.address + "', '"
+								+ student.phoneNumber + "', '"
+								+ student.email + "', "
+								+ "(SELECT MAX(password_id) FROM music_school.passwords), "
+								+ "FALSE, "
+								+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
+		var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");"
+		app.client.query(passQuery);
+		var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) VALUES("+insertValuesString+");";
+		app.client.query(regQuery);
+
 		//response.send('Student Registered');
 		response.sendStatus('201');
 		//response.sendStatus('500');
@@ -22,6 +38,17 @@ exports.include = (app) => {
 	  response.render('studentRegistration/index');
 	});
 }
+
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 /* DATABASE STUFF
 
