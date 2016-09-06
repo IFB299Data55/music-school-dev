@@ -75,6 +75,10 @@ login-app form {
     margin-right: 20px;
 }
 
+login-app p{
+    color: white;
+}
+
 login-app label {
     color: white;
     padding-right: 10px;

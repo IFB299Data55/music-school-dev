@@ -3,8 +3,10 @@
   	ng.core.Class({
   		constructor: [
         ng.http.Http,
-        function(http) {
+        app.UserService,
+        function(http, UserService) {
           this.http = http;
+          this.UserService = UserService;
           this.loginUrl = '/login/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
@@ -15,6 +17,10 @@
                 return Promise.resolve(userCookie);
               })
               .catch(this.handleError);
+          }
+
+          this.Login = function(user) {
+            this.UserService.SetCurrentUser(user.id, user.email, user.validation);
           }
 
           this.handleError = function(error) {

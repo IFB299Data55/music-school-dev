@@ -8,7 +8,6 @@ exports.include = (app) => {
 	app.post('/register/student/', function(request, response) {
 		//DATABASE CONNECTION
 		var student = request.body;
-
 		var isValid = {
 			firstName:true,
 			middleName:true,

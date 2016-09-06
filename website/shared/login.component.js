@@ -33,23 +33,31 @@
                 this.loggedIn = true;
                 this.loggingIn = false;
                 this.showForm = false;
-                this.CookieService.SetCookie('email', response.email);
-                this.CookieService.SetCookie('validation', response.validation);
+                this.LoginService.Login(response);
               } else {
                 this.loggingIn = false;
-                this.error = 'Invalid Details';
+                this.error = response.error;
               }
             })
             .catch(()=>{});
           }
-        	
+
+          this.CheckLoggedIn = function() {
+            if(this.CookieService.CookieExists('email')) {
+              this.loggedIn = true;
+            } else {
+              this.loggedIn = false;
+            }
+          }
+
+          this.Logout = function() {
+            this.loggedIn = false;
+          }
         }
       ]
     });
 
   app.LoginComponent.prototype.ngOnInit = function() {
-    if(this.CookieService.CookieExists('email')) {
-      this.loggedIn = true;
-    }
+    this.CheckLoggedIn();
   };
 })(window.app || (window.app = {}));

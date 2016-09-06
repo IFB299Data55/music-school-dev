@@ -1,6 +1,9 @@
-function Lesson(instrument = '', startTime = '', duration = '', day = '') {
-	this.instrument = instrument;
+function Lesson(instrumentType = '', hireType = '', instrumentId = '', startTime = '', endTime = '', day = '', studentId = '') {
+	this.instrumentType = instrumentType;
+	this.hireType = hireType;
+	this.instrumentId = instrumentId;
 	this.day = day;
 	this.startTime = startTime;
-	this.duration = duration;
+	this.endTime = endTime;
+	this.studentId = studentId;
 }

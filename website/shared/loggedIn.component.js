@@ -2,20 +2,20 @@
   app.LoggedInComponent =
     ng.core.Component({
       selector: 'logged-in-app',
+      outputs: ['logoutEmitter'],
       templateUrl: '/shared/views/loggedIn.ejs'
     })
     .Class({
       constructor: [
-      app.CookieService,
-        function(CookieService) {
-          this.CookieService = CookieService;
-
-          this.email = this.CookieService.GetCookie('email');
+      app.UserService,
+        function(UserService) {
+          this.UserService = UserService;
+          this.logoutEmitter = new ng.core.EventEmitter();
+          this.user = this.UserService.GetCurrentUser();
 
           this.LogOut = function() {
-            this.parent.LoginComponent.loggedIn = false;
-            this.CookieService.ClearCookie('email');
-            this.CookieService.ClearCookie('validation');
+            this.UserService.SignOutUser();
+            this.logoutEmitter.emit();
           }
         }
       ]

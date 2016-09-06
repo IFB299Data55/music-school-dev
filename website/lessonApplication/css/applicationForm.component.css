@@ -1,3 +1,69 @@
-form {
-	background: yellow;
+/* Registration teacher stylesheet*/
+
+.row {
+    margin-left: 20px;
+}
+
+.row div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+fieldset {
+    margin-bottom: 30px;
+    font-family: Avenir;
+}
+
+fieldset div {
+    display: block;
+}
+
+fieldset label {
+    display: block;
+}
+
+input, select {
+    width: 15em;
+    height: 26px;
+}
+
+input:focus, textarea:focus {
+    background: white;
+    resize: none;
+}
+
+input:required {
+    box-shadow:none;
+}
+
+.ng-valid {
+    border-left: 3px solid rgb(70,200,70);
+}
+
+.ng-invalid {
+    border-left: 3px solid rgb(225,0,0);
+}
+
+textarea {
+    width: 400px;
+    margin-top: 15px;
+    font-family: Avenir;
+    font-size: 15px;
+}
+
+button {
+   margin-top: 40px;
+   margin-bottom: 40px;
+}
+
+button[disabled] {
+    opacity: 0.5;
+}
+
+.disabled {
+	opacity: 0.5;
+}
+
+.errorMessage {
+    color: rgb(200,0,0);
 }

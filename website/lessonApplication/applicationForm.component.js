@@ -9,72 +9,136 @@
       constructor: [
         app.LessonApplicationService,
         ng.router.Router,
-	      function(LessonApplicationService,Router) {
+        app.UserService,
+	      function(LessonApplicationService, Router, UserService) {
           this.LessonApplicationService = LessonApplicationService;
           this.Router = Router;
-          this.submitted = false;
-          this.available = false;
+          this.UserService = UserService;
           this.lesson = new Lesson();
-          this.error = '';
 
-          this.instrumentList = [
-              {id: 1, name:"drums"}
-            , {id: 2, name:"trumpet"}
-            , {id: 3, name:"flute"}
+          this.available = false;
+
+          if(this.UserService.IsSomeoneLoggedIn()) {
+            this.available = true;
+            this.lesson.studentId = this.UserService.GetCurrentUser().id;
+          }
+
+          this.submitted = false;
+          this.givenStartTime = '';
+          this.isValid = {
+            instrumentType: true,
+            hireType: true,
+            instrumentId: true,
+            day: true,
+            startTime: true,
+            endTime: true,
+            errorMessage:''
+          };
+
+          this.instrumentTypeList = [
+              {id: 1, name:"Drums"}
+            , {id: 2, name:"Trumpet"}
+            , {id: 3, name:"Flute"}
           ];
 
+          this.CalcEndTimeInHours = function() {
+            this.ProcessStartTime();
+            var d = new Date(1,1,1,this.lesson.startTime + 1);
+            this.lesson.endTime = d.getHours();
+          }
+
+          this.DisplayEndTime = function() {
+            this.CalcEndTimeInHours();
+
+            var format = '';
+            if(this.givenStartTime.search(":") != -1) format = ':00';
+
+            if(this.givenStartTime.search("am") != -1 || this.givenStartTime.search("pm") != -1) {
+              if(this.lesson.endTime > 12){
+                return ((this.lesson.endTime - 12) + format + 'pm');
+              } else if (this.lesson.endTime == 12) {
+                return (this.lesson.endTime + format + 'pm');
+              } else {
+                return (this.lesson.endTime + format + 'am');
+              }
+            } else {
+              if(this.lesson.endTime > 10)
+                return (this.lesson.endTime + format);
+              else 
+                return (0 + this.lesson.endTime.toString() + format);
+            }
+          }
+
+
+          this.instrumentList = [
+              {id: 1, description: "Red", type: "Drums", serial: "#123123", hireFee: "$10"}
+            , {id: 2, description: "Blue", type: "Drums", serial: "#123123", hireFee: "$12"}
+            , {id: 3, description: "Yellow", type: "Drums", serial: "#54354", hireFee: "$5"}
+          ];
+
+          this.UpdateInstrumentSelect = function() {
+            if(this.lesson.hireType == 'Hire' && this.lesson.instrumentId == '')
+              this.isValid.instrumentId = false;
+            else
+              this.isValid.instrumentId = true;
+          }
+
           this.dayList = [
-              {short: "mon", name:"Monday"}
-            , {short: "tue", name:"Tuesday"}
-            , {short: "wed", name:"Wednesday"}
-            , {short: "thu", name:"Thursday"}
-            , {short: "fri", name:"Friday"}
+              {short: "Mon", name:"Monday"}
+            , {short: "Tue", name:"Tuesday"}
+            , {short: "Wed", name:"Wednesday"}
+            , {short: "Thu", name:"Thursday"}
+            , {short: "Fri", name:"Friday"}
           ];
 
           this.ProcessStartTime = function() {
-            if(this.lesson.startTime.search(":") == -1) {
-              if(this.lesson.startTime.search("pm") == -1) {
-                var hours = parseInt(this.lesson.startTime);
-                if (hours < 10) hours = "0" + hours.toString();
-                this.lesson.startTime = hours + ":00";
+            var hours;
+            if(this.givenStartTime.search(":") == -1) {
+              if(this.givenStartTime.search("pm") == -1) {
+                hours = parseInt(this.givenStartTime);
               } else {
-                var hours = parseInt(this.lesson.startTime) + 12;
-                this.lesson.startTime = hours + ":00";
+                hours = parseInt(this.givenStartTime) + 12;
               }
-            } else if(this.lesson.startTime.search("pm") == -1) {
-              var hours = parseInt(this.lesson.startTime);
-              if (hours < 10) hours = "0" + hours.toString();
-              this.lesson.startTime = hours + ":30";
+            } else if(this.givenStartTime.search("pm") == -1) {
+              hours = parseInt(this.givenStartTime);
             } else {
-              var hours = parseInt(this.lesson.startTime) + 12;
-              this.lesson.startTime = hours + ":30";
+              hours = parseInt(this.givenStartTime) + 12;
             }
+            this.lesson.startTime = hours;
           }
 
           this.Register = function() {
             this.submitted = true;
             //Fix startTime
-            this.ProcessStartTime();
+            this.CalcEndTimeInHours();
             //Send to registration Service
             //then redirect
             var availabilityCheck = {
-                                      studentId: 1,
+                                      studentId: this.lesson.studentId,
                                       startTime: this.lesson.startTime,
                                       duration:  this.lesson.duration,
                                       day:       this.lesson.day
                                     };
             this.LessonApplicationService.CheckAvailability(availabilityCheck).then(response => {
               if(response._body == 'Available') {
-                this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(() => {
-                  var link = ['/Confirmation'];
-                  this.Router.navigate(link);
+                console.log(this.lesson);
+                this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(response => {
+                  console.log(response);
+                  if(response.status) {
+                    var link = ['/Confirmation'];
+                    this.Router.navigate(link);
+                  } else {
+                    this.isValid = response.errorArray;
+                    this.submitted = false;
+                    this.error = this.isValid.errorMessage;
+                  }
                 }).catch(() => {
                   this.submitted = false;
                   this.error = 'An error has occured. Please try again later';
                 });
               } else {
                 this.submitted = false;
-                this.error = 'Timeslot not Available.'
+                this.error = 'Timeslot not Available.';
               }
             })
             .catch(() => {

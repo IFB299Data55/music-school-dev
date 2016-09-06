@@ -1,5 +1,9 @@
 /* Registration teacher stylesheet*/
 
+.row {
+    margin-left: 20px;
+}
+
 fieldset {
     margin-bottom: 30px;
     font-family: Avenir;

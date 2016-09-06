@@ -12,7 +12,7 @@
         , app.ApplicationFormComponent
         , app.LessonConfirmationComponent
       ],
-      providers: [ app.LessonApplicationService ],
+      providers: [ app.LessonApplicationService, app.UserService, app.CookieService ],
       bootstrap: [ app.LessonApplicationRouterComponent ]
     })
     .Class({
