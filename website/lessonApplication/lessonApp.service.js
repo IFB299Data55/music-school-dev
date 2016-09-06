@@ -19,7 +19,10 @@
           this.AttemptLessonBooking = function(lesson) {
               var url = '/lessons/application/';
               return this.http.post(url, lesson, this.headers).toPromise()
-              .then(response => {console.log(response);})
+              .then(response => {
+                var valid = JSON.parse(response._body);
+                return Promise.resolve(valid);
+              })
               .catch(this.handleError);
           }
 

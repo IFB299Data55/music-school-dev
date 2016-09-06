@@ -3,37 +3,41 @@ exports.include = (app) => {
 
 	app.post('/login/', function(request, response) {
 		var user = request.body;
-
 		//ADD EMAIL VALIDATION
 
-		var salt = '';
-		var password = '';
-		app.client.query("SELECT salt, password FROM music_school.passwords WHERE password_id = (SELECT password_id FROM music_school.students WHERE email='"+user.email+"');")
+		app.client.query("SELECT student_id, p.salt, p.password FROM music_school.passwords p, music_school.students s WHERE p.password_id = s.password_id AND s.email='"+user.email+"';")
 		.on('row', function(row) {
-			console.log(row);
-		    salt = row.salt;
-		    password = row.password;
+		    var inputPassSalted = user.password + row.salt;
 
-		    var inputPassSalted = user.password + salt;
-
-			console.log(inputPassSalted);
-			console.log(inputPassSalted.HashCode());
-			if(inputPassSalted.HashCode() == password) {
-				userCookie = {
-					valid: 'valid',
-					email: user.email,
-					validation: user.password.HashCode()
-				};
-
-				response.send(userCookie);
+			if (inputPassSalted.HashCode() == row.password) {
+				if (!response.headersSent) {
+					userCookie = {
+						valid: 'valid',
+						id: row.student_id,
+						email: user.email,
+						validation: user.password.HashCode()
+					};
+					response.send(userCookie);
+				}
 			} else {
+				if (!response.headersSent) {
+					var valid = {
+						valid: 'invalid',
+						error: 'Incorrect Password'
+					}
+					response.send(valid);
+				}
+			}
+		})
+		.on('end', function() {
+			if (!response.headersSent) {
 				var valid = {
-					valid: 'invalid'
+					valid: 'invalid',
+					error: 'User does not exist'
 				}
 				response.send(valid);
 			}
-		});
-
+		})
 		//response.send('Student Registered');
 		//response.sendStatus('201');
 		//response.sendStatus('500');

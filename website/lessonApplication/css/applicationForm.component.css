@@ -4,6 +4,11 @@
     margin-left: 20px;
 }
 
+.row div {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 fieldset {
     margin-bottom: 30px;
     font-family: Avenir;
@@ -17,8 +22,9 @@ fieldset label {
     display: block;
 }
 
-input {
+input, select {
     width: 15em;
+    height: 26px;
 }
 
 input:focus, textarea:focus {
@@ -52,6 +58,10 @@ button {
 
 button[disabled] {
     opacity: 0.5;
+}
+
+.disabled {
+	opacity: 0.5;
 }
 
 .errorMessage {

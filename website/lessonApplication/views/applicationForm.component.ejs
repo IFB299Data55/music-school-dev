@@ -1,39 +1,83 @@
-<p *ngIf="error">{{error}}</p>
+<div *ngIf="available">
+	<p *ngIf="isValid.errorMessage" class="errorMessage">{{isValid.errorMessage}}</p>
+	<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
+		<fieldset class="container" id="teacherinfo">
+		    <legend><span>Instrument Information</span></legend>
+		    <div class="row">
+				<div class="col-sm-4">
+					<label 	for="instrumentType">Instrument Type: </label>
+					<select id="instrumentType" name="instrumentType"
+							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" required>
+						<option *ngFor="let instrumentType of instrumentTypeList" value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
+					</select>
+					<p class="errorMessage" [hidden]="(instrumentType.valid || instrumentType.untouched) && isValid.instrumentType">A Value must be selected.</p>
+				</div>
+				<div [class.disabled]="lesson.instrumentType==''" class="col-sm-4">
+					<label 	for="hireType">BYO or Hire: </label>
+					<select id="hireType" name="hireType"
+							[(ngModel)]="lesson.hireType" #hireType="ngModel" 
+							[disabled]="lesson.instrumentType==''"
+							(change)="UpdateInstrumentSelect()"
+							required>
+						<option value="BYO">Bring your Own</option>
+						<option value="Hire">Hire</option>
+					</select>
+					<p class="errorMessage" [hidden]="(hireType.valid || hireType.untouched) && isValid.hireType">A Value must be selected.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div [class.disabled]="lesson.hireType!='Hire'" class="col-sm-4">
+					<label 	for="instrument">Instrument: </label>
+					<select *ngIf="lesson.hireType!='Hire'" disabled></select>
+					<select *ngIf="lesson.hireType=='Hire'"
+					[hidden]="lesson.hireType!='Hire'" id="instrument" name="instrument"
+							[(ngModel)]="lesson.instrumentId" 
+							[disabled]="lesson.hireType!='Hire'"
+							[required]="lesson.hireType=='Hire'"
+							#instrumentId="ngModel">{{UpdateInstrumentSelect()}}
+						<option *ngFor="let instrument of instrumentList" value="{{instrument.id}}">{{instrument.description}} {{instrument.type}} - {{instrument.hireFee}}</option>
+					</select>
+					<p class="errorMessage" *ngIf="lesson.hireType=='Hire'"
+					[hidden]="isValid.instrumentId">
+						Please select an instrument.
+					</p>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend><span>Date and Time</span></legend>
+			<div class="row">
+				<div class="col-sm-4">
+					<label 	for="day">Day: </label>
+					<select id="day" name="day"
+							[(ngModel)]="lesson.day" #day="ngModel" required>
+						<option *ngFor="let day of dayList" value="{{day.short}}" required>{{day.name}}</option>
+					</select>
+					<p class="errorMessage" [hidden]="(day.valid || day.untouched) && isValid.day">Invalid input. Must be a valid day format.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">
+					<label 	for="startTime">Start Time: </label>
+					<input 	title="Between 6am and 6pm. To the nearest hour." type="text" id="startTime" name="startTime"
+							[(ngModel)]="givenStartTime" #startTime="ngModel" pattern="^([6-9]|1[0-1])(:(00))?am$|(12|[1-6])(:(00))?pm$|^((0[6-9])|(1[0-8])):(00)$" required/>
+				</div>
+				<div class="col-sm-4">
+					<label>Finish Time:</label>
+					<p *ngIf="startTime.valid">{{DisplayEndTime()}}</p>
+					<p *ngIf="!startTime.valid" class="errorMessage">Start Time invalid</p>
+				</div>
+			</div>
+		</fieldset>
+		<div>
+			<button [disabled]="!lessonForm.form.valid" type="Submit">Submit</button>
+		</div>
+	</form>
 
-<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
-	<div>
-		<label 	for="instrument">Instrument: </label>
-		<select id="instrument" name="instrument"
-				[(ngModel)]="lesson.instrument" required>
-			<option *ngFor="let instrument of instrumentList" value="{{instrument.id}}" required>{{instrument.name}}</option>
-		</select>
+	<div [hidden]="!submitted">
+		<p>Attempting to Register your new account...</p>
 	</div>
-	<div>
-		<label 	for="day">day: </label>
-		<select id="day" name="day"
-				[(ngModel)]="lesson.day" required>
-			<option *ngFor="let day of dayList" value="{{day.short}}" required>{{day.name}}</option>
-		</select>
-	</div>
-	<div>
-		<label 	for="startTime">Start Time: </label>
-		<input 	title="Between 6am and 5:30pm. To the nearest 30 minutes." type="text" id="startTime" name="startTime"
-				[(ngModel)]="lesson.startTime" pattern="^([6-9]|1[0-1])(:(00|30))?am$|(12|[1-5])(:(00|30))?pm$|^((0[6-9])|(1[0-7])):(00|30)$" required/>
-	</div>
-	<div>
-		<label 	for="duration">Duration: </label>
-		<select id="duration" name="duration"
-				[(ngModel)]="lesson.duration" 
-				required>
-			<option value="30">30 Minutes</option>
-			<option value="60">1 Hour</option>
-		</select>
-	</div>
-	<div>
-		<button [disabled]="!lessonForm.form.valid" type="Submit">Submit</button>
-	</div>
-</form>
-
-<div [hidden]="!submitted">
-	<p>Attempting to Register your new account...</p>
+</div>
+<div *ngIf="!available">
+	<p>You must be logged in to see this page</p>
 </div>

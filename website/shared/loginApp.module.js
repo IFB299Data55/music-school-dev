@@ -7,7 +7,7 @@
       , ng.http.HttpModule
       ],
       declarations: [ app.LoginComponent, app.LoggedInComponent ],
-      providers: [ app.LoginService, app.CookieService ],
+      providers: [ app.LoginService, app.CookieService, app.UserService ],
       bootstrap: [ app.LoginComponent ]
     })
     .Class({
