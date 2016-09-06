@@ -12,7 +12,7 @@
               return this.http.post(this.registerUrl, teacher, this.headers).toPromise()
               .then(response => {
                 var valid = JSON.parse(response._body);
-                return valid;
+                return Promise.resolve(valid);
               })
               .catch(this.handleError);
           }

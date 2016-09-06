@@ -1,5 +1,9 @@
 /* Registration teacher stylesheet*/
 
+.row {
+    padding-left: 20px;
+}
+
 fieldset {
     margin-bottom: 30px;
     font-family: Avenir;
@@ -42,7 +46,8 @@ textarea {
 }
 
 button {
-   
+   margin-bottom: 40px;
+   margin-left: 30px;
 }
 
 button[disabled] {

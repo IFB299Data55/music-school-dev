@@ -22,6 +22,8 @@
             address:true,
             phoneNumber:true,
             email:true,
+            dbError:false,
+            dbErrorMessage:''
           };
 
           this.Register = function() {
@@ -34,10 +36,14 @@
                   var link = ['/Confirmation'];
                   this.Router.navigate(link);
                 } else {
-                  this.isValid = response.errorArray;
+                  if (response.errorArray.dbError) {
+                    this.error = response.errorArray.dbErrorMessage;
+                  } else {
+                    this.isValid = response.errorArray;
+                  }
                   this.submitted = false;
                 }
-              }).catch(() => {
+              }).catch(error => {
                 this.submitted = false;
                 this.error = 'An error has occured. Please try again later';
             });

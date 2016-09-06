@@ -6,13 +6,10 @@ exports.include = (app) => {
 	});
 
 	app.post('/register/teacher/', function(request, response) {
-		/* DATABASE CONNECTION
-		app.client.query("SELECT * FROM test;")
-		.on('row', function(row) {
-		    console.log(row);
-		});
-		*/
+		// DATABASE CONNECTION
+		
 		var teacher = request.body;
+
 		var isValid = {
 			firstName:true,
 			middleName:true,
@@ -21,26 +18,107 @@ exports.include = (app) => {
 			address:true,
 			phoneNumber:true,
 			email:true,
+			dbError:false,
+			dbErrorMessage:''
 		};
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
-		console.log(teacher);
+		
 		if (validateAll(teacher, isValid)) {
 			valid.status = true;
-			valid.errorArray = null;
-			response.send(valid);
 		} else {
 			valid.status = false;
 			valid.errorArray = isValid;
 			response.send(valid);
+		}
+
+		if(valid.status) {
+			var d = new Date();
+			var n = d.getTime();
+
+			teacher.password = "test";
+			var saltedPassword = teacher.password + n;
+			var hashedPassword = saltedPassword.hashCode();
+			var insertValuesString = "(SELECT COALESCE((SELECT MAX(teacher_id + 1) FROM music_school.teachers), 1)), '" 
+									+ teacher.firstName + "', '"
+									+ teacher.middleName + "', '"
+									+ teacher.lastName + "', "
+									+ "to_date('"+teacher.birthday+"', 'DD MM YYYY'), '"
+									+ teacher.address + "', '"
+									+ teacher.phoneNumber + "', '"
+									+ teacher.email + "', "
+									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
+									+ "FALSE, "
+									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY'), '"
+									+ teacher.description.escapeHtml() + "'";
+			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
+			var regQuery = "INSERT INTO music_school.teachers(teacher_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description) SELECT "+insertValuesString+" WHERE NOT EXISTS(SELECT 1 FROM music_school.teachers WHERE email = '"+teacher.email+"');";
+			var checkQuery = "SELECT teacher_id FROM music_school.teachers WHERE email = '"+teacher.email+"';";
+
+			app.client.query(passQuery).on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+				}
+			});
+
+			app.client.query(regQuery).on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+				}
+			});
+
+			app.client.query(checkQuery).on('row', function(row) {
+				if (!response.headersSent) {
+					response.send(valid);
+				}
+			});
+
+			if (!response.headersSent) {
+				valid.status = false;
+				isValid.dbError = true;
+				isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
+				response.send(valid);
+			}
+
+			
+
 		}
 	});
 
 	app.get('/register/teacher/*', function(request, response) {
 	  response.render('teacherRegistration/index');
 	});
+}
+
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
+String.prototype.escapeHtml = function() {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return this.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
 
 function validateAll(teacher, isValid) {
@@ -134,48 +212,3 @@ function validateEmail(email, isValid) {
 	isValid.email = false;
 	return false;
 }
-
-/* DATABASE STUFF
-
-var query = client.query("SELECT * FROM junk");
-//fired after last row is emitted
-
-query.on('row', function(row) {
-    console.log(row);
-});
-
-query.on('end', function() {
-    client.end();
-});
-
-
-
-//queries can be executed either via text/parameter values passed as individual arguments
-//or by passing an options object containing text, (optional) parameter values, and (optional) query name
-client.query({
-    name: 'insert beatle',
-    text: "INSERT INTO beatles(name, height, birthday) values($1, $2, $3)",
-    values: ['George', 70, new Date(1946, 02, 14)]
-});
-
-//subsequent queries with the same name will be executed without re-parsing the query plan by postgres
-client.query({
-    name: 'insert beatle',
-    values: ['Paul', 63, new Date(1945, 04, 03)]
-});
-var query = client.query("SELECT * FROM beatles WHERE name = $1", ['john']);
-
-//can stream row results back 1 at a time
-query.on('row', function(row) {
-    console.log(row);
-    console.log("Beatle name: %s", row.name); //Beatle name: John
-    console.log("Beatle birth year: %d", row.birthday.getYear()); //dates are returned as javascript dates
-    console.log("Beatle height: %d' %d\"", Math.floor(row.height / 12), row.height % 12); //integers are returned as javascript ints
-});
-
-//fired after last row is emitted
-query.on('end', function() {
-    client.end();
-});
-
-*/
