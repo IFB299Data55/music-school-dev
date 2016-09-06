@@ -12,7 +12,7 @@
 	      function(RegistrationService, Router) {
           this.RegistrationService = RegistrationService;
           this.Router = Router;
-	    	  this.student = new Student();
+	        this.teacher = new Teacher();
           this.submitted = false;
           this.isValid = {
             firstName:true,
@@ -22,25 +22,28 @@
             address:true,
             phoneNumber:true,
             email:true,
-            password:true,
-            errorMessage:''
+            dbError:false,
+            dbErrorMessage:''
           };
 
           this.Register = function() {
             this.submitted = true;
             //Send to registration Service
             //then redirect
-            this.RegistrationService.AttemptRegistration(this.student)
+            this.RegistrationService.AttemptRegistration(this.teacher)
               .then(response => {
                 if (response.status) {
                   var link = ['/Confirmation'];
                   this.Router.navigate(link);
                 } else {
-                  this.isValid = response.errorArray;
+                  if (response.errorArray.dbError) {
+                    this.error = response.errorArray.dbErrorMessage;
+                  } else {
+                    this.isValid = response.errorArray;
+                  }
                   this.submitted = false;
-                  this.error = this.isValid.errorMessage;
                 }
-              }).catch(() => {
+              }).catch(error => {
                 this.submitted = false;
                 this.error = 'An error has occured. Please try again later';
             });

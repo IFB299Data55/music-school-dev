@@ -29,12 +29,16 @@
 
             this.LoginService.AttemptLogin(this.user)
             .then(response => {
-              this.loggedIn = true;
-              this.loggingIn = false;
-              this.showForm = false;
-              this.CookieService.SetCookie('userId', response.id);
-              this.CookieService.SetCookie('email', response.email);
-              this.CookieService.SetCookie('validation', response.validation);
+              if(response.valid != 'invalid') {
+                this.loggedIn = true;
+                this.loggingIn = false;
+                this.showForm = false;
+                this.CookieService.SetCookie('email', response.email);
+                this.CookieService.SetCookie('validation', response.validation);
+              } else {
+                this.loggingIn = false;
+                this.error = 'Invalid Details';
+              }
             })
             .catch(()=>{});
           }

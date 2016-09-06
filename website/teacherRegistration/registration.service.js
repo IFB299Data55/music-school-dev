@@ -1,18 +1,18 @@
 (function(app) {
-  app.LoginService =
+  app.RegistrationService =
   	ng.core.Class({
   		constructor: [
         ng.http.Http,
         function(http) {
           this.http = http;
-          this.loginUrl = '/login/';
+          this.registerUrl = '/register/teacher';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.AttemptLogin = function(user) {
-              return this.http.post(this.loginUrl, user, this.headers).toPromise()
+          this.AttemptRegistration = function(teacher) {
+              return this.http.post(this.registerUrl, teacher, this.headers).toPromise()
               .then(response => {
-                var userCookie = JSON.parse(response._body);
-                return Promise.resolve(userCookie);
+                var valid = JSON.parse(response._body);
+                return Promise.resolve(valid);
               })
               .catch(this.handleError);
           }

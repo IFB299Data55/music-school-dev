@@ -1,4 +1,4 @@
-function Student(firstName = '', middleName = '', lastName = '', birthday = '', address = '', phoneNumber = '', email = '', password = '') {
+function Teacher(firstName = '', middleName = '', lastName = '', birthday = '', address = '', phoneNumber = '', email = '', password = '', description = '') {
   this.firstName = firstName;
   this.middleName = middleName;
   this.lastName = lastName;
@@ -7,4 +7,5 @@ function Student(firstName = '', middleName = '', lastName = '', birthday = '', 
   this.phoneNumber = phoneNumber;
   this.email = email;
   this.password = password;
+  this.description = description;
 }

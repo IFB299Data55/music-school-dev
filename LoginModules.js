@@ -3,26 +3,36 @@ exports.include = (app) => {
 
 	app.post('/login/', function(request, response) {
 		var user = request.body;
+		//ADD EMAIL VALIDATION
 
-		app.client.query("SELECT passwordid FROM musicschool.students WHERE email = '" + user.email + "' UNION SELECT passwordid FROM musicschool.managers WHERE email = 'rvanw9@hotmail.com' UNION SELECT passwordid FROM musicschool.teachers WHERE email = 'rvanw9@hotmail.com';")
+		var salt = '';
+		var password = '';
+		app.client.query("SELECT salt, password FROM music_school.passwords WHERE password_id = (SELECT password_id FROM music_school.students WHERE email='"+user.email+"');")
 		.on('row', function(row) {
-		    console.log(row);
+			console.log(row);
+		    salt = row.salt;
+		    password = row.password;
+
+		    var inputPassSalted = user.password + salt;
+
+			console.log(inputPassSalted);
+			console.log(inputPassSalted.HashCode());
+			if(inputPassSalted.HashCode() == password) {
+				userCookie = {
+					valid: 'valid',
+					email: user.email,
+					validation: user.password.HashCode()
+				};
+
+				response.send(userCookie);
+			} else {
+				var valid = {
+					valid: 'invalid'
+				}
+				response.send(valid);
+			}
 		});
 
-		/*
-			{
-				email: ,
-				password: 
-			}
-		*/
-
-		userCookie = {
-			id: 1,
-			email: user.email,
-			validation: user.password.HashCode()
-		};
-
-		response.send(userCookie);
 		//response.send('Student Registered');
 		//response.sendStatus('201');
 		//response.sendStatus('500');

@@ -8,7 +8,7 @@
     border-color: #EEE;
     border-left-style: double;
     font-family: Apple Chancery;
-    font-size: 24px;
+    font-size: 56px;
     margin-top: 20px;
     padding-left: 10px; 
     height: 100px;
@@ -23,23 +23,27 @@
         color: white;
         border-left-style: none;
         font-family: Apple Chancery;
-        font-size: 24px;
+        font-size: 56px;
         margin-top: 20px;
         height: auto;
-        line-height: 24px;
+        line-height: 56px;
         margin-bottom: 20px;
         margin-left: 0px;
         text-align: center;
     }
+    #secondHeader {
+        padding-left: 0px;
+    }
 }
 
-#firstHeader a {
+#firstHeader a, #firstHeader button {
     color: white;
     text-align: center;
 }
 
 #secondHeader {
     background: black;
+    padding-left: 140px;
 }
 
 #secondHeader a:hover {
@@ -48,6 +52,7 @@
 
 #secondHeader a {
     color: white;
+    font-size: 18px;
     height: 30px;
     padding: 0px 50px 0px 50px;
     line-height: 30px;
@@ -89,6 +94,10 @@ login-app button {
     background: none;
     border: none;
     float: right;
+}
+
+login-app li a {
+    font-size: 18px;
 }
 
 logged-in-app {
