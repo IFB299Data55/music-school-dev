@@ -3,7 +3,7 @@
     ng.core.Component({
       selector: 'register-form' ,
       templateUrl: localPath+'views/registerForm.component.ejs',
-      styleUrls: ['../..'+localPath+'views/registerForm.component.css']
+      styleUrls: ['../..'+localPath+'css/registerForm.component.css']
     })
     .Class({
       constructor: [
@@ -23,6 +23,7 @@
             phoneNumber:true,
             email:true,
             password:true,
+            errorMessage:''
           };
 
           this.Register = function() {
@@ -37,6 +38,7 @@
                 } else {
                   this.isValid = response.errorArray;
                   this.submitted = false;
+                  this.error = this.isValid.errorMessage;
                 }
               }).catch(() => {
                 this.submitted = false;

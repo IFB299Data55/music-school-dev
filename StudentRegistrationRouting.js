@@ -18,6 +18,7 @@ exports.include = (app) => {
 			phoneNumber:true,
 			email:true,
 			password:true,
+			errorMessage: ''
 		};
 		var valid = {
 			status:false,
@@ -26,7 +27,6 @@ exports.include = (app) => {
 
 		if (validateAll(student, isValid)) {
 			valid.status = true;
-			valid.errorArray = null;
 		} else {
 			valid.status = false;
 			valid.errorArray = isValid;
@@ -39,7 +39,7 @@ exports.include = (app) => {
 
 			var saltedPassword = student.password + n;
 			var hashedPassword = saltedPassword.hashCode();
-			var insertValuesString = "(SELECT MAX(student_id + 1) FROM music_school.students), '" 
+			var insertValuesString = "(SELECT COALESCE((SELECT MAX(student_id + 1) FROM music_school.students), 1)), '" 
 									+ student.firstName + "', '"
 									+ student.middleName + "', '"
 									+ student.lastName + "', "
@@ -51,12 +51,38 @@ exports.include = (app) => {
 									+ "FALSE, "
 									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
 			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
-			app.client.query(passQuery);
-			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) VALUES("+insertValuesString+");";
-			app.client.query(regQuery);
+			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) SELECT "+insertValuesString
+							+ " WHERE NOT EXISTS(SELECT 1 FROM music_school.students WHERE email = '" + student.email + "');";
+			var checkQuery = "SELECT 1 FROM music_school.students WHERE email = '"+student.email+"';";
 
+			app.client.query(passQuery).on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+				}
+			});
+
+			app.client.query(regQuery).on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+				}
+			});
+
+			app.client.query(checkQuery).on('row', function(row) {
+				if (!response.headersSent) {
+					response.send(valid);
+				}
+			});
+
+			if (!response.headersSent) {
+				valid.status = false;
+				isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+				response.send(valid);
+			}
 			//response.send('Student Registered');
-			response.send(valid);
 			//response.sendStatus('500');
 		}
 	});
