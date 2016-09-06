@@ -33,7 +33,7 @@
     }
 }
 
-#firstHeader a {
+#firstHeader a, #firstHeader button {
     color: white;
     text-align: center;
 }

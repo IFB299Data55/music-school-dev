@@ -10,7 +10,13 @@
         function(CookieService) {
           this.CookieService = CookieService;
 
-          this.username = this.CookieService.GetCookie('username');
+          this.email = this.CookieService.GetCookie('email');
+
+          this.LogOut = function() {
+            this.parent.LoginComponent.loggedIn = false;
+            this.CookieService.ClearCookie('email');
+            this.CookieService.ClearCookie('validation');
+          }
         }
       ]
     });

@@ -6,16 +6,59 @@ exports.include = (app) => {
 	});
 
 	app.post('/register/student/', function(request, response) {
-		/* DATABASE CONNECTION
-		app.client.query("SELECT * FROM test;")
-		.on('row', function(row) {
-		    console.log(row);
-		});
-		*/
+		//DATABASE CONNECTION
 		var student = request.body;
-		//response.send('Student Registered');
-		response.sendStatus('201');
-		//response.sendStatus('500');
+
+		var isValid = {
+			firstName:true,
+			middleName:true,
+			lastName:true,
+			birthday:true,
+			address:true,
+			phoneNumber:true,
+			email:true,
+			password:true,
+		};
+		var valid = {
+			status:false,
+			errorArray:isValid
+		};
+
+		if (validateAll(student, isValid)) {
+			valid.status = true;
+			valid.errorArray = null;
+		} else {
+			valid.status = false;
+			valid.errorArray = isValid;
+			response.send(valid);
+		}
+
+		if(valid.status) {
+			var d = new Date();
+			var n = d.getTime();
+
+			var saltedPassword = student.password + n;
+			var hashedPassword = saltedPassword.hashCode();
+			var insertValuesString = "(SELECT MAX(student_id + 1) FROM music_school.students), '" 
+									+ student.firstName + "', '"
+									+ student.middleName + "', '"
+									+ student.lastName + "', "
+									+ "to_date('"+student.birthday+"', 'DD MM YYYY'), '"
+									+ student.address + "', '"
+									+ student.phoneNumber + "', '"
+									+ student.email + "', "
+									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
+									+ "FALSE, "
+									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
+			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
+			app.client.query(passQuery);
+			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) VALUES("+insertValuesString+");";
+			app.client.query(regQuery);
+
+			//response.send('Student Registered');
+			response.send(valid);
+			//response.sendStatus('500');
+		}
 	});
 
 	app.get('/register/student/*', function(request, response) {
@@ -23,6 +66,120 @@ exports.include = (app) => {
 	});
 }
 
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
+function validateAll(student, isValid) {
+	if (validateFirstName(student.firstName, isValid) &&
+		validateMiddleName(student.middleName, isValid) &&
+		validateLastName(student.lastName, isValid) &&
+		validateBirthday(student.birthday, isValid) &&
+		validateAddress(student.address, isValid) &&
+		validatePhoneNumber(student.phoneNumber, isValid) &&
+		validateEmail(student.email, isValid) &&
+		validatePassword(student.password, isValid)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function validateFirstName(firstName, isValid) {
+	var regexp = new RegExp("^[A-Za-z ]+$");
+	if (regexp.test(firstName)) {
+		return true;
+	}
+	isValid.firstName = false;
+	return false;
+}
+
+function validateMiddleName(middleName, isValid) {
+	var regexp = new RegExp("^[A-Za-z ]*$");
+	if (regexp.test(middleName)) {
+		return true;
+	}
+	isValid.middleName = false;
+	return false;
+}
+
+function validateLastName(lastName, isValid) {
+	var regexp = new RegExp("^[A-Za-z ]+$");
+	if (regexp.test(lastName)) {
+		return true;
+	}
+	isValid.lastName = false;
+	return false;
+}
+
+function validateBirthday(birthday, isValid) {
+	var regexp1 = "^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$";
+	var regexp2 = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
+	var days, months, years;
+	//if (regexp1.test(birthday)) {
+	if (birthday.match(regexp1)) {
+		var days = parseInt(birthday.split('/')[0]);
+		var months = parseInt(birthday.split('/')[1]);
+		var years = parseInt(birthday.split('/')[2]);
+	//} else if (regexp2.test(birthday)) {
+	} else if (birthday.match(regexp2)) {
+		var days = parseInt(birthday.split('-')[0]);
+		var months = parseInt(birthday.split('-')[1]);
+		var years = parseInt(birthday.split('-')[2]);
+	}
+	if (days && months && years) {
+		if (days > 0 && days < 32 &&
+			months > 0 && months < 13 &&
+			years > 1900 && years < 2016) {
+			return true;
+		}
+	}
+	isValid.birthday = false;
+	return false;
+}
+
+function validateAddress(address, isValid) {
+	var regexp = new RegExp("^[A-Za-z0-9, ]+$");
+	if (regexp.test(address)) {
+		return true;
+	}
+	isValid.address = false;
+	return false;
+}
+
+function validatePhoneNumber(phoneNumber, isValid) {
+	var regexp = new RegExp("^[0-9]{8}$|^04[0-9]{8}$");
+	if (regexp.test(phoneNumber)) {
+		return true;
+	}
+	isValid.phoneNumber = false;
+	return false;
+}
+
+function validateEmail(email, isValid) {
+	var regexp = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$|^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}\.[a-z]{2,3}$");
+	if (regexp.test(email)) {
+		return true;
+	}
+	isValid.email = false;
+	return false;
+}
+
+function validatePassword(password, isValid) {
+	var regexp = new RegExp("^.{6,}$");
+	if (regexp.test(password)) {
+		return true;
+	}
+	isValid.password = false;
+	return false;
+}
 /* DATABASE STUFF
 
 var query = client.query("SELECT * FROM junk");
