@@ -36,7 +36,7 @@ exports.include = (app) => {
 
 		if(valid.status) {
 			var columns = "instrument_id, inst_type_id, serial_no, condition, purchase_date, purchase_price, description, hire_fee, is_sold_or_disposed";
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(student_id + 1) FROM music_school.students), 1)), '" 
+			var insertValuesString = "(SELECT COALESCE((SELECT MAX(instrument_id + 1) FROM music_school.instruments), 1)), '" 
 									+ instrument.type + "', '"
 									+ instrument.serialNumber + "', '"
 									+ instrument.condition + "', "
