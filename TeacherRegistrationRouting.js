@@ -79,16 +79,14 @@ exports.include = (app) => {
 				if (!response.headersSent) {
 					response.send(valid);
 				}
-			});
-
-			if (!response.headersSent) {
-				valid.status = false;
-				isValid.dbError = true;
-				isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
-				response.send(valid);
-			}
-
-			
+			})
+			.on('end', function(){
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+					response.send(valid);
+				}
+			});	
 
 		}
 	});

@@ -74,13 +74,16 @@ exports.include = (app) => {
 				if (!response.headersSent) {
 					response.send(valid);
 				}
+			})
+			.on('end', function(){
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+					response.send(valid);
+				}
 			});
 
-			if (!response.headersSent) {
-				valid.status = false;
-				isValid.errorMessage = 'Email is already in use. Please enter a new email.';
-				response.send(valid);
-			}
+			
 			//response.send('Student Registered');
 			//response.sendStatus('500');
 		}
