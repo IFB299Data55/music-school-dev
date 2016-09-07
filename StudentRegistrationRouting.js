@@ -49,20 +49,19 @@ exports.include = (app) => {
 									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
 									+ "FALSE, "
 									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
+			var checkQuery = "SELECT 1 FROM music_school.students WHERE email = '"+student.email+"';";
 			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
 			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) SELECT "+insertValuesString
 							+ " WHERE NOT EXISTS(SELECT 1 FROM music_school.students WHERE email = '" + student.email + "');";
-			var checkQuery = "SELECT 1 FROM music_school.students WHERE email = '"+student.email+"';";
-
-			app.client.query(passQuery).on('error', function(err) {
+			app.client.query(checkQuery).on('row', function(row) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
 			})
-			.on('end', function() {
-				app.client.query(regQuery).on('error', function(err) {
+			.on('end', function(){
+				app.client.query(passQuery).on('error', function(err) {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
@@ -70,20 +69,22 @@ exports.include = (app) => {
 					}
 				})
 				.on('end', function() {
-					app.client.query(checkQuery).on('row', function(row) {
+					app.client.query(regQuery).on('error', function(err) {
 						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 							response.send(valid);
 						}
 					})
-					.on('end', function(){
+					.on('end', function() {
 						if (!response.headersSent) {
-							valid.status = false;
-							isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 							response.send(valid);
 						}
 					});
 				});
 			});
+
+			
 
 			
 
