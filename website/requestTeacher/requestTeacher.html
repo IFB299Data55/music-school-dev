@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="requestTeacher.css" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    
+    <title>Request Teacher</title>
+
+     <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  </head>
+  <body>
+       <div class="header">
+           
+           <div class="container">
+               
+               <div class="logo">
+                   <h2>SCHOOL OF <br/>MUSIC</h2>
+               </div>
+               
+               <div class="nav">
+                   <ul>
+                       <li><a href="#">HOME</a></li>
+                       <li><a href="#">STUDY</a></li>
+                       <li><a href="#">CONTACTS</a></li>
+                       <li><a href="#">MY.PORTAL</a></li>
+                   </ul>
+                   <form class="search">
+                    <input type="text" name="search" placeholder="Search.."  />
+                   </form>
+               </div>
+           </div>
+        </div>
+        <div class="header2">
+            <div class="bar">
+                <ul>
+                    <li><a href="#">HOME</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="#">STUDY</a></li>
+                    <li><a href="#">OUR PEOPLE</a></li>
+                    <li><a href="#">CONTACTS</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2 class="background"><span>Request Teacher::</span></h2>
+      
+      
+      <div class="flexsearch">
+		<div class="flexsearch--wrapper">
+			<form class="flexsearch--form" action="#" method="post">
+				<div class="flexsearch--input-wrapper">
+				 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+				</div>
+			</form>
+		</div>
+      </div>
+      
+        
+<div class="column">
+    
+    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" id="myTable" data-filter="true" data-input="#filterTable-input">
+        
+      <thead>
+        <th class="left aligned">Teacher Name</th>
+        <th>Teacher ID</th>
+        <th>Unit Code</th>
+        <th>Request</th>
+      </thead>
+        
+      <form action=""> 
+      <tbody>
+        <tr class="negative">
+          <td class="left aligned">Lucas Torres</td>
+          <td>T987654</td>
+          <td>KMB119</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+        <tr class="positive">
+          <td class="left aligned">Emma Cooper</td>
+          <td>T998376</td>
+          <td>KMB215</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+        <tr class="negative">
+          <td class="left aligned">Oliver Bell</td>
+          <td>T987657</td>
+          <td>KMB215</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+        <tr class="positive">
+          <td class="left aligned">Lily Hughes</td>
+          <td>T987464</td>
+          <td>KMB250</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+        <tr class="negative">
+          <td class="left aligned">Jack Morgan</td>
+          <td>T987445</td>
+          <td>KMB136</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+          <tr class="positive">
+          <td class="left aligned">Mathew Myers</td>
+          <td>T977654</td>
+          <td>KMB136</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+          <tr class="negative">
+          <td class="left aligned">Wyatt Perry</td>
+          <td>T988776</td>
+          <td>KMB237</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+          <tr class="positive">
+          <td class="left aligned">Ryan Kim</td>
+          <td>T976522</td>
+          <td>KMB237</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+          <tr class="negative">
+          <td class="left aligned">Davied Ford</td>
+          <td>T966553</td>
+          <td>KMB237</td>
+          <td><input type="submit" value="Submit" class="red ui button"></td>
+        </tr>
+          
+      </tbody>
+    </form>      
+    </table>
+  </div>
+    <script>
+        function myFunction() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+</script>
+    
+ <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
