@@ -13,7 +13,6 @@
               return this.http.post(this.addUrl, instrument, this.headers).toPromise()
               .then(response => {
                 var valid = JSON.parse(response._body);
-                console.log(valid);
                 return Promise.resolve(valid);
               })
               .catch(this.handleError);

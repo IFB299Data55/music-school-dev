@@ -25,12 +25,10 @@ exports.include = (app) => {
 		};
 
 		if (validateAll(instrument, isValid)) {
-			console.log('true');
 			valid.status = true;
 		} else {
 			valid.status = false;
 			valid.errorArray = isValid;
-			console.log(valid.errorArray);
 			response.send(valid);
 		}
 

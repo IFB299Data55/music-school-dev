@@ -61,7 +61,6 @@
                 }
               }).catch(err => {
                 this.submitted = false;
-                console.log(err);
                 this.error = 'An error has occured. Please try again later';
             });
           }
