@@ -64,29 +64,35 @@ exports.include = (app) => {
 					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
 					response.send(valid);
 				}
-			});
-
-			app.client.query(regQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-				}
-			});
-
-			app.client.query(checkQuery).on('row', function(row) {
-				if (!response.headersSent) {
-					response.send(valid);
-				}
 			})
 			.on('end', function(){
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
-					response.send(valid);
-				}
-			});	
+				app.client.query(regQuery).on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.dbError = true;
+						isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+					}
+				})
+				.on('end', function(){
+					app.client.query(checkQuery).on('row', function(row) {
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					})
+					.on('end', function(){
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+							response.send(valid);
+						}
+					});	
+				});
+
+				
+			});
+
+			
 
 		}
 	});
