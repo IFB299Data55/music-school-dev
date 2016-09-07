@@ -26,6 +26,7 @@ app.get('/dev', function(request, response) {
 
 require('./database/databaseFunctions.js').include(app);
 require('./LoginModules.js').include(app);
+require('./lessonInformation.js').include(app);
 require('./ownerAPI.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
