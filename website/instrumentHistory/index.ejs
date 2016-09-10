@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../shared/header.ejs %>
+  <script>var localPath = '/instrumentHistory/';</script>
+  <script src="/instrumentHistory/stdntInst.service.js"></script>
+  <script src="/instrumentHistory/instHistory.component.js"></script>
+  <script src="/instrumentHistory/instHistory.module.js"></script>
+  <script src="/instrumentHistory/instHistory.main.js"></script>
+</head>
+
+<body>
+
+  <% include ../shared/nav.ejs %>
+
+  <instrument-history-app class="mainContainer"></instrument-history-app>
+</body>
+</html>
