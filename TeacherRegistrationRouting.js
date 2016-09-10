@@ -53,43 +53,42 @@ exports.include = (app) => {
 									+ "FALSE, "
 									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY'), '"
 									+ teacher.description.escapeHtml() + "'";
+			var checkQuery = "SELECT teacher_id FROM music_school.teachers WHERE email = '"+teacher.email+"';";
 			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
 			var regQuery = "INSERT INTO music_school.teachers(teacher_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description) SELECT "+insertValuesString+" WHERE NOT EXISTS(SELECT 1 FROM music_school.teachers WHERE email = '"+teacher.email+"');";
-			var checkQuery = "SELECT teacher_id FROM music_school.teachers WHERE email = '"+teacher.email+"';";
-
-			app.client.query(passQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-				}
-			});
-
-			app.client.query(regQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-				}
-			});
 
 			app.client.query(checkQuery).on('row', function(row) {
 				if (!response.headersSent) {
+					valid.status = false;
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
+			})
+			.on('end', function(){
+				app.client.query(passQuery).on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.dbError = true;
+						isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+					}
+				})
+				.on('end', function(){
+					app.client.query(regQuery).on('error', function(err) {
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.dbError = true;
+							isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+							response.send(valid);
+						}
+					})
+					.on('end', function(){
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					});
+				});
 			});
-
-			if (!response.headersSent) {
-				valid.status = false;
-				isValid.dbError = true;
-				isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
-				response.send(valid);
-			}
-
-			
-
 		}
 	});
 

@@ -36,9 +36,16 @@
           };
 
           this.instrumentTypeList = [
-              {id: 1, name:"Drums"}
-            , {id: 2, name:"Trumpet"}
-            , {id: 3, name:"Flute"}
+              {id: 1, name:"Electric Guitar"}
+            , {id: 2, name:"Acoustic Guitar"}
+            , {id: 3, name:"Violin"}
+            , {id: 4, name:"Viola"}
+            , {id: 5, name:"Alto Saxophone"}
+            , {id: 6, name:"Tenor Saxophone"}
+            , {id: 7, name:"Keyboard"}
+            , {id: 8, name:"Trumpet"}
+            , {id: 9, name:"Bugle"}
+            , {id: 10, name:"Triangle"}
           ];
 
           this.CalcEndTimeInHours = function() {
