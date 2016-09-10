@@ -1,7 +1,7 @@
 <div *ngIf="available">
 	<p *ngIf="isValid.errorMessage" class="errorMessage">{{isValid.errorMessage}}</p>
 	<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
-		<fieldset class="container" id="teacherinfo">
+		<fieldset id="teacherinfo">
 		    <legend><span>Instrument Information</span></legend>
 		    <div class="row">
 				<div class="col-sm-4">
@@ -44,7 +44,7 @@
 				</div>
 			</div>
 		</fieldset>
-		<fieldset>
+		<fieldset id="timeinfo">
 			<legend><span>Date and Time</span></legend>
 			<div class="row">
 				<div class="col-sm-4">
