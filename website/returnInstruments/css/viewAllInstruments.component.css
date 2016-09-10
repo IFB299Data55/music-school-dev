@@ -14,8 +14,8 @@
 	overflow: hidden;
 	background: transparent;
 	margin: 0;
-    margin-left: -100px;
-    margin-right: 90px;
+    margin-left: -90px;
+    margin-right: 44px;
 	position: static;
 }
 	
@@ -80,9 +80,8 @@ input:-moz-placeholder {
 }
 
 
-.ui.table {
+#myTable {
   width: 80%;
-  margin-left: 100px;
   background: #FFFFFF;
   margin: 1em 0em;
   border: 1px solid rgba(34, 36, 38, 0.15);
@@ -93,13 +92,14 @@ input:-moz-placeholder {
   border-collapse: separate;
   border-spacing: 0px;
 }
-.ui.table:first-child {
+#myTable:first-child {
   margin-top: 0em;
   margin-right: 100px;
 }
-.ui.table:last-child {
+#myTable:last-child {
   margin-bottom: 0em;
-  margin-left: 100px;
+  margin-left: 110px;
+  margin-bottom: 30px;
 
   
 }
@@ -108,10 +108,10 @@ input:-moz-placeholder {
     display: none !important;
 }
 
-.ui.table thead {
+#myTable thead {
   box-shadow: none;
 }
-.ui.table thead th {
+#myTable thead th {
   cursor: auto;
   background: #F9FAFB;
   text-align: inherit;
@@ -125,39 +125,39 @@ input:-moz-placeholder {
   border-left: none;
     
 }
-.ui.table thead tr > th:first-child {
+#myTable thead tr > th:first-child {
   border-left: none;
 }
-.ui.table thead tr:first-child > th:first-child {
+#myTable thead tr:first-child > th:first-child {
   border-radius: 0.28571429rem 0em 0em 0em;
 }
-.ui.table thead tr:first-child > th:last-child {
+#myTable thead tr:first-child > th:last-child {
   border-radius: 0em 0.28571429rem 0em 0em;
 }
-.ui.table thead tr:first-child > th:only-child {
+#myTable thead tr:first-child > th:only-child {
   border-radius: 0.28571429rem 0.28571429rem 0em 0em;
 }
 
 
-.ui.table tr td {
+#myTable tr td {
   border-top: 1px solid rgba(34, 36, 38, 0.1);
 }
-.ui.table tr:first-child td {
+#myTable tr:first-child td {
   border-top: none;
 }
 
 
-.ui.table td {
+#myTable td {
   padding: 0.78571429em 0.78571429em;
   text-align: inherit;
 }
 
-.ui.table tr.positive,
-.ui.table td.positive {
+#myTable tr.positive,
+#myTable td.positive {
   box-shadow: 0px 0px 0px #A3C293 inset;
 }
-.ui.table tr.positive,
-.ui.table td.positive {
+#myTable tr.positive,
+#myTable td.positive {
   background: #FCFFF5 !important;
   color: #2C662D !important;
 }
@@ -166,34 +166,34 @@ input:-moz-placeholder {
 .ui.table td.negative {
   box-shadow: 0px 0px 0px #E0B4B4 inset;
 }
-.ui.table tr.negative,
-.ui.table td.negative {
+#myTable tr.negative,
+#myTable td.negative {
   background: #FFF6F6 !important;
   color: #9F3A38 !important;
 }
 
 
-.ui.table tr.warning,
-.ui.table td.warning {
+#myTable tr.warning,
+#myTable td.warning {
   box-shadow: 0px 0px 0px #C9BA9B inset;
 }
-.ui.table tr.warning,
-.ui.table td.warning {
+#myTable tr.warning,
+#myTable td.warning {
   background: #FFFAF3 !important;
   color: #573A08 !important;
 }
 
 
-.ui.table[class*="left aligned"],
-.ui.table [class*="left aligned"] {
+#myTable[class*="left aligned"],
+#myTable [class*="left aligned"] {
   text-align: left;
 }
-.ui.table[class*="center aligned"],
-.ui.table [class*="center aligned"] {
+#myTable[class*="center aligned"],
+#myTable [class*="center aligned"] {
   text-align: center;
 }
-.ui.table[class*="right aligned"],
-.ui.table [class*="right aligned"] {
+#myTable[class*="right aligned"],
+#myTable [class*="right aligned"] {
   text-align: right;
 }
 
