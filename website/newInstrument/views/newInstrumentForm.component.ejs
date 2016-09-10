@@ -1,6 +1,6 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 <form [hidden]="submitted" (ngSubmit)="Add()" #newInstrumentForm="ngForm" method="POST">
-	<fieldset class="container" id="instrumentinfo">
+	<fieldset id="instrumentinfo">
     <legend><span>Instrument Information</span></legend>
     <div class="row">
 		<div class="col-sm-4">

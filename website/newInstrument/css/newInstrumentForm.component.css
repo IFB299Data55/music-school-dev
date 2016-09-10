@@ -26,7 +26,7 @@ input:focus, textarea:focus {
     resize: none;
 }
 
-input:required {
+input:required, textarea:required {
     box-shadow:none;
 }
 

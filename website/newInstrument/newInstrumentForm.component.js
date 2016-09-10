@@ -3,7 +3,7 @@
     ng.core.Component({
       selector: 'new-instrument-form' ,
       templateUrl: localPath+'views/newInstrumentForm.component.ejs',
-      styleUrls: ['../..'+localPath+'css/newInstrumentForm.component.css']
+      styleUrls: ['../../..'+localPath+'css/newInstrumentForm.component.css']
     })
     .Class({
       constructor: [
