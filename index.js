@@ -31,6 +31,8 @@ require('./ownerAPI.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);
+require('./NewInstrumentRouting.js').include(app);
+require('./ReturnInstrumentsRouting.js').include(app);
 
 app.use(function(request, response) {
 	response.render('404');
