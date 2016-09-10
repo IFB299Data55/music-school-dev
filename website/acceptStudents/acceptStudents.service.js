@@ -3,10 +3,12 @@
   	ng.core.Class({
   		constructor: [
         ng.http.Http,
-        function(http) {
+        app.UserService,
+        function(http, UserService) {
           this.http = http;
+          this.UserService = UserService;
           this.responseURL = '/teacher/studentApplications/individual/';
-          this.requestURL = '/teacher/studentApplications/all/';
+          this.requestURL = '/teacher/studentApplications/getStudents/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.AcceptStudent = function(student) {
@@ -28,7 +30,8 @@
           }
 
           this.GetStudents = function() {
-            return this.http.get(this.requestURL, this.headers).toPromise()
+            var url = this.requestURL+"?id=1"+UserService.GetCurrentUser().id;
+            return this.http.get(url, this.headers).toPromise()
             .then(response => {
               var students = JSON.parse(response._body);
               return students;
@@ -36,8 +39,14 @@
             .catch(this.handleError);
           }
 
-          this.GetStudent = function(studentID) {
-            // return a student
+          this.GetStudent = function(requestID) {
+            var url = this.requestURL+"?request_id="+requestID;
+            return this.http.get(url, this.headers).toPromise()
+            .then(response => {
+              var student = JSON.parse(response._body);
+              return student;
+            })
+            .catch(this.handleError);
           }
 
           this.handleError = function(error) {

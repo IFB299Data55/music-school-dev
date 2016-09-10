@@ -12,7 +12,11 @@
         , app.ViewAllStudentsComponent
         , app.ViewIndividualStudentComponent
       ],
-      providers: [ app.AcceptStudentsService ],
+      providers: [
+          app.AcceptStudentsService
+        , app.CookieService
+        , app.UserService
+      ],
       bootstrap: [ app.AcceptStudentsRouterComponent ]
     })
     .Class({
