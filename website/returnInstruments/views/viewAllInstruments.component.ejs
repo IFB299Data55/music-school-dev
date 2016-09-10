@@ -1,4 +1,78 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
-<div>
-	<p>Put stuff here. By stuff i mean instrument displaying things preferably. Although kittens are cute too, if you wanted to add them also.</p>
-</div>
+
+
+      <div class="flexsearch">
+		<div class="flexsearch--wrapper">
+			<form class="flexsearch--form" action="#" method="post">
+				<div class="flexsearch--input-wrapper">
+				 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+				</div>
+			</form>
+		</div>
+      </div>
+      
+        
+<div class="column">
+    
+    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" id="myTable" data-filter="true" data-input="#filterTable-input">
+        
+      <thead>
+        <th class="left aligned">Student Name</th>
+        <th>Student ID</th>
+        <th>Type of instrument</th>
+        <th>Due Date</th>
+      </thead>
+      <tbody>
+        <tr class="positive">
+          <td class="left aligned">Noah Fox</td>
+          <td>S988484</td>
+          <td>Xylophone</td>
+          <td>10/11/2016</td>
+        </tr>
+        <tr class="positive">
+          <td class="left aligned">Ethan Bailey</td>
+          <td>S993832</td>
+          <td>Triangle</td>
+          <td>27/11/2016</td>
+        </tr>
+        <tr class="negative">
+          <td class="left aligned">Ava Brown</td>
+          <td>S933387</td>
+          <td>Vibraphone</td>
+          <td>15/9/2016</td>
+        </tr>
+        <tr class="warning">
+          <td class="left aligned">Jacob Black</td>
+          <td>S966574</td>
+          <td>Marimba</td>
+          <td>8/10/2016</td>
+        </tr>
+        <tr class="positive">
+          <td class="left aligned">Daniel Lewis</td>
+          <td>S993221</td>
+          <td>Drum</td>
+          <td>11/11/2016</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <script>
+        function myFunction() {
+          var input, filter, table, tr, td, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          table = document.getElementById("myTable");
+          tr = table.getElementsByTagName("tr");
+          for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+              if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+              } else {
+                tr[i].style.display = "none";
+              }
+            }
+          }
+        }
+</script>
+    
