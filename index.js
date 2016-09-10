@@ -1,7 +1,26 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
+
 require('./database.js').include(app);
+
+var transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
+
+/*var mailOptions = {
+	from: '"Data Team" <test@data55.com>',
+	to: 'rvanw9@hotmail.com',
+	subject: 'Hello',
+	text: 'Hi',
+	html: '<b>Hello</b>'
+};
+
+transporter.sendMail(mailOptions, function (error, info) {
+	if(error) {
+		return console.log(error);
+	}
+	console.log('Message sent: ' + info.response);
+});*/
 
 
 app.set('port', (process.env.PORT || 5000));
