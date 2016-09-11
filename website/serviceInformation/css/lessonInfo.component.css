@@ -1,11 +1,28 @@
 table {
-  border-spacing: 0.5rem;
-  margin-left: 50px;
-}
-td {
-  padding: 0.5rem;
-  color: white;
+    border-collapse: collapse;
 }
 
-td:nth-child(1) { background: rgba(20, 13, 99, 1); }
-td:nth-child(2) { background: #708090; }
+th, td {
+    padding: 8px;
+    padding-right: 50px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+hr.style18 { 
+  height: 30px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 1px 0 0 0; 
+  border-radius: 20px; 
+} 
+hr.style18:before { 
+  display: block; 
+  content: ""; 
+  height: 30px; 
+  margin-top: -31px; 
+  border-style: solid; 
+  border-color: #8c8b8b; 
+  border-width: 0 0 1px 0; 
+  border-radius: 20px; 
+}
