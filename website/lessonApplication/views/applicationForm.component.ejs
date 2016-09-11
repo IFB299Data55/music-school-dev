@@ -25,23 +25,20 @@
 					<p class="errorMessage" [hidden]="(hireType.valid || hireType.untouched) && isValid.hireType">A Value must be selected.</p>
 				</div>
 			</div>
-			<div class="row">
-				<div [class.disabled]="lesson.hireType!='Hire'" class="col-sm-4">
-					<label 	for="instrument">Instrument: </label>
-					<select *ngIf="lesson.hireType!='Hire'" disabled></select>
-					<select *ngIf="lesson.hireType=='Hire'"
-					[hidden]="lesson.hireType!='Hire'" id="instrument" name="instrument"
-							[(ngModel)]="lesson.instrumentId" 
-							[disabled]="lesson.hireType!='Hire'"
-							[required]="lesson.hireType=='Hire'"
-							#instrumentId="ngModel">{{UpdateInstrumentSelect()}}
-						<option *ngFor="let instrument of instrumentList" value="{{instrument.id}}">{{instrument.description}} {{instrument.type}} - {{instrument.hireFee}}</option>
-					</select>
-					<p class="errorMessage" *ngIf="lesson.hireType=='Hire'"
-					[hidden]="isValid.instrumentId">
-						Please select an instrument.
-					</p>
-				</div>
+		</fieldset>
+		<fieldset *ngIf="lesson.hireType=='Hire'" id="instrumentInfo">
+			<legend><span>Instrument to Hire</span></legend>
+			<div class="col-sm-4">
+				<label 	for="instrument">Instrument: </label>
+				<select	id="instrument" name="instrument"
+						[(ngModel)]="lesson.instrumentId" 
+						#instrumentId="ngModel" required>
+					<option *ngFor="let instrument of instrumentList" value="{{instrument.id}}">{{instrument.description}} {{instrument.type}} - {{instrument.hireFee}}</option>
+				</select>
+				<p class="errorMessage"
+				[hidden]="isValid.instrumentId">
+					Please select an instrument.
+				</p>
 			</div>
 		</fieldset>
 		<fieldset id="timeinfo">
