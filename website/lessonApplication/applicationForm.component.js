@@ -16,13 +16,6 @@
           this.UserService = UserService;
           this.lesson = new Lesson();
 
-          this.available = false;
-
-          if(this.UserService.IsSomeoneLoggedIn()) {
-            this.available = true;
-            this.lesson.studentId = this.UserService.GetCurrentUser().id;
-          }
-
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
@@ -152,6 +145,15 @@
               this.submitted = false;
               this.error = 'Timeslot not available.';
             });
+          }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.IsSomeoneLoggedIn()) {
+              this.lesson.studentId = this.UserService.GetCurrentUser().id;
+              return true;
+            } else {
+              return false;
+            }
           }
 	      }
       ]

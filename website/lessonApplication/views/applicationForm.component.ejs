@@ -1,4 +1,4 @@
-<div *ngIf="available">
+<div *ngIf="FormIsAvailable()">
 	<p *ngIf="isValid.errorMessage" class="errorMessage">{{isValid.errorMessage}}</p>
 	<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
 		<fieldset id="teacherinfo">
@@ -78,6 +78,6 @@
 		<p>Attempting to Register your new account...</p>
 	</div>
 </div>
-<div *ngIf="!available">
-	<p>You must be logged in to see this page</p>
+<div *ngIf="!FormIsAvailable()">
+	<p>You must be logged in to see this page. click <a (click)="FormIsAvailable()">Here</a> to refresh.</p>
 </div>
