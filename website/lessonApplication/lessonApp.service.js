@@ -26,6 +26,28 @@
               .catch(this.handleError);
           }
 
+          this.GetInstrumentTypes = function() {
+              var url = '/database/getInstrumentTypes';
+              return this.http.get(url, this.headers).toPromise()
+              .then(response => {
+                var res = JSON.parse(response._body);
+                return Promise.resolve(res);
+              })
+              .catch(this.handleError);
+          }
+
+          this.GetInstruments = function(id) {
+              if(id){
+                var url = '/database/getInstruments?id=' + id;
+                return this.http.get(url, this.headers).toPromise()
+                .then(response => {
+                  var res = JSON.parse(response._body);
+                  return Promise.resolve(res);
+                })
+                .catch(this.handleError);
+              }
+          }
+
           this.handleError = function(error) {
             return Promise.reject(error.message || error);
           }
