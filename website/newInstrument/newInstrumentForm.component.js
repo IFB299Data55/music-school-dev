@@ -3,7 +3,7 @@
     ng.core.Component({
       selector: 'new-instrument-form' ,
       templateUrl: localPath+'views/newInstrumentForm.component.ejs',
-      styleUrls: ['../..'+localPath+'css/newInstrumentForm.component.css']
+      styleUrls: ['../../..'+localPath+'css/newInstrumentForm.component.css']
     })
     .Class({
       constructor: [
@@ -18,6 +18,7 @@
             type:true,
             condition:true,
             serialNumber:true,
+            model:true,
             purchasePrice:true,
             hireFee:true,
             purchaseDate:true,
@@ -25,26 +26,8 @@
             errorMessage:''
           };
 
-          this.typeList = [
-              {id: 1, name:"Electric Guitar"}
-            , {id: 2, name:"Acoustic Guitar"}
-            , {id: 3, name:"Violin"}
-            , {id: 4, name:"Viola"}
-            , {id: 5, name:"Alto Saxophone"}
-            , {id: 6, name:"Tenor Saxophone"}
-            , {id: 7, name:"Keyboard"}
-            , {id: 8, name:"Trumpet"}
-            , {id: 9, name:"Bugle"}
-            , {id: 10, name:"Triangle"}
-          ];
-
-          this.conditionList = [
-              {id: 1, name:"Super Dodge"}
-            , {id: 2, name:"Just Dodge"}
-            , {id: 3, name:"Alrightish"}
-            , {id: 4, name:"Pretty Solid"}
-            , {id: 5, name:"Good As"}
-          ];
+          this.typeList = [];
+          this.conditionList = [];
 
           this.Add = function() {
             this.submitted = true;
@@ -67,4 +50,29 @@
 	      }
       ]
     });
+    app.NewInstrumentFormComponent.prototype.ngOnInit = function() {
+      this.NewInstrumentService.GetTypeList()
+      .then(response => {
+        if(response.valid) {
+          this.typeList = response.instrumentTypes;
+        } else {
+          this.error = "Unable to connect to the database. Please try again later."
+        }
+      })
+      .catch(err => {
+        this.error = "Unable to connect to the database. Please try again later."
+      });
+
+      this.NewInstrumentService.GetConditionList()
+      .then(response => {
+        if(response.valid) {
+          this.conditionList = response.conditions;
+        } else {
+          this.error = "Unable to connect to the database. Please try again later."
+        }
+      })
+      .catch(err => {
+        this.error = "Unable to connect to the database. Please try again later."
+      });
+    };
 })(window.app || (window.app = {}));

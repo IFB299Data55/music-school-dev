@@ -20,11 +20,12 @@
             var d = new Date();
             d.setTime(d.getTime() + (exp*24*3600*1000));
             var expires = "expires="+d.toUTCString();
-            document.cookie = name + "=" + value +"; " + expires;
+            var domain = "path=/"
+            document.cookie = name + "=" + value +";" + expires+";"+domain;
           }
 
           this.ClearCookie = function(name) {
-            document.cookie = name + "=";
+            document.cookie = name + '=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';;
           }
 
           this.GetCookie = function(name) {

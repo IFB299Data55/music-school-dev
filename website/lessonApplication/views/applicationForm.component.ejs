@@ -1,13 +1,14 @@
-<div *ngIf="available">
+<div *ngIf="FormIsAvailable()">
 	<p *ngIf="isValid.errorMessage" class="errorMessage">{{isValid.errorMessage}}</p>
 	<form [hidden]="submitted" (ngSubmit)="Register()" #lessonForm="ngForm" method="POST">
-		<fieldset class="container" id="teacherinfo">
+		<fieldset id="teacherinfo">
 		    <legend><span>Instrument Information</span></legend>
 		    <div class="row">
 				<div class="col-sm-4">
 					<label 	for="instrumentType">Instrument Type: </label>
 					<select id="instrumentType" name="instrumentType"
-							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" required>
+							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" 
+							(blur)="UpdateInstruments()" required>
 						<option *ngFor="let instrumentType of instrumentTypeList" value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
 					</select>
 					<p class="errorMessage" [hidden]="(instrumentType.valid || instrumentType.untouched) && isValid.instrumentType">A Value must be selected.</p>
@@ -25,26 +26,38 @@
 					<p class="errorMessage" [hidden]="(hireType.valid || hireType.untouched) && isValid.hireType">A Value must be selected.</p>
 				</div>
 			</div>
+		</fieldset>
+		<fieldset 
+		*ngIf="lesson.hireType=='Hire'"
+		[disabled]="instrumentList.length == 0" id="instrumentInfo">
+			<legend><span>Instrument to Hire</span></legend>
+			<p *ngIf="instrumentList.length == 0" class="errorMessage">All instruments are booked. Please try again later</p>
 			<div class="row">
-				<div [class.disabled]="lesson.hireType!='Hire'" class="col-sm-4">
-					<label 	for="instrument">Instrument: </label>
-					<select *ngIf="lesson.hireType!='Hire'" disabled></select>
-					<select *ngIf="lesson.hireType=='Hire'"
-					[hidden]="lesson.hireType!='Hire'" id="instrument" name="instrument"
-							[(ngModel)]="lesson.instrumentId" 
-							[disabled]="lesson.hireType!='Hire'"
-							[required]="lesson.hireType=='Hire'"
-							#instrumentId="ngModel">{{UpdateInstrumentSelect()}}
-						<option *ngFor="let instrument of instrumentList" value="{{instrument.id}}">{{instrument.description}} {{instrument.type}} - {{instrument.hireFee}}</option>
-					</select>
-					<p class="errorMessage" *ngIf="lesson.hireType=='Hire'"
-					[hidden]="isValid.instrumentId">
-						Please select an instrument.
-					</p>
-				</div>
+				<table class="col-sm-10" [class.validTable]="instrumentId.valid" [class.invalidTable]="!instrumentId.valid">
+					<tr>
+						<th>Serial</th>
+						<th>Model</th>
+						<th>Hire Fee</th>
+						<th>Condition</th>
+						<th>Notes</th>
+					</tr>
+					<tr class="tableError" *ngIf="instrumentList.length == 0">
+						<td colspan="6">No instruments to display</td>
+					</tr>
+					<tr *ngFor="let instrument of instrumentList" class="selectableRow" (click)="SelectInstrument(instrument.id)" [class.selectedInstrument]="instrument.id == lesson.instrumentId">
+						<td>{{instrument.serial_no}}</td>
+						<td>{{instrument.model}}</td>
+						<td>${{instrument.hire_fee}}</td>
+						<td>{{instrument.condition}}</td>
+						<td>{{instrument.inst_notes}}</td>
+					</tr>
+				</table>
+				<input type="hidden" id="instrumentId" name="instrumentId"
+				[(ngModel)]="lesson.instrumentId" #instrumentId="ngModel" required value="" pattern="^[0-9]+$"/>
+				<p class="col-sm-4 errorMessage" [hidden]="instrumentId.valid  && isValid.instrumentId">Please select an instrument by clicking on a row above.</p>
 			</div>
 		</fieldset>
-		<fieldset>
+		<fieldset id="timeinfo">
 			<legend><span>Date and Time</span></legend>
 			<div class="row">
 				<div class="col-sm-4">
@@ -78,6 +91,6 @@
 		<p>Attempting to Register your new account...</p>
 	</div>
 </div>
-<div *ngIf="!available">
-	<p>You must be logged in to see this page</p>
+<div *ngIf="!FormIsAvailable()">
+	<p>You must be logged in to see this page. click <a (click)="FormIsAvailable()">Here</a> to refresh.</p>
 </div>

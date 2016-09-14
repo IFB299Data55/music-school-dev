@@ -1,7 +1,7 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 <div id="box">
 	<form [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
-	    <fieldset class="container" id="teacherinfo">
+	    <fieldset id="teacherinfo">
 	        <legend><span>Personal Information</span></legend>
 	        <div class="row">
 	        	<div class="col-sm-4">
@@ -48,7 +48,7 @@
 		     
 	    </fieldset>
 	        
-	    <fieldset class="container" id="locationinfo">
+	    <fieldset id="locationinfo">
 	        <legend><span>Location Information</span></legend>
 		    <div class="row">
 	        	<div class="col-sm-12">
@@ -60,7 +60,7 @@
 		    </div>  
 	    </fieldset>
 
-	    <fieldset class="container" id="additionalinformation">
+	    <fieldset id="additionalinformation">
 	        <legend><span>Additional Information</span></legend>
 	        <div class="col-sm-12">
 		        <label for="feedback">Additional information to display to students about your experience and/or qualifications</label>
