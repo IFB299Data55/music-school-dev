@@ -16,13 +16,6 @@
           this.UserService = UserService;
           this.lesson = new Lesson();
 
-          this.available = false;
-
-          if(this.UserService.IsSomeoneLoggedIn()) {
-            this.available = true;
-            this.lesson.studentId = this.UserService.GetCurrentUser().id;
-          }
-
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
@@ -34,12 +27,6 @@
             endTime: true,
             errorMessage:''
           };
-
-          this.instrumentTypeList = [
-              {id: 1, name:"Drums"}
-            , {id: 2, name:"Trumpet"}
-            , {id: 3, name:"Flute"}
-          ];
 
           this.CalcEndTimeInHours = function() {
             this.ProcessStartTime();
@@ -68,13 +55,6 @@
                 return (0 + this.lesson.endTime.toString() + format);
             }
           }
-
-
-          this.instrumentList = [
-              {id: 1, description: "Red", type: "Drums", serial: "#123123", hireFee: "$10"}
-            , {id: 2, description: "Blue", type: "Drums", serial: "#123123", hireFee: "$12"}
-            , {id: 3, description: "Yellow", type: "Drums", serial: "#54354", hireFee: "$5"}
-          ];
 
           this.UpdateInstrumentSelect = function() {
             if(this.lesson.hireType == 'Hire' && this.lesson.instrumentId == '')
@@ -146,7 +126,53 @@
               this.error = 'Timeslot not available.';
             });
           }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.IsSomeoneLoggedIn()) {
+              this.lesson.studentId = this.UserService.GetCurrentUser().id;
+              return true;
+            } else {
+              return false;
+            }
+          }
+
+          this.UpdateInstrumentTypes = function() {
+              this.LessonApplicationService.GetInstrumentTypes().then(response => {
+                if(response.valid) {
+                  this.instrumentTypeList = response.instrumentTypes;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'Instrument Types were unable to be retrieved.';
+              });
+          }
+
+          this.UpdateInstruments = function() {
+            this.lesson.instrumentId = '';
+              if(this.lesson.instrumentType) {
+                this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
+                  if(response.valid) {
+                    this.instrumentList = response.instruments;
+                    console.log(this.instrumentList);
+                  } else {
+                    this.error = response.error;
+                  }
+                })
+                .catch(() => {
+                  this.error = 'Instrument list was unable to be retrieved.';
+                });
+              }
+          }
+
+          this.SelectInstrument = function(id) {
+              this.lesson.instrumentId = id;
+          }
 	      }
       ]
     });
+    app.ApplicationFormComponent.prototype.ngOnInit = function() {
+      this.UpdateInstrumentTypes();
+    };
 })(window.app || (window.app = {}));

@@ -38,51 +38,87 @@ exports.include = (app) => {
 
 			var saltedPassword = student.password + n;
 			var hashedPassword = saltedPassword.hashCode();
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(student_id + 1) FROM music_school.students), 1)), '" 
-									+ student.firstName + "', '"
-									+ student.middleName + "', '"
-									+ student.lastName + "', "
-									+ "to_date('"+student.birthday+"', 'DD MM YYYY'), '"
-									+ student.address + "', '"
-									+ student.phoneNumber + "', '"
-									+ student.email + "', "
-									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
-									+ "FALSE, "
-									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
-			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
-			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) SELECT "+insertValuesString
-							+ " WHERE NOT EXISTS(SELECT 1 FROM music_school.students WHERE email = '" + student.email + "');";
-			var checkQuery = "SELECT 1 FROM music_school.students WHERE email = '"+student.email+"';";
 
-			app.client.query(passQuery).on('error', function(err) {
+			var checkEmail = {
+				text: "SELECT 1 FROM music_school.students WHERE email = $1",
+				name: "check-student-email",
+				values: [student.email]
+			};
+
+			var passwordCols = "salt, password"
+			var newStudentPasswordQuery = {
+				text: "INSERT INTO music_school.passwords("+passwordCols+") VALUES("
+					 	+"$1,$2"
+					 +")",
+				name: "create-new-student-password",
+				values: [	
+					  n
+					, hashedPassword
+				]
+			};
+
+			var studentCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_dormant, date_registered"
+			var newStudentQuery = {
+				text: "INSERT INTO music_school.students("+studentCols+") VALUES("
+						+"$1,$2,$3,"
+						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
+						+"(SELECT MAX(id) FROM music_school.passwords),$8,"
+						+"to_date($9, 'Dy Mon DD YYYY')"
+					 +")",
+				name: "create-new-student",
+				values: [
+					  student.firstName
+					, student.middleName
+					, student.lastName
+					, student.birthday
+					, student.address
+					, student.phoneNumber
+					, student.email
+					,"FALSE"
+					,d.toDateString()
+				]
+			};
+
+			console.log(d.toDateString());
+
+			app.client.query(checkEmail).on('row', function(row) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
-			});
-
-			app.client.query(regQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-				}
-			});
-
-			app.client.query(checkQuery).on('row', function(row) {
-				if (!response.headersSent) {
-					response.send(valid);
-				}
-			});
-
-			if (!response.headersSent) {
+			})
+			.on('error', function() {
+				console.log(err);
 				valid.status = false;
-				isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+				isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 				response.send(valid);
-			}
-			//response.send('Student Registered');
-			//response.sendStatus('500');
+			})
+			.on('end', function(){
+				app.client.query(newStudentPasswordQuery).on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+					}
+					console.log(err);
+				})
+				.on('end', function() {
+					app.client.query(newStudentQuery).on('error', function(err) {
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+							response.send(valid);
+						}
+						console.log(err);
+					})
+					.on('end', function() {
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					});
+				});
+			});
 		}
 	});
 

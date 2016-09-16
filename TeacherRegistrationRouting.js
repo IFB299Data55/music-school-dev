@@ -41,55 +41,81 @@ exports.include = (app) => {
 			teacher.password = "test";
 			var saltedPassword = teacher.password + n;
 			var hashedPassword = saltedPassword.hashCode();
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(teacher_id + 1) FROM music_school.teachers), 1)), '" 
-									+ teacher.firstName + "', '"
-									+ teacher.middleName + "', '"
-									+ teacher.lastName + "', "
-									+ "to_date('"+teacher.birthday+"', 'DD MM YYYY'), '"
-									+ teacher.address + "', '"
-									+ teacher.phoneNumber + "', '"
-									+ teacher.email + "', "
-									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
-									+ "FALSE, "
-									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY'), '"
-									+ teacher.description.escapeHtml() + "'";
-			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
-			var regQuery = "INSERT INTO music_school.teachers(teacher_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description) SELECT "+insertValuesString+" WHERE NOT EXISTS(SELECT 1 FROM music_school.teachers WHERE email = '"+teacher.email+"');";
-			var checkQuery = "SELECT teacher_id FROM music_school.teachers WHERE email = '"+teacher.email+"';";
 
-			app.client.query(passQuery).on('error', function(err) {
+			var checkEmail = {
+				text: "SELECT 1 FROM music_school.teachers WHERE email = $1",
+				name: "check-teacher-email",
+				values: [teacher.email]
+			};
+
+			var passwordCols = "salt, password"
+			var newTeacherPasswordQuery = {
+				text: "INSERT INTO music_school.passwords("+passwordCols+") VALUES("
+					 	+"$1,$2"
+					 +")",
+				name: "create-new-teacher-password",
+				values: [	
+					  n
+					, hashedPassword
+				]
+			};
+
+			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description"
+			var newTeacherQuery = {
+				text: "INSERT INTO music_school.teachers("+teacherCols+") VALUES("
+						+"$1,$2,$3,"
+						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
+						+"(SELECT MAX(id) FROM music_school.passwords),"
+						+"FALSE,"
+						+"now(),$8"
+					 +")",
+				name: "create-new-teacher",
+				values: [
+					  teacher.firstName
+					, teacher.middleName
+					, teacher.lastName
+					, teacher.birthday
+					, teacher.address
+					, teacher.phoneNumber
+					, teacher.email
+					, teacher.description.escapeHtml()
+				]
+			};
+
+			app.client.query(checkEmail).on('row', function(row) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
+			})
+			.on('end', function(){
+				app.client.query(newTeacherPasswordQuery).on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.dbError = true;
+						isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+						console.log("Error occured in TchrReg: ", err);
+					}
+				})
+				.on('end', function(){
+					app.client.query(newTeacherQuery).on('error', function(err) {
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.dbError = true;
+							isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+							response.send(valid);
+							console.log("Error occured in TchrReg: ", err);
+						}
+					})
+					.on('end', function(){
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					});
+				});
 			});
-
-			app.client.query(regQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-				}
-			});
-
-			app.client.query(checkQuery).on('row', function(row) {
-				if (!response.headersSent) {
-					response.send(valid);
-				}
-			});
-
-			if (!response.headersSent) {
-				valid.status = false;
-				isValid.dbError = true;
-				isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
-				response.send(valid);
-			}
-
-			
-
 		}
 	});
 
