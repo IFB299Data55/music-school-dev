@@ -5,7 +5,7 @@ exports.include = (app) => {
 		var user = request.body;
 		//ADD EMAIL VALIDATION
 
-		app.client.query("SELECT student_id, p.salt, p.password FROM music_school.passwords p, music_school.students s WHERE p.password_id = s.password_id AND s.email='"+user.email+"';")
+		app.client.query("SELECT s.id, p.salt, p.password FROM music_school.passwords p, music_school.students s WHERE p.id = s.password_id AND s.email='"+user.email+"';")
 		.on('row', function(row) {
 		    var inputPassSalted = user.password + row.salt;
 
@@ -13,7 +13,7 @@ exports.include = (app) => {
 				if (!response.headersSent) {
 					userCookie = {
 						valid: 'valid',
-						id: row.student_id,
+						id: row.id,
 						email: user.email,
 						validation: user.password.HashCode()
 					};
