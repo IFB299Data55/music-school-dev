@@ -16,21 +16,16 @@
       <thead>
         <tr>
             <th scope="col" colspan="2">Name</th>
-            <th scope="col">DOB</th>
-            <th scope="col">Address</th>
             <th scope="col">Phone</th>
             <th scope="col">Email</th>
             <th scope="col">Date Employed</th>
        </tr>
       </thead>
-        <tr class="background1" *ngFor="let teacher of filteredTeachers">
+        <tr class="background1" *ngFor="let teacher of filteredTeachers" (click)="SelectTeacher(teacher.id)">
           <td scope="col" colspan="2">{{teacher.firstname}} {{teacher.lastname}}</td>
-          <td>{{teacher.dob}}</td>
-          <td>{{teacher.address}}</td>
           <td>{{teacher.phone}}</td>
           <td>{{teacher.email}}</td>
           <td>{{teacher.dateemployed}}</td>
-          <td><input type="submit" value="Deactivate" class="red ui button"></td>
         </tr>
     </table>
   

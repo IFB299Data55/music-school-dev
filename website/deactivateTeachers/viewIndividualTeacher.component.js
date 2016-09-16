@@ -7,9 +7,50 @@
     })
     .Class({
       constructor: [
-	      function() {
-	    	  // do stuff here still. check the tour of heroes thing - dashboard.component & app.component & heroDetail.component
-	      }
+	      app.DeactivateTeachersService,
+        ng.router.Router,
+        ng.router.ActivatedRoute,
+        function(DeactivateTeachersService, Router, ActivatedRoute) {
+          this.DeactivateTeachersService = DeactivateTeachersService;
+          this.Router = Router;
+          this.ActivatedRoute = ActivatedRoute;
+          this.error;
+          this.teacher = {};
+
+          this.GoBack = function() {
+            window.history.back();
+          }
+
+          this.DeactivateTeacher = function(teacherID) {
+            this.DeactivateTeachersService.DeactivateTeacher(teacherID)
+              .then(response => {
+                if (response.status) {
+                  var link = ['/all'];
+                  this.Router.navigate(link);
+                } else {
+                  this.error = 'There was an error';
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+        }
       ]
     });
+    app.ViewIndividualTeacherComponent.prototype.ngOnInit = function() {
+
+      var urlParams = this.ActivatedRoute.params._value;
+      var id = +urlParams.id;
+
+      this.DeactivateTeachersService.GetTeacher(id).then(response => {
+        if (!response.error) {
+          this.teacher = response.teacher[0];
+        } else {
+          this.error = 'An error has occured. Please contact administration for further assitance.';
+        }
+      }).catch(() => {
+        this.error = 'An error has occured. Please try again later.';
+      });
+    };
 })(window.app || (window.app = {}));

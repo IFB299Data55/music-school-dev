@@ -4,6 +4,10 @@ var deactivateTeachersRouting = [
 		component: app.ViewAllTeachersComponent
 	}
 	, {
+		path: 'individual/:id',
+		component: app.ViewIndividualTeacherComponent
+	}
+	, {
 		path: 'individual',
 		component: app.ViewIndividualTeacherComponent
 	}

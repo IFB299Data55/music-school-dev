@@ -31,9 +31,26 @@
           }
 
           this.SelectTeacher = function(teacherID) {
-            // select the teacher
+            var link = ['/individual', teacherID];
+            this.Router.navigate(link);
           }
+
+          this.Filter = function() {
+            this.filteredTeachers = [];
+            filterString = new RegExp(this.filterText, "gi");
+            for (var i = 0; i < this.teachers.length; i++) {
+              var teacher = this.teachers[i];
+              var name = teacher.firstname+" "+teacher.lastname;
+              if (name.match(filterString)) {
+                this.filteredTeachers.push(teacher);
+              }
+            }
+          }
+
 	      }
       ]
     });
+    app.ViewAllTeachersComponent.prototype.ngOnInit = function() {
+      this.GetTeachers();
+    };
 })(window.app || (window.app = {}));
