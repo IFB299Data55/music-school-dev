@@ -13,13 +13,15 @@
           this.DeactivateTeachersService = DeactivateTeachersService;
           this.Router = Router;
           
-          this.teachers = ['asdfasdf'];
+          this.teachers = [];
+          this.filteredTeachers = [];
 
           this.GetTeachers = function() {
-            this.DeactivateTeachersService.GetStudents()
+            this.DeactivateTeachersService.GetTeachers()
               .then(response => {
                 if (!response.error) {
                   this.teachers = response.teachers;
+                  this.filteredTeachers = this.teachers;
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }

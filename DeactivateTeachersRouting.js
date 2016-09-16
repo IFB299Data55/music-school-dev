@@ -9,6 +9,10 @@ exports.include = (app) => {
 		// do stuff
 	});
 
+	app.get('/management/teachers/all/', function(request, response) {
+		// do stuff
+	});
+
 	app.get('/management/teachers/*', function(request, response) {
 	  response.render('deactivateTeachers/index');
 	});
