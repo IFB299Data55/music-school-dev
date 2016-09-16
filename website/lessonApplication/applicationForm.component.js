@@ -20,6 +20,7 @@
           this.givenStartTime = '';
           this.isValid = {
             instrumentType: true,
+            grade: true,
             hireType: true,
             instrumentId: true,
             day: true,
@@ -155,7 +156,6 @@
                 this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
                   if(response.valid) {
                     this.instrumentList = response.instruments;
-                    console.log(this.instrumentList);
                   } else {
                     this.error = response.error;
                   }
