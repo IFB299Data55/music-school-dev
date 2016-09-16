@@ -1,35 +1,42 @@
-<div>
-	<p>I am a student. Accept me.</p>
+<p *ngIf="error" class="errorMessage">{{error}}</p>
+
+<div class="ui cards">
+  <div class="card" *ngIf="student">
+    <div class="content">
+      <div class="header">
+          <b>{{student.firstname}} {{student.lastname}}</b>
+      </div>
+      <div class="meta">
+        Age: {{student.dob}}
+          <br>
+        Instrument: {{student.instrument}}
+          <br>
+        Grade: {{student.grade}}
+          <br>
+        Start Time: {{student.starttime}}
+          <br>
+        End Time: {{student.endtime}}
+          <br>
+        Term: {{student.term}}
+          <br>
+        Year: {{student.year}}
+          <br>
+        Fee: ${{student.fee}}
+          <br>
+        Notes: {{student.notes}}
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="ui two buttons">
+        
+        <form action="">   
+         <button class="button22" (click)="AcceptStudent(student.id)">Approve</button>
+         <button class="button21" (click)="RejectStudent(student.id)">Decline</button>
+        </form>
+          
+      </div>
+    </div>
+  </div>
 </div>
 
-<li class="ui cards">
-      <div class="card">
-        <div class="content">
-          <img class="right floated mini ui image" src="/acceptStudents/img/3.jpg">
-
-          <div class="header">
-              <b>Noah Fox</b>
-          </div>
-          <div class="meta">
-            Student ID: S988484
-              <br>
-            Age: 20
-              <br>
-              skills: Aural skill
-          </div>
-          <div class="description">
-            Requested permission to join your calss.
-          </div>
-        </div>
-        <div class="extra content">
-          <div class="ui two buttons">
-            
-            <form action="">   
-             <button class="button22">Approve</button>
-             <button class="button21">Decline</button>
-            </form>
-              
-          </div>
-        </div>
-      </div>
-    </li>
+<div class="back clickable" (click)="GoBack()">Back Button</div>

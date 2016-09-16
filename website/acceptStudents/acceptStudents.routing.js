@@ -4,6 +4,10 @@ var acceptStudentsRouting = [
 		component: app.ViewAllStudentsComponent
 	}
 	, {
+		path: 'individual/:id',
+		component: app.ViewIndividualStudentComponent
+	}
+	, {
 		path: 'individual',
 		component: app.ViewIndividualStudentComponent
 	}

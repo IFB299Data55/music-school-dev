@@ -14,7 +14,11 @@
           this.Router = Router;
           
           this.students = [];
-          this.student = null;
+
+          this.SelectStudentRequest = function(requestID) {
+            var link = ['/individual', requestID];
+            this.Router.navigate(link);
+          }
 
           this.GetStudents = function() {
             this.AcceptStudentsService.GetStudents()
@@ -46,19 +50,6 @@
               }).catch(() => {
                 this.error = 'An error has occured. Please try again later.';
               });
-          }
-
-          this.SelectStudentRequest = function(requestID) {
-            /*this.AcceptStudentsService.GetStudent(requestID)
-              .then(respone => {
-                if (!response.error) {
-                  this.student = response.student;
-                } else {
-                  this.error = 'An error has occured. Please contact administration for further assitance.';
-                }
-              }).catch(() => {
-                this.error = 'An error has occured. Please try again later.';
-              });*/
           }
 	      }
       ]
