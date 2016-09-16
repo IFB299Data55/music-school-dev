@@ -13,7 +13,7 @@
           this.ReturnInstrumentsService = ReturnInstrumentsService;
           this.Router = Router;
           
-          this.instruments = ['asdfasdf'];
+          this.instruments = [];
 
           this.GetInstruments = function() {
             this.ReturnInstrumentsService.GetInstruments()
@@ -23,15 +23,20 @@
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }
-              }).catch(() => {
+              }).catch(err => {
+                console.log(err);
                 this.error = 'An error has occured. Please try again later';
             });
           }
 
           this.SelectInstrument = function(instrumentID) {
-            // select the student
+            var link = ['/individual', instrumentID];
+            this.Router.navigate(link);
           }
 	      }
       ]
     });
+    app.ViewAllInstrumentsComponent.prototype.ngOnInit = function() {
+      this.GetInstruments();
+    };
 })(window.app || (window.app = {}));

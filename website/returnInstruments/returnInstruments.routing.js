@@ -4,6 +4,10 @@ var returnInstrumentsRouting = [
 		component: app.ViewAllInstrumentsComponent
 	}
 	, {
+		path: 'individual/:id',
+		component: app.ViewIndividualInstrumentComponent
+	}
+	, {
 		path: 'individual',
 		component: app.ViewIndividualInstrumentComponent
 	}

@@ -18,40 +18,16 @@
         
       <thead>
         <th class="left aligned">Student Name</th>
-        <th>Student ID</th>
-        <th>Type of instrument</th>
+        <th>Instrument Model</th>
+        <th>Instrument Type</th>
         <th>Due Date</th>
       </thead>
       <tbody>
-        <tr class="positive">
-          <td class="left aligned">Noah Fox</td>
-          <td>S988484</td>
-          <td>Xylophone</td>
-          <td>10/11/2016</td>
-        </tr>
-        <tr class="positive">
-          <td class="left aligned">Ethan Bailey</td>
-          <td>S993832</td>
-          <td>Triangle</td>
-          <td>27/11/2016</td>
-        </tr>
-        <tr class="negative">
-          <td class="left aligned">Ava Brown</td>
-          <td>S933387</td>
-          <td>Vibraphone</td>
-          <td>15/9/2016</td>
-        </tr>
-        <tr class="warning">
-          <td class="left aligned">Jacob Black</td>
-          <td>S966574</td>
-          <td>Marimba</td>
-          <td>8/10/2016</td>
-        </tr>
-        <tr class="positive">
-          <td class="left aligned">Daniel Lewis</td>
-          <td>S993221</td>
-          <td>Drum</td>
-          <td>11/11/2016</td>
+        <tr class="positive" *ngFor="let instrument of instruments" (click)="SelectInstrument(instrument.hireid)">
+          <td class="left aligned">{{instrument.firstname}} {{instrument.lastname}}</td>
+          <td>{{instrument.instrumentname}}</td>
+          <td>{{instrument.instrumenttype}}</td>
+          <td>{{instrument.duedate}}</td>
         </tr>
       </tbody>
     </table>
