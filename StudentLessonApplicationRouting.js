@@ -6,15 +6,9 @@ exports.include = (app) => {
 	});
 
 	app.post('/lessons/application/', function(request, response) {
-		// DATABASE CONNECTION
-		/*app.client.query("SELECT * FROM test;")
-		.on('row', function(row) {
-		    console.log(row);
-		});*/
-
 		validateInstId = false;
 		var lesson = request.body;
-		console.log(lesson);
+
 		var isValid = {
 			instrumentType: true,
             hireType: true,
@@ -45,23 +39,28 @@ exports.include = (app) => {
 			var databaseStartTimeString = TurnIntoDBTime(lesson.startTime);
 			var databaseEndTimeString = TurnIntoDBTime(lesson.endTime);
 
-			var columns = "lesson_id, inst_type_id, teacher_id, student_id, room_no, lessons_start_time, lesson_end_time, lesson_day, lesson_start_date, lesson_fee"
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(lesson_id + 1) FROM music_school.lessons), 1)), " 
-									+ lesson.instrumentType + ", "
-									+ "1, "
-									+ lesson.studentId + ", "
-									+ "1, '"
-									+ databaseStartTimeString+"', '"
-									+ databaseEndTimeString+"', '"
-									+ lesson.day + "', "
-									+ "now(), "
-									+ "30";
-			var regQuery = "INSERT INTO music_school.lessons ("+columns+") SELECT " + insertValuesString +";";
-			app.client.query(regQuery).on('error', function(err) {
+			var lessonColumns = "student_id, inst_type_id, teacher_id, request_date, request_status_id, lesson_start_time, lesson_end_time, lesson_day, lesson_fee";
+			var newLessonQuery = {
+				text: "INSERT INTO music_school.lesson_requests("+lessonColumns+") VALUES("
+					+"$1,$2,$3,now(),1,$4,$5,$6,$7"
+				+")",
+				name: 'apply-for-lesson',
+				values: [
+					  lesson.studentId
+					, lesson.instrumentType
+					, 1
+					, databaseStartTimeString
+					, databaseEndTimeString
+					, lesson.day
+					, 30
+				]
+			};
+			console.log(newLessonQuery);
+			app.client.query(newLessonQuery).on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-					console.log("Errors Happened", err);
+					console.log("Errors Happened in StdntLsnAppRting: ", err);
 					response.send(valid);
 				}
 			}).on('end', function() {
@@ -70,11 +69,9 @@ exports.include = (app) => {
 				}
 			});
 		} else if (!response.headersSent) {
-			console.log("Errors Happened");
+			console.log("Invalid data in StdntLsnAppRting:", request.body);
 			response.send(valid);
 		}
-		//response.send('Student Registered');
-		//response.sendStatus('500');
 	});
 
 	app.get('/lessons/application/*', function(request, response) {
