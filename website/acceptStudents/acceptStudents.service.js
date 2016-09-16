@@ -14,7 +14,11 @@
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.AcceptStudent = function(requestID) {
-            return this.http.post(this.acceptResponseURL, requestID, this.headers).toPromise()
+            var params = {
+              request: requestID,
+              teacher: UserService.GetCurrentUser().id
+            };
+            return this.http.post(this.acceptResponseURL, params, this.headers).toPromise()
             .then(response => {
               var valid = JSON.parse(response._body);
               return Promise.resolve(valid);
@@ -23,7 +27,11 @@
           }
 
           this.RejectStudent = function(requestID) {
-            return this.http.post(this.rejectResponseURL, requestID, this.headers).toPromise()
+            var params = {
+              request: requestID,
+              teacher: UserService.GetCurrentUser().id
+            };
+            return this.http.post(this.rejectResponseURL, params, this.headers).toPromise()
             .then(response => {
               var valid = JSON.parse(response._body);
               return Promise.resolve(valid);

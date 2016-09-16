@@ -15,7 +15,7 @@ exports.include = (app) => {
 		}
 
 		if (!teacherID) {
-			teacherID = 0;
+			teacherID = 1;
 		}
 
 		var getQuery = "SELECT l.id as requestid, s.first_name as firstname, s.last_name as lastname, "
@@ -24,9 +24,9 @@ exports.include = (app) => {
 						+"music_school.instrument_types it, music_school.student_experience se "
 						+"WHERE l.student_id = s.id AND l.inst_type_id = it.id "
 						+"AND (l.teacher_id = "+teacherID+" OR l.teacher_id IS NULL) "
-						+"AND (l.request_status_id IS NULL OR l.request_status_id = 1) AND s.id = se.student_id AND se.inst_type_id = l.inst_type_id";
-
-		// and where teacher id and lesson id combo is not in rejected lessons table
+						+"AND (l.request_status_id IS NULL OR l.request_status_id = 1) "
+						+"AND l.id NOT IN (SELECT lesson_id FROM music_school.lesson_rejections WHERE teacher_id="+teacherID+") "
+						+"AND s.id = se.student_id AND se.inst_type_id = l.inst_type_id;";
 
 		app.client.query(getQuery).on('row', function(row) {
 			studentsResult.push(row);
@@ -81,15 +81,17 @@ exports.include = (app) => {
 	});
 
 	app.post('/teacher/studentApplications/individual/accept/', function(request, response) {
-
-		var requestID = request.query.requestID;
+		var requestID = request.body.request;
+		var teacherID = request.body.teacher;
 		var result = {
 			status: true,
 		}
 
-		var acceptQuery = "";
+		if (!teacherID) {
+			teacherID = 1;
+		}
 
-		// set request status to 2
+		var acceptQuery = "UPDATE music_school.lessons SET request_status_id = 2, accept_date = NOW(), teacher_id ="+teacherID+" WHERE id = "+requestID+";";
 
 		app.client.query(acceptQuery).on('error', function() {
 			result.status = false;
@@ -104,17 +106,21 @@ exports.include = (app) => {
 
 	app.post('/teacher/studentApplications/individual/reject/', function(request, response) {
 
-		var requestID = request.query.requestID;
+		var requestID = request.body.request;
+		var teacherID = request.body.teacher;
 		var result = {
 			status: true,
 		}
 
-		var rejectQuery = "";
+		if (!teacherID) {
+			teacherID = 1;
+		}
 
-		// leave request status on 1
-		// do other stuff
 
-		app.client.query(rejectQuery).on('error', function() {
+		var rejectQuery = "UPDATE music_school.lessons SET request_status_id = 3 WHERE teacher_id ="+teacherID+" AND id = "+requestID+";"+
+							" INSERT INTO music_school.lesson_rejections(lesson_id, teacher_id) VALUES ("+requestID+", "+teacherID+");";
+
+		app.client.query(rejectQuery).on('error', function(err) {
 			result.status = false;
 			response.send(result);
 		})
