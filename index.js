@@ -33,6 +33,8 @@ require('./TeacherRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);
 require('./NewInstrumentRouting.js').include(app);
 require('./DeactivateTeachersRouting.js').include(app);
+require('./ReturnInstrumentsRouting.js').include(app);
+require('./AcceptStudentsRouting.js').include(app);
 
 app.use(function(request, response) {
 	response.render('404');
