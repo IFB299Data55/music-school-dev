@@ -21,6 +21,11 @@
 
           this.Login = function(user) {
             this.UserService.SetCurrentUser(user.id, user.email, user.validation);
+            location.href="/";
+          }
+
+          this.IsSomeoneLoggedIn = function() {
+            return this.UserService.IsSomeoneLoggedIn();
           }
 
           this.handleError = function(error) {

@@ -1,6 +1,10 @@
 exports.include = (app) => {
 	require('./database.js');
 
+	app.get('/login/student/', function(request, response) {
+	  response.render('studentLogin/index');
+	});
+
 	app.post('/login/', function(request, response) {
 		var user = request.body;
 		//ADD EMAIL VALIDATION

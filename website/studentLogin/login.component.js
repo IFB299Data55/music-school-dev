@@ -1,28 +1,23 @@
 (function(app) {
-  app.LoginComponent =
+  app.StudentLoginComponent =
     ng.core.Component({
-      selector: 'login-app',
-      templateUrl: '/shared/views/loginForm.ejs'
+      selector: 'student-login-app',
+      templateUrl: localPath+'views/loginForm.ejs',
+      styleUrls: [localPath+'css/loginForm.css']
     })
     .Class({
       constructor: [
-        app.CookieService,
         app.LoginService,
-        function(CookieService, LoginService) {
-          this.CookieService = CookieService;
+        function(LoginService) {
           this.LoginService = LoginService;
+          this.title = "Student Login";
           this.loggedIn = false;
           this.loggingIn = false;
-          this.showForm = false;
 
           this.user = {
             email: '',
             password: ''
           };
-
-          this.ShowForm = function() {
-            this.showForm = true;
-          }
 
           this.Login = function() {
             this.loggingIn = true;
@@ -32,7 +27,6 @@
               if(response.valid != 'invalid') {
                 this.loggedIn = true;
                 this.loggingIn = false;
-                this.showForm = false;
                 this.LoginService.Login(response);
               } else {
                 this.loggingIn = false;
@@ -43,7 +37,7 @@
           }
 
           this.CheckLoggedIn = function() {
-            if(this.CookieService.CookieExists('email')) {
+            if(this.LoginService.IsSomeoneLoggedIn()) {
               this.loggedIn = true;
             } else {
               this.loggedIn = false;
@@ -57,7 +51,7 @@
       ]
     });
 
-  app.LoginComponent.prototype.ngOnInit = function() {
+  app.StudentLoginComponent.prototype.ngOnInit = function() {
     this.CheckLoggedIn();
   };
 })(window.app || (window.app = {}));
