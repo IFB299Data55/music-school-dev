@@ -11,7 +11,7 @@ exports.include = (app) => {
 			instruments: instrumentsReturned
 		};
 
-	  	var getQuery = "SELECT DISTINCT name, 30 AS fee FROM music_school.instrument_types;";
+	  	var getQuery = "SELECT DISTINCT name, lesson_fee AS fee FROM music_school.instrument_types;";
 
 		app.client.query(getQuery).on('error', function(err) {
 			if (!response.headersSent) {
