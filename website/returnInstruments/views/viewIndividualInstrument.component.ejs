@@ -1,0 +1,30 @@
+<div>
+	Student Name: {{instrument.firstname}} {{instrument.lastname}}
+	<br>
+	Student Phone: {{instrument.phone}}
+	<br>
+	Student Email: {{instrument.email}}
+	<br>
+	Instrument Model: {{instrument.instrumentname}}
+	<br>
+	Instrument Type: {{instrument.instrumenttype}}
+	<br>
+	Due Date: {{instrument.duedate}}
+	<br>
+	Hire Date: {{instrument.hiredate}}
+	<br>
+	Serial Number: {{instrument.serialnumber}}
+	<br>
+	Condition: {{instrument.condition}}
+	<br>
+	Purchase Date: {{instrument.purchasedate}}
+	<br>
+	Purchase Price: ${{instrument.purchaseprice}}
+	<br>
+	Hire Fee: ${{instrument.hirefee}}
+	<br>
+	Notes: {{instrument.notes}}
+</div>
+
+<div (click)="ReturnInstrument(instrument.hireid)">click to return</div>
+<div (click)="GoBack()">click to go back to all page</div>

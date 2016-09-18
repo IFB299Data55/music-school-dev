@@ -1,0 +1,37 @@
+<p *ngIf="error" class="errorMessage">{{error}}</p>
+
+<div *ngIf="FormIsAvailable()">
+
+   <div class="flexsearch">
+		<div class="flexsearch--wrapper">
+			<form class="flexsearch--form" action="#" method="post">
+				<div class="flexsearch--input-wrapper">
+				 <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
+				</div>
+			</form>
+		</div>
+      </div>
+      
+          
+    <table class="zui-table">
+    
+      <thead>
+        <tr>
+            <th scope="col" colspan="2">Name</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date Employed</th>
+       </tr>
+      </thead>
+        <tr class="background1" *ngFor="let teacher of filteredTeachers" (click)="SelectTeacher(teacher.id)">
+          <td scope="col" colspan="2">{{teacher.firstname}} {{teacher.lastname}}</td>
+          <td>{{teacher.phone}}</td>
+          <td>{{teacher.email}}</td>
+          <td>{{teacher.dateemployed}}</td>
+        </tr>
+    </table>
+
+</div>
+
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>
+  

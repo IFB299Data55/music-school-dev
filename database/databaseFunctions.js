@@ -88,10 +88,15 @@ exports.include = (app) => {
 		
 		if(res.valid) {
 			var getInstrumentsQuery = {
-				text: "SELECT i.id, i.serial_no, i.model, i.hire_fee, c.condition, i.inst_notes FROM music_school.instruments i, music_school.conditions c WHERE i.condition_id = c.id AND inst_type_id = $1",
+				text: "SELECT i.id, i.serial_no, i.model, i.hire_fee, c.condition, i.inst_notes"
+					 +" FROM music_school.instruments i, music_school.conditions c "
+					 +"WHERE i.condition_id = c.id AND inst_type_id = $1 AND i.id NOT IN (SELECT instrument_id FROM music_school.instrument_hire "
+					 	+"WHERE hire_status_id NOT IN (6))",
 				name: "get-instruments-of-type",
 				values: [instrumentId]
 			};
+
+			console.log(getInstrumentsQuery);
 
 			app.client.query(getInstrumentsQuery).on('error', function(err) {
 				if (!response.headersSent) {

@@ -12,6 +12,7 @@ exports.include = (app) => {
 		var isValid = {
 			instrumentType: true,
             hireType: true,
+            grade: true,
             studentId: true,
             instrumentId: true,
             day: true,
@@ -39,23 +40,38 @@ exports.include = (app) => {
 			var databaseStartTimeString = TurnIntoDBTime(lesson.startTime);
 			var databaseEndTimeString = TurnIntoDBTime(lesson.endTime);
 
-			var lessonColumns = "student_id, inst_type_id, teacher_id, request_date, request_status_id, lesson_start_time, lesson_end_time, lesson_day, lesson_fee";
+			
+			var lessonColumns = "student_id, inst_type_id, " + /*teacher_id, + */"request_date, request_status_id, lesson_start_time, lesson_end_time, lesson_day, lesson_year, lesson_term, lesson_fee";
 			var newLessonQuery = {
-				text: "INSERT INTO music_school.lesson_requests("+lessonColumns+") VALUES("
-					+"$1,$2,$3,now(),1,$4,$5,$6,$7"
+				text: "INSERT INTO music_school.lessons("+lessonColumns+") VALUES("
+					+"$1,$2,now(),1,$3,$4,$5,$6,$7,$8"
 				+")",
 				name: 'apply-for-lesson',
 				values: [
 					  lesson.studentId
 					, lesson.instrumentType
-					, 1
+					//, 1
 					, databaseStartTimeString
 					, databaseEndTimeString
 					, lesson.day
+					, 2016
+					, 1
 					, 30
 				]
 			};
-			console.log(newLessonQuery);
+			var experienceColumns = "student_id, inst_type_id, grade";
+			var newExperienceQuery = {
+				text: "INSERT INTO music_school.student_experience("+experienceColumns+") VALUES("
+					+"$1,$2,$3"
+				+") ON CONFLICT (student_id, inst_type_id) DO UPDATE SET grade = $3",
+				name: 'log-experience-lesson',
+				values: [
+					  lesson.studentId
+					, lesson.instrumentType
+					, lesson.grade
+				]
+			};
+
 			app.client.query(newLessonQuery).on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
@@ -64,9 +80,19 @@ exports.include = (app) => {
 					response.send(valid);
 				}
 			}).on('end', function() {
-				if (!response.headersSent) {
-					response.send(valid);
-				}
+				app.client.query(newExperienceQuery).on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+						console.log("Errors Happened in StdntLsnAppRting: ", err);
+						response.send(valid);
+					}
+				}).on('end', function() {
+					
+					if (!response.headersSent) {
+						response.send(valid);
+					}
+				});
 			});
 		} else if (!response.headersSent) {
 			console.log("Invalid data in StdntLsnAppRting:", request.body);
@@ -91,6 +117,7 @@ function TurnIntoDBTime(startTime) {
 
 function validateAll(lesson, isValid) {
 	if (validateInstrumentType(lesson.instrumentType, isValid) &&
+		validateGrade(lesson.grade, isValid) &&
 		validateHireType(lesson.hireType, isValid) &&
 		validateStudentId(lesson.studentId, isValid) &&
 		validateInstrumentId(lesson.instrumentId, isValid) &&
@@ -101,6 +128,15 @@ function validateAll(lesson, isValid) {
 	} else {
 		return false;
 	}
+}
+
+function validateGrade(grade, isValid) {
+	var regexp = new RegExp("^[0-7]$");
+	if (regexp.test(grade)) {
+		return true;
+	}
+	isValid.instrumentType = false;
+	return false;
 }
 
 function validateInstrumentType(instrumentType, isValid) {
