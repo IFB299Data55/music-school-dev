@@ -1,5 +1,5 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
-<form [hidden]="submitted" (ngSubmit)="Add()" #newInstrumentForm="ngForm" method="POST">
+<form *ngIf="FormIsAvailable()" [hidden]="submitted" (ngSubmit)="Add()" #newInstrumentForm="ngForm" method="POST">
 	<fieldset id="instrumentinfo"
 	[disabled]="typeList.length == 0 || conditionList.length == 0">
     <legend><span>Instrument Information</span></legend>
@@ -73,3 +73,4 @@
 <div [hidden]="!submitted">
 	<p>Attempting to add new instrument...</p>
 </div>
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>

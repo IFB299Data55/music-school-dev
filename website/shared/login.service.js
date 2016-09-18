@@ -10,8 +10,9 @@
           this.loginUrl = '/login/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.AttemptLogin = function(user) {
-              return this.http.post(this.loginUrl, user, this.headers).toPromise()
+          this.AttemptLogin = function(user,userType) {
+              var url = this.loginUrl + userType;
+              return this.http.post(url, user, this.headers).toPromise()
               .then(response => {
                 var userCookie = JSON.parse(response._body);
                 return Promise.resolve(userCookie);
@@ -20,7 +21,12 @@
           }
 
           this.Login = function(user) {
-            this.UserService.SetCurrentUser(user.id, user.email, user.validation);
+            this.UserService.SetCurrentUser(user.id, user.displayName, user.email, user.type, user.validation);
+            location.href="/";
+          }
+
+          this.IsSomeoneLoggedIn = function() {
+            return this.UserService.IsSomeoneLoggedIn();
           }
 
           this.handleError = function(error) {

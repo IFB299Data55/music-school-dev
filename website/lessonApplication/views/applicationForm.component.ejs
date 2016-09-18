@@ -9,7 +9,8 @@
 					<select id="instrumentType" name="instrumentType"
 							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" 
 							(blur)="UpdateInstruments()" required>
-						<option *ngFor="let instrumentType of instrumentTypeList" value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
+						<option *ngFor="let instrumentType of instrumentTypeList"
+						value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
 					</select>
 					<p class="errorMessage" [hidden]="(instrumentType.valid || instrumentType.untouched) && isValid.instrumentType">A Value must be selected.</p>
 				</div>
@@ -24,6 +25,15 @@
 						<option value="Hire">Hire</option>
 					</select>
 					<p class="errorMessage" [hidden]="(hireType.valid || hireType.untouched) && isValid.hireType">A Value must be selected.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-4">
+					<label 	for="grade">Your Grade: </label>
+					<input type="text" id="grade" name="grade"
+							[(ngModel)]="lesson.grade" #grade="ngModel" 
+							(blur)="UpdateInstruments()" pattern="^[0-7]$" required/>
+					<p class="errorMessage" [hidden]="(grade.valid || grade.untouched) && isValid.grade">Please enter your approximate grade.</p>
 				</div>
 			</div>
 		</fieldset>
@@ -88,9 +98,9 @@
 	</form>
 
 	<div [hidden]="!submitted">
-		<p>Attempting to Register your new account...</p>
+		<p>Attempting to Book your lesson!</p>
 	</div>
 </div>
 <div *ngIf="!FormIsAvailable()">
-	<p>You must be logged in to see this page. click <a (click)="FormIsAvailable()">Here</a> to refresh.</p>
+	<p>You do not have access to this page.</p>
 </div>

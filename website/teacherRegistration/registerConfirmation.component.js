@@ -3,7 +3,7 @@
     ng.core.Component({
       selector: 'register-confirmation' ,
       templateUrl: localPath+'views/registerConfirmation.component.ejs',
-      styleUrls: [localPath+'views/registerConfirmation.component.css']
+      styleUrls: ['../..'+localPath+'views/registerConfirmation.component.css']
     })
     .Class({
       constructor: [
