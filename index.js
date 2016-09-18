@@ -5,7 +5,7 @@ var nodemailer = require('nodemailer');
 
 require('./database.js').include(app);
 
-var transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
+app.transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
 
 
 app.set('port', (process.env.PORT || 5000));

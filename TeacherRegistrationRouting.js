@@ -38,7 +38,7 @@ exports.include = (app) => {
 			var d = new Date();
 			var n = d.getTime();
 
-			teacher.password = "test"; //Gen Here
+			teacher.password = Math.random().toString(36).substring(2,8); //Gen Here
 			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
 			var hashedPassword = saltedPassword.HashCode();
 
@@ -116,11 +116,12 @@ exports.include = (app) => {
 							var teacherConfirmationEmail = {
 								from: '"School of Music Admin" <test@gmail.com>',
 								to: teacher.email,
+								subject: "New Teacher Account",
 								text: message,
 								html: '<p>'+message+'</p>'
 							};
 
-							transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+							app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
 								if(error) {
 									console.log(error);
 								}
