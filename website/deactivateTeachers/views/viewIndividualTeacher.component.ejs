@@ -1,27 +1,17 @@
 <div *ngIf="FormIsAvailable()">
 
-	<div class="card">
-		<div class="content">
-			<div class="header">
-				<p>Name: {{teacher.firstname}} {{teacher.lastname}}</p>
-			</div>
-			<div class="meta">
-				<p>DOB: {{teacher.dob}}</p>
-				<p>Address: {{teacher.address}}</p>
-				<p>Phone: {{teacher.phone}}</p>
-				<p>Email: {{teacher.email}}</p>
-				<p>Date Employed: {{teacher.dateemployed}}</p>
-				<p>Description: {{teacher.description}}</p>
-			</div>
-		</div>
-		<div class="extra content">
-    		<div class="ui two buttons">
-				<button class="button21 clickable" (click)="DeactivateTeacher(teacher.id)">Deactivate</button>
-			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
-			</div>
-    	</div>
+	<div>
+		<p>Name: {{teacher.firstname}} {{teacher.lastname}}</p>
+		<p>DOB: {{teacher.dob}}</p>
+		<p>Address: {{teacher.address}}</p>
+		<p>Phone: {{teacher.phone}}</p>
+		<p>Email: {{teacher.email}}</p>
+		<p>Date Employed: {{teacher.dateemployed}}</p>
+		<p>Description: {{teacher.description}}</p>
 	</div>
 
+	<div (click)="DeactivateTeacher(teacher.id)">Deactivate</div>
+	<div (click)="GoBack()">Go Back</div>
 
 </div>
 
