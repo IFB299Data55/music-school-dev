@@ -38,7 +38,7 @@ exports.include = (app) => {
 			var d = new Date();
 			var n = d.getTime();
 
-			teacher.password = "test";
+			teacher.password = "test"; //Gen Here
 			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
 			var hashedPassword = saltedPassword.HashCode();
 
@@ -112,6 +112,20 @@ exports.include = (app) => {
 					})
 					.on('end', function(){
 						if (!response.headersSent) {
+							var message = "You have been successfully registered as a teacher for the School of Music! Your temporary password is: " + teacher.password;
+							var teacherConfirmationEmail = {
+								from: '"School of Music Admin" <test@gmail.com>',
+								to: teacher.email,
+								text: message,
+								html: '<p>'+message+'</p>'
+							};
+
+							transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+								if(error) {
+									console.log(error);
+								}
+							});
+
 							response.send(valid);
 						}
 					});
