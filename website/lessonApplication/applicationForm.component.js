@@ -130,11 +130,14 @@
 
           this.FormIsAvailable = function() {
             if(this.UserService.IsSomeoneLoggedIn()) {
-              this.lesson.studentId = this.UserService.GetCurrentUser().id;
-              return true;
-            } else {
-              return false;
+              var user = this.UserService.GetCurrentUser();
+              if(user.type == 'student') {
+                this.lesson.studentId = user.id;
+                return true;
+              }
             }
+            
+            return false;
           }
 
           this.UpdateInstrumentTypes = function() {
