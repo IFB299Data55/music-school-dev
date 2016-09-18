@@ -36,8 +36,8 @@ exports.include = (app) => {
 			var d = new Date();
 			var n = d.getTime();
 
-			var saltedPassword = student.password + n;
-			var hashedPassword = saltedPassword.hashCode();
+			var saltedPassword = student.password + "student".HashCode() + n;
+			var hashedPassword = saltedPassword.HashCode();
 
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.students WHERE email = $1",
@@ -78,8 +78,6 @@ exports.include = (app) => {
 					,d.toDateString()
 				]
 			};
-
-			console.log(d.toDateString());
 
 			app.client.query(checkEmail).on('row', function(row) {
 				if (!response.headersSent) {
@@ -127,7 +125,7 @@ exports.include = (app) => {
 	});
 }
 
-String.prototype.hashCode = function() {
+String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
   for (i = 0, len = this.length; i < len; i++) {

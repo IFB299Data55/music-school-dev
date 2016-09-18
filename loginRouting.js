@@ -5,47 +5,101 @@ exports.include = (app) => {
 	  response.render('studentLogin/index');
 	});
 
-	app.post('/login/', function(request, response) {
-		var user = request.body;
-		//ADD EMAIL VALIDATION
+	app.get('/login/teacher/', function(request, response) {
+	  response.render('teacherLogin/index');
+	});
 
-		app.client.query("SELECT s.id, p.salt, p.password FROM music_school.passwords p, music_school.students s WHERE p.id = s.password_id AND s.email='"+user.email+"';")
+	app.get('/login/manager/', function(request, response) {
+	  response.render('managerLogin/index');
+	});
+
+	app.post('/login/student/', function(request, response) {
+		var user = request.body;
+		var loginQuery = GenerateStudentLoginQuery(user);
+		var res = GetLoginResponse(response, loginQuery, user, "student");
+	});
+
+	app.post('/login/teacher/', function(request, response) {
+		var user = request.body;
+		var loginQuery = GenerateTeacherLoginQuery(user);
+		var res = GetLoginResponse(response, loginQuery, user, "teacher");
+	});
+
+	app.post('/login/manager/', function(request, response) {
+		var user = request.body;
+		var loginQuery = GenerateManagerLoginQuery(user);
+		var res = GetLoginResponse(response, loginQuery, user, "manager");
+	});
+
+	function GenerateStudentLoginQuery(user) {
+		return {
+			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.students u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1",
+			name: "student-login-query",
+			values: [	
+				user.email
+			]
+		};
+	}
+
+	function GenerateTeacherLoginQuery(user) {
+		return {
+			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.teachers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1",
+			name: "teacher-login-query",
+			values: [	
+				user.email
+			]
+		};
+	}
+
+	function GenerateManagerLoginQuery(user) {
+		return {
+			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.managers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1",
+			name: "manager-login-query",
+			values: [	
+				user.email
+			]
+		};
+	}
+
+	function GetLoginResponse(response, loginQuery, user, userType) {
+		app.client.query(loginQuery)
 		.on('row', function(row) {
-		    var inputPassSalted = user.password + row.salt;
+		    var inputPassSalted = user.password + userType.HashCode() + row.salt;
 
 			if (inputPassSalted.HashCode() == row.password) {
 				if (!response.headersSent) {
 					userCookie = {
 						valid: 'valid',
-						id: row.id,
-						email: user.email,
-						validation: user.password.HashCode()
+						user: {
+							id: row.id,
+							displayName: row.display_name,
+							email: user.email,
+							type: userType,
+							validation: user.password.HashCode()
+						}
 					};
 					response.send(userCookie);
 				}
 			} else {
 				if (!response.headersSent) {
-					var valid = {
+					var res = {
 						valid: 'invalid',
 						error: 'Incorrect Password'
 					}
-					response.send(valid);
+					response.send(res);
 				}
 			}
 		})
 		.on('end', function() {
 			if (!response.headersSent) {
-				var valid = {
+				var res = {
 					valid: 'invalid',
 					error: 'User does not exist'
 				}
-				response.send(valid);
+				response.send(res);
 			}
 		})
-		//response.send('Student Registered');
-		//response.sendStatus('201');
-		//response.sendStatus('500');
-	});
+	}
 }
 
 String.prototype.HashCode = function() {

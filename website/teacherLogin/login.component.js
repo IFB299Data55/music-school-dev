@@ -1,7 +1,7 @@
 (function(app) {
-  app.StudentLoginComponent =
+  app.TeacherLoginComponent =
     ng.core.Component({
-      selector: 'student-login-app',
+      selector: 'teacher-login-app',
       templateUrl: localPath+'views/loginForm.ejs',
       styleUrls: ['../..'+localPath+'css/loginForm.css']
     })
@@ -10,7 +10,7 @@
         app.LoginService,
         function(LoginService) {
           this.LoginService = LoginService;
-          this.title = "Student Login";
+          this.title = "Teacher Login";
           this.loggedIn = false;
           this.loggingIn = false;
 
@@ -22,7 +22,7 @@
           this.Login = function() {
             this.loggingIn = true;
 
-            this.LoginService.AttemptLogin(this.user, 'student')
+            this.LoginService.AttemptLogin(this.user, 'teacher')
             .then(response => {
               if(response.valid != 'invalid') {
                 this.LoginService.Login(response.user);
@@ -49,7 +49,7 @@
       ]
     });
 
-  app.StudentLoginComponent.prototype.ngOnInit = function() {
+  app.TeacherLoginComponent.prototype.ngOnInit = function() {
     this.CheckLoggedIn();
   };
 })(window.app || (window.app = {}));

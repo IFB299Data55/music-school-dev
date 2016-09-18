@@ -2,7 +2,7 @@
   app.LoggedInComponent =
     ng.core.Component({
       selector: 'logged-in-app',
-      templateUrl: '/shared/views/loggedIn.ejs'
+      templateUrl: '/shared/views/nav.ejs'
     })
     .Class({
       constructor: [

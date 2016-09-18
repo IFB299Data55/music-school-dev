@@ -39,8 +39,8 @@ exports.include = (app) => {
 			var n = d.getTime();
 
 			teacher.password = "test";
-			var saltedPassword = teacher.password + n;
-			var hashedPassword = saltedPassword.hashCode();
+			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
+			var hashedPassword = saltedPassword.HashCode();
 
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.teachers WHERE email = $1",
@@ -85,7 +85,8 @@ exports.include = (app) => {
 			app.client.query(checkEmail).on('row', function(row) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
 			})
@@ -124,7 +125,7 @@ exports.include = (app) => {
 	});
 }
 
-String.prototype.hashCode = function() {
+String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
   for (i = 0, len = this.length; i < len; i++) {
