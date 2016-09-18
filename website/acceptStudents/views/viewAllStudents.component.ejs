@@ -19,6 +19,8 @@
     </div>
   </div>
 
+  <p *ngIf="!students.length">There are no student applications waiting to be accepted.</p>
+
 </div>
 
 <p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>
