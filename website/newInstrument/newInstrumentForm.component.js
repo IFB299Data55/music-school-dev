@@ -18,6 +18,7 @@
           this.submitted = false;
           this.isValid = {
             type:true,
+            newInstType:true,
             condition:true,
             serialNumber:true,
             model:true,
