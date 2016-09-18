@@ -49,7 +49,7 @@
           }
 
           this.PageIsAvailable = function() {
-            if (this.UserService.GetCurrentUser().type = 'teacher') {
+            if (this.UserService.GetCurrentUser().type == 'teacher') {
               return true;
             } else {
               return false;
