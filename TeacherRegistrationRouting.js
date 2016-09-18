@@ -1,15 +1,18 @@
+/* Routing for Teacher Registration */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/register/teacher/', function(request, response) {
 	  response.render('teacherRegistration/index');
 	});
 
+	/* Register Teacher */
 	app.post('/register/teacher/', function(request, response) {
-		// DATABASE CONNECTION
-		
+		// Get Post Data
 		var teacher = request.body;
 
+		//Set up error array
 		var isValid = {
 			firstName:true,
 			middleName:true,
@@ -21,11 +24,14 @@ exports.include = (app) => {
 			dbError:false,
 			dbErrorMessage:''
 		};
+
+		//Set up response
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 		
+		//Run validation
 		if (validateAll(teacher, isValid)) {
 			valid.status = true;
 		} else {
@@ -35,6 +41,7 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			//Hash password
 			var d = new Date();
 			var n = d.getTime();
 
@@ -42,6 +49,7 @@ exports.include = (app) => {
 			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
 			var hashedPassword = saltedPassword.HashCode();
 
+			//setup Queries
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.teachers WHERE email = $1",
 				name: "check-teacher-email",
@@ -82,7 +90,18 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(checkEmail).on('row', function(row) {
+			//Run Queries
+			app.client.query(checkEmail)
+			.on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+					console.log("Error occured in TchrReg: ", err);
+				}
+			})
+			.on('row', function(row) {
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.dbError = true;
@@ -91,7 +110,8 @@ exports.include = (app) => {
 				}
 			})
 			.on('end', function(){
-				app.client.query(newTeacherPasswordQuery).on('error', function(err) {
+				app.client.query(newTeacherPasswordQuery)
+				.on('error', function(err) {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.dbError = true;
@@ -101,7 +121,8 @@ exports.include = (app) => {
 					}
 				})
 				.on('end', function(){
-					app.client.query(newTeacherQuery).on('error', function(err) {
+					app.client.query(newTeacherQuery)
+					.on('error', function(err) {
 						if (!response.headersSent) {
 							valid.status = false;
 							isValid.dbError = true;
@@ -112,6 +133,7 @@ exports.include = (app) => {
 					})
 					.on('end', function(){
 						if (!response.headersSent) {
+							//Send Email
 							var message = "You have been successfully registered as a teacher for the School of Music! Your temporary password is: " + teacher.password;
 							var teacherConfirmationEmail = {
 								from: '"School of Music Admin" <test@gmail.com>',

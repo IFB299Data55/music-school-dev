@@ -1,3 +1,4 @@
+/* Manages Routing of the 3 login pages */
 exports.include = (app) => {
 	require('./database.js');
 
@@ -11,6 +12,7 @@ exports.include = (app) => {
 
 	app.get('/login/manager/', function(request, response) {
 	  response.render('managerLogin/index');
+
 	});
 
 	app.post('/login/student/', function(request, response) {
@@ -66,7 +68,7 @@ exports.include = (app) => {
 		.on('row', function(row) {
 		    var inputPassSalted = user.password + userType.HashCode() + row.salt;
 
-			if (inputPassSalted.HashCode() == row.password) {
+			if (inputPassSalted.HashCode() == row.password) { //Passwords Match
 				if (!response.headersSent) {
 					userCookie = {
 						valid: 'valid',
@@ -80,7 +82,7 @@ exports.include = (app) => {
 					};
 					response.send(userCookie);
 				}
-			} else {
+			} else { //Passwords Did not Match
 				if (!response.headersSent) {
 					var res = {
 						valid: 'invalid',
@@ -90,7 +92,7 @@ exports.include = (app) => {
 				}
 			}
 		})
-		.on('end', function() {
+		.on('end', function() { //End of Query. responses would have been sent if User existed.
 			if (!response.headersSent) {
 				var res = {
 					valid: 'invalid',
@@ -102,6 +104,7 @@ exports.include = (app) => {
 	}
 }
 
+/* Hashing function used to protect data */
 String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
