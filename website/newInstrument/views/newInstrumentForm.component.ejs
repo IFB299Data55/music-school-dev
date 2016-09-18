@@ -1,7 +1,7 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 <form *ngIf="FormIsAvailable()" [hidden]="submitted" (ngSubmit)="Add()" #newInstrumentForm="ngForm" method="POST">
 	<fieldset id="instrumentinfo"
-	[disabled]="typeList.length == 0 || conditionList.length == 0">
+	[disabled]="conditionList.length == 0">
     <legend><span>Instrument Information</span></legend>
     <div class="row">
 		<div class="col-sm-4">
@@ -9,6 +9,7 @@
 			<select id="type" name="type"
 					[(ngModel)]="instrument.type" #type="ngModel" required>
 				<option *ngFor="let type of typeList" value="{{type.id}}" required>{{type.name}}</option>
+				<option value="0" required>New</option>
 			</select>
 			<p class="errorMessage" [hidden]="(type.valid || type.untouched) && isValid.type">A Value must be selected.</p>
 		</div>
@@ -50,6 +51,12 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-4" *ngIf="instrument.type == 0">
+			<label 	for="newInstType">Type Name: </label>
+			<input 	type="newInstType" id="newInstType" name="newInstType" #newInstType="ngModel"
+					[(ngModel)]="instrument.newInstType" pattern="^[A-Za-z ]+$" required/>
+			<p class="errorMessage" [hidden]="(type.valid || type.untouched) && isValid.type">A value must be entered.</p>
+		</div>
 		<div class="col-sm-4">
 			<label 	for="model">Model: </label>
 			<input 	type="text" id="model" name="model" #model="ngModel"
