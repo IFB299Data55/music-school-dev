@@ -14,7 +14,6 @@
   </div>
    
         
-  <div class="column"> 
     <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" 
             id="myTable" data-filter="true" data-input="#filterTable-input"> 
       <thead>
@@ -24,7 +23,7 @@
         <th>Due Date</th>
       </thead>
       <tbody>
-        <tr class="positive" *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
+        <tr *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
           <td class="left aligned">{{instrument.firstname}} {{instrument.lastname}}</td>
           <td>{{instrument.instrumentname}}</td>
           <td>{{instrument.instrumenttype}}</td>
@@ -32,7 +31,6 @@
         </tr>
       </tbody>
     </table>
-  </div>
 
 </div>
 

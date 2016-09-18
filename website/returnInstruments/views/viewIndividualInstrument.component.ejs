@@ -1,35 +1,32 @@
 <div *ngIf="PageIsAvailable()">
 
-	<div>
-		Student Name: {{instrument.firstname}} {{instrument.lastname}}
-		<br>
-		Student Phone: {{instrument.phone}}
-		<br>
-		Student Email: {{instrument.email}}
-		<br>
-		Instrument Model: {{instrument.instrumentname}}
-		<br>
-		Instrument Type: {{instrument.instrumenttype}}
-		<br>
-		Due Date: {{instrument.duedate}}
-		<br>
-		Hire Date: {{instrument.hiredate}}
-		<br>
-		Serial Number: {{instrument.serialnumber}}
-		<br>
-		Condition: {{instrument.condition}}
-		<br>
-		Purchase Date: {{instrument.purchasedate}}
-		<br>
-		Purchase Price: ${{instrument.purchaseprice}}
-		<br>
-		Hire Fee: ${{instrument.hirefee}}
-		<br>
-		Notes: {{instrument.notes}}
+	<div class="card">
+		<div class="content">
+			<div class="header">
+				Student Name: {{instrument.firstname}} {{instrument.lastname}}
+			</div>
+			<div class="meta">
+				<p>Student Phone: {{instrument.phone}}</p>
+				<p>Student Email: {{instrument.email}}</p>
+				<p>Instrument Model: {{instrument.instrumentname}}</p>
+				<p>Instrument Type: {{instrument.instrumenttype}}</p>
+				<p>Due Date: {{instrument.duedate}}</p>
+				<p>Hire Date: {{instrument.hiredate}}</p>
+				<p>Serial Number: {{instrument.serialnumber}}</p>
+				<p>Condition: {{instrument.condition}}</p>
+				<p>Purchase Date: {{instrument.purchasedate}}</p>
+				<p>Purchase Price: ${{instrument.purchaseprice}}</p>
+				<p>Hire Fee: ${{instrument.hirefee}}</p>
+				<p>Notes: {{instrument.notes}}</p>
+			</div>
+			<div class="extra content">
+	    		<div class="ui two buttons">
+					<button class="button21 clickable" (click)="ReturnInstrument(instrument.hireid)">Mark as Returned</button>
+				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
+				</div>
+	    	</div>
+		</div>
 	</div>
-
-	<div (click)="ReturnInstrument(instrument.hireid)">click to return</div>
-	<div (click)="GoBack()">click to go back to all page</div>
 
 </div>
 
