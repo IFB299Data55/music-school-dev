@@ -16,7 +16,10 @@
           this.UserService = UserService;
 
           this.instruments = [];
-          this.empty = false;
+          this.hiredInstruments = [];
+          this.requestedInstruments = [];
+          this.rejectedInstruments = [];
+          this.previousInstruments = [];
           this.error = false;
 
           this.GetInstruments = function() {
@@ -24,8 +27,17 @@
               .then(response => {
                 if (!response.error) {
                   this.instruments = response.instruments;
-                  if (this.instruments.length == 0) {
-                    this.empty = true;
+                  for (var i = 0; i < this.instruments.length; i++) {
+                    var instrument = this.instruments[i];
+                    if (instrument.returned) {
+                      this.previousInstruments.push(instrument);
+                    } else if (instrument.statusid == 1) {
+                      this.requestedInstruments.push(instrument);
+                    } else if (instrument.statusid == 2) {
+                      this.hiredInstruments.push(instrument);
+                    } else {
+                      this.rejectedInstruments.push(instrument);
+                    }
                   }
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
