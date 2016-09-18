@@ -12,7 +12,7 @@
         , app.ViewAllInstrumentsComponent
         , app.ViewIndividualInstrumentComponent
       ],
-      providers: [ app.ReturnInstrumentsService ],
+      providers: [ app.ReturnInstrumentsService, app.UserService, app.CookieService ],
       bootstrap: [ app.ReturnInstrumentsRouterComponent ]
     })
     .Class({

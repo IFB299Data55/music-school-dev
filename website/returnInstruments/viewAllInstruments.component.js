@@ -9,9 +9,11 @@
       constructor: [
         app.ReturnInstrumentsService,
         ng.router.Router,
-	      function(ReturnInstrumentsService, Router) {
+        app.UserService,
+	      function(ReturnInstrumentsService, Router, UserService) {
           this.ReturnInstrumentsService = ReturnInstrumentsService;
           this.Router = Router;
+          this.UserService = UserService;
           
           this.instruments = [];
           this.filteredInstruments = [];
@@ -47,6 +49,14 @@
               if (name.match(filterString)) {
                 this.filteredInstruments.push(instrument);
               }
+            }
+          }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type == 'manager') {
+              return true;
+            } else {
+              return false;
             }
           }
 

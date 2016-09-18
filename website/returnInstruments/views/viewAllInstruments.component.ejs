@@ -1,7 +1,8 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 
+<div *ngIf="PageIsAvailable()">
 
-      <div class="flexsearch">
+  <div class="flexsearch">
 		<div class="flexsearch--wrapper">
 			<form class="flexsearch--form" action="#" method="post">
 				<div class="flexsearch--input-wrapper">
@@ -10,13 +11,12 @@
 				</div>
 			</form>
 		</div>
-      </div>
+  </div>
    
         
-<div class="column">
-    
-    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" id="myTable" data-filter="true" data-input="#filterTable-input">
-        
+  <div class="column"> 
+    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" 
+            id="myTable" data-filter="true" data-input="#filterTable-input"> 
       <thead>
         <th class="left aligned">Student Name</th>
         <th>Instrument Model</th>
@@ -33,5 +33,7 @@
       </tbody>
     </table>
   </div>
-   
-    
+
+</div>
+
+<p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>
