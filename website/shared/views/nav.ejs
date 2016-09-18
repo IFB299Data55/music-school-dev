@@ -49,6 +49,9 @@
 				<li *ngIf="user.type == 'manager'"><a href="/register/teacher/">
 					Register
 				</a></li>
+				<li *ngIf="user.type == 'teacher'"><a href="/teacher/studentApplications/">
+					View Student Applications
+				</a></li>
 		    </ul>
 	  	</li>
 		<li class="dropdown" *ngIf="!(user.type == 'teacher' || user.type == 'student')">
@@ -63,8 +66,8 @@
 					Add New Instrument
 				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/instrument/return/">
-		        	Return Hired Instruments
-		        </a></li>
+					Return Hired Instruments
+				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/teachers/">
 		        	View Teacher Accounts
 		        </a></li>
