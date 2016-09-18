@@ -1,0 +1,41 @@
+<div class="button22 clickable" (click)="GoBack()">Back Button</div>
+<p *ngIf="error" class="errorMessage">{{error}}</p>
+
+<div class="ui cards">
+  <div class="card" *ngIf="student">
+    <div class="content">
+      <div class="header">
+          <b>{{student.firstname}} {{student.lastname}}</b>
+      </div>
+      <div class="meta">
+        Age: {{student.dob}}
+          <br>
+        Instrument: {{student.instrument}}
+          <br>
+        Grade: {{student.grade}}
+          <br>
+        Start Time: {{student.starttime}}
+          <br>
+        End Time: {{student.endtime}}
+          <br>
+        Term: {{student.term}}
+          <br>
+        Year: {{student.year}}
+          <br>
+        Fee: ${{student.fee}}
+          <br>
+        Notes: {{student.notes}}
+      </div>
+    </div>
+    <div class="extra content">
+      <div class="ui two buttons">
+        
+        <form action="">   
+         <button class="button22" (click)="AcceptStudent(student.requestid)">Approve</button>
+         <button class="button21" (click)="RejectStudent(student.requestid)">Decline</button>
+        </form>
+          
+      </div>
+    </div>
+  </div>
+</div>

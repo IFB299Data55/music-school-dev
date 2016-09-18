@@ -3,60 +3,25 @@
 </div>
 
 <div class="mainBody">
+	<p *ngIf="error">{{error}}</p>
 	<p>
 		We here at The School of Music cater to people of all skill levels and ages. Whether you’re a beginner or an experienced musician we would love to have you here at The School of Music.
 	</p>
 	<p>
 		For your first month at The School of Music one-on-one lessons will be held weekly for the duration of an hour. Once you and your music teacher are comfortable together we can offer you up to 3 lessons a week (dependent on teacher availability).
 	</p>
-	<h3>Instruments We Cater For:</h3>
-	<ul>
-	<li>Drums</li>
-	<li>Voilins</li>
-	<li>Percussion</li>
-	<li>Flute</li>
-	<li>Saxophone</li>
-	<li>Clarinet</li>
-	<li>Guitar</li>
-	<li>Piano</li>
-	<li>Bass</li>
-	</ul>
+	<h3>Instruments & Lesson Fees:</h3>
 	<p>
 		We can also cater to those wishing to play ethnic instruments, please make an inquiry with the music school for more information.
 	</p>
-	<h3>Lesson Fees:</h3>
 	<table>
 	<tr>
 		  <th>Instrument</th>
 		  <th>Fee</th>
 	</tr>
-	<tr>
-		  <td>Drums</td>
-		  <td>$37</td>
-	</tr>
-	<tr>
-		  <td>Voilins</td>
-		  <td>$37</td>
-	</tr>
-	<tr>
-		  <td>Percussion</td>
-		  <td>$36</td>
-	</tr>
-	<tr>
-		  <td>Woodwind</td>
-		  <td>$36</td>
-	</tr>
-	<tr>
-		  <td>Guitar</td>
-		  <td>$39</td>
-	</tr>
-	<tr>
-		  <td>Piano</td>
-		  <td>$40</td>
-	</tr>
-	<tr>
-		  <td>Bass</td>
-		  <td>$39</td>
+	<tr *ngFor="let instrument of instruments">
+		  <td>{{instrument.name}}</td>
+		  <td>${{instrument.fee}}</td>
 	</tr>
 	</table>
 	<h3>Teachers:</h3>

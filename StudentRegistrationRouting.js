@@ -1,13 +1,18 @@
+/* Routing For Student Registration */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/register/student/', function(request, response) {
 	  response.render('studentRegistration/index');
 	});
 
+	/* Register Student */
 	app.post('/register/student/', function(request, response) {
-		//DATABASE CONNECTION
+		//Get Post Data
 		var student = request.body;
+
+		/* Setup error array */
 		var isValid = {
 			firstName:true,
 			middleName:true,
@@ -19,11 +24,14 @@ exports.include = (app) => {
 			password:true,
 			errorMessage: ''
 		};
+
+		/* Setup response */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation to stop attacks */
 		if (validateAll(student, isValid)) {
 			valid.status = true;
 		} else {
@@ -33,27 +41,65 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			/* Hash Password */
 			var d = new Date();
 			var n = d.getTime();
 
-			var saltedPassword = student.password + n;
-			var hashedPassword = saltedPassword.hashCode();
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(student_id + 1) FROM music_school.students), 1)), '" 
-									+ student.firstName + "', '"
-									+ student.middleName + "', '"
-									+ student.lastName + "', "
-									+ "to_date('"+student.birthday+"', 'DD MM YYYY'), '"
-									+ student.address + "', '"
-									+ student.phoneNumber + "', '"
-									+ student.email + "', "
-									+ "(SELECT MAX(password_id) FROM music_school.passwords), "
-									+ "FALSE, "
-									+ "to_date('" + d.toDateString() + "', 'Dy Mon dd YYYY')";
-			var checkQuery = "SELECT 1 FROM music_school.students WHERE email = '"+student.email+"';";
-			var passQuery = "INSERT INTO music_school.passwords(password_id, salt, password) VALUES((SELECT MAX(password_id+1) FROM music_school.passwords), " + n + ", " + hashedPassword + ");";
-			var regQuery = "INSERT INTO music_school.students(student_id, first_name, middle_name, surname, dob, address, phone_no, email, password_id, is_dormant, date_registered) SELECT "+insertValuesString
-							+ " WHERE NOT EXISTS(SELECT 1 FROM music_school.students WHERE email = '" + student.email + "');";
-			app.client.query(checkQuery).on('row', function(row) {
+			var saltedPassword = student.password + "student".HashCode() + n;
+			var hashedPassword = saltedPassword.HashCode();
+
+			/* Setup Queries */
+			var checkEmail = {
+				text: "SELECT 1 FROM music_school.students WHERE email = $1",
+				name: "check-student-email",
+				values: [student.email]
+			};
+
+			var passwordCols = "salt, password"
+			var newStudentPasswordQuery = {
+				text: "INSERT INTO music_school.passwords("+passwordCols+") VALUES("
+					 	+"$1,$2"
+					 +")",
+				name: "create-new-student-password",
+				values: [	
+					  n
+					, hashedPassword
+				]
+			};
+
+			var studentCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_dormant, date_registered"
+			var newStudentQuery = {
+				text: "INSERT INTO music_school.students("+studentCols+") VALUES("
+						+"$1,$2,$3,"
+						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
+						+"(SELECT MAX(id) FROM music_school.passwords),$8,"
+						+"to_date($9, 'Dy Mon DD YYYY')"
+					 +")",
+				name: "create-new-student",
+				values: [
+					  student.firstName
+					, student.middleName
+					, student.lastName
+					, student.birthday
+					, student.address
+					, student.phoneNumber
+					, student.email
+					,"FALSE"
+					,d.toDateString()
+				]
+			};
+
+			/* Run Queries */
+			app.client.query(checkEmail)//Run Query One
+			.on('error', function() {
+				/* Error Handling */
+				console.log("Errors in StndtRegRting 1: ", err);
+				valid.status = false;
+				isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+				response.send(valid);
+			})
+			.on('row', function(row) {
+				/* Email already exists */
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
@@ -61,38 +107,35 @@ exports.include = (app) => {
 				}
 			})
 			.on('end', function(){
-				app.client.query(passQuery).on('error', function(err) {
+				app.client.query(newStudentPasswordQuery) //Run Query 2
+				.on('error', function(err) {
+					/* Error Handling */
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 						response.send(valid);
 					}
+					console.log("Errors in StndtRegRting 2: ", err);
 				})
 				.on('end', function() {
-					app.client.query(regQuery).on('error', function(err) {
+					app.client.query(newStudentQuery) //Run Query 3
+					.on('error', function(err) {
+						/* Error Handling */
 						if (!response.headersSent) {
 							valid.status = false;
 							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 							response.send(valid);
 						}
+						console.log("Errors in StndtRegRting 3: ", err);
 					})
 					.on('end', function() {
+						// Registration Successful
 						if (!response.headersSent) {
 							response.send(valid);
 						}
 					});
 				});
 			});
-
-			
-
-			
-
-			
-
-			
-			//response.send('Student Registered');
-			//response.sendStatus('500');
 		}
 	});
 
@@ -101,7 +144,8 @@ exports.include = (app) => {
 	});
 }
 
-String.prototype.hashCode = function() {
+/* Hashing Function */
+String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
   for (i = 0, len = this.length; i < len; i++) {
@@ -112,6 +156,7 @@ String.prototype.hashCode = function() {
   return hash;
 };
 
+/* Validation Functions */
 function validateAll(student, isValid) {
 	if (validateFirstName(student.firstName, isValid) &&
 		validateMiddleName(student.middleName, isValid) &&

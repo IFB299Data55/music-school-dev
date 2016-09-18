@@ -12,7 +12,7 @@
         , app.NewInstrumentFormComponent
         , app.NewInstrumentConfirmationComponent
       ],
-      providers: [ app.NewInstrumentService ],
+      providers: [ app.NewInstrumentService, app.UserService, app.CookieService ],
       bootstrap: [ app.NewInstrumentRouterComponent ]
     })
     .Class({

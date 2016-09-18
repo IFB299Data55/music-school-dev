@@ -1,29 +1,35 @@
+/* Routing for new instruments Page */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/management/instrument/new', function(request, response) {
 	  response.render('newInstrument/index');
 	});
 
+	/* Register Instrument */
 	app.post('/management/instrument/new', function(request, response) {
-		//DATABASE CONNECTION
 		var instrument = request.body;
-		console.log(instrument);
+		/* Setup error Array */
 		var isValid = {
 			type:true,
 			condition:true,
 			serialNumber:true,
+			model:true,
 			purchasePrice:true,
 			hireFee:true,
 			purchaseDate:true,
 			description:true,
 			errorMessage: ''
 		};
+
+		/* Setup Response */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation functions */
 		if (validateAll(instrument, isValid)) {
 			valid.status = true;
 		} else {
@@ -32,27 +38,39 @@ exports.include = (app) => {
 			response.send(valid);
 		}
 
+		/* If Valid */
 		if(valid.status) {
-			var columns = "instrument_id, inst_type_id, serial_no, condition, purchase_date, purchase_price, description, hire_fee, is_sold_or_disposed";
-			var insertValuesString = "(SELECT COALESCE((SELECT MAX(instrument_id + 1) FROM music_school.instruments), 1)), '" 
-									+ instrument.type + "', '"
-									+ instrument.serialNumber + "', '"
-									+ instrument.condition + "', "
-									+ "to_date('"+instrument.purchaseDate+"', 'DD MM YYYY'), "
-									+ instrument.purchasePrice.substring(1) + ", '"
-									+ instrument.description + "', "
-									+ instrument.hireFee.substring(1) + ", "
-									+ "FALSE";
-			var regQuery = "INSERT INTO music_school.instruments("+columns+") SELECT "+insertValuesString+";";
+			var instrumentColumns = "inst_type_id, serial_no, condition_id, model, purchase_date, purchase_price, inst_notes, hire_fee, is_sold_or_disposed";
+			var newInstrumentQuery = {
+				text: "INSERT INTO music_school.instruments("+instrumentColumns+") VALUES("
+						+"$1,$2,$3,$4,"+
+						"to_date($5, 'DD MM YYYY'),$6,$7,$8,$9"
+					 +")",
+				name: "create-new-student",
+				values: [
+					  instrument.type
+					, instrument.serialNumber
+					, instrument.condition
+					, instrument.model
+					, instrument.purchaseDate
+					, instrument.purchasePrice.substring(1)
+					, instrument.description
+					, instrument.hireFee.substring(1)
+					,"FALSE"
+				]
+			};
 
-			app.client.query(regQuery).on('error', function(err) {
+			app.client.query(newInstrumentQuery).on('error', function(err) {
+				/* Error Handling */
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 					response.send(valid);
+					console.log('error in NewInstrumentRouting: ', err);
 				}
 			})
 			.on('end', function() {
+				//Insert successful: send response
 				if (!response.headersSent) {
 					response.send(valid);
 				}
@@ -65,6 +83,7 @@ exports.include = (app) => {
 	});
 }
 
+/* Validation Functions */
 function validateAll(instrument, isValid) {
 	if (validateType(instrument.type, isValid) &&
 		validateCondition(instrument.condition, isValid) &&
@@ -98,11 +117,20 @@ function validateCondition(condition, isValid) {
 }
 
 function validateSerialNumber(serialNumber, isValid) {
-	var regexp = new RegExp("^[0-9]+$");
+	var regexp = new RegExp("^[A-Z0-9]+$");
 	if (regexp.test(serialNumber)) {
 		return true;
 	}
 	isValid.serialNumber = false;
+	return false;
+}
+
+function validateModel(model, isValid) {
+	var regexp = new RegExp("^[A-Za-z0-9 ]+$");
+	if (regexp.test(model)) {
+		return true;
+	}
+	isValid.model = false;
 	return false;
 }
 
