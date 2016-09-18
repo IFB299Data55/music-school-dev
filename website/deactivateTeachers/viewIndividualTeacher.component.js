@@ -10,10 +10,12 @@
 	      app.DeactivateTeachersService,
         ng.router.Router,
         ng.router.ActivatedRoute,
-        function(DeactivateTeachersService, Router, ActivatedRoute) {
+        app.UserService,
+        function(DeactivateTeachersService, Router, ActivatedRoute, UserService) {
           this.DeactivateTeachersService = DeactivateTeachersService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
+          this.UserService = UserService;
           this.error;
           this.teacher = {};
 
@@ -35,6 +37,15 @@
                 console.log(err);
               });
           }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.checkUserType('manager')) {
+              return true;
+            }
+            
+            return false;
+          }
+
         }
       ]
     });

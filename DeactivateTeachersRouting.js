@@ -6,18 +6,23 @@ exports.include = (app) => {
 	});
 
 	app.post('/management/teachers/individual/deactivate/', function(request, response) {
-		var teacherID = request.body.teacherID;
+		var teacherID = request.body.id;
 		var result = {
 			status: true,
 		}
 
 		if (!teacherID) {
-			teacherID = 1;
+			result.status = false;
+			response.send(result);
 		}
 
-		var deactivateQuery = "UPDATE music_school.teachers SET date_terminated = NOW(), is_terminated = TRUE WHERE id = "+teacherID+";";
+		var deactivateQuery = "UPDATE music_school.teachers SET date_terminated = NOW(), is_terminated = TRUE WHERE id = "+teacherID+"; "
+								+"UPDATE music_school.lessons SET accept_date = NULL, request_status_id = 1, teacher_id = NULL WHERE teacher_id = "+teacherID+" AND request_status_id = 2; "
+								+"INSERT INTO music_school.lesson_rejections(lesson_id, teacher_id) SELECT id, teacher_id FROM music_school.lessons WHERE teacher_id="+teacherID+" AND request_status_id=1; "
+								+"UPDATE music_school.lessons SET request_status_id = 3 WHERE teacher_id = "+teacherID+" AND request_status_id = 1; ";
 
 		app.client.query(deactivateQuery).on('error', function(err) {
+			console.log(err);
 			result.status = false;
 			response.send(result);
 		})
@@ -28,7 +33,7 @@ exports.include = (app) => {
 		})
 	});
 
-	app.get('/management/teachers/individual/', function(request, response) {
+	app.get('/management/teachers/getIndividualTeacher/', function(request, response) {
 		var teacherID = request.query.id;
 		var teacher = [];
 		var result = {
@@ -59,7 +64,7 @@ exports.include = (app) => {
 		});
 	});
 
-	app.get('/management/teachers/all/', function(request, response) {
+	app.get('/management/teachers/getAllTeachers/', function(request, response) {
 		var teachersResult = [];
 		var result = {
 			status: true,

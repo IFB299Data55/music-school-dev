@@ -6,12 +6,15 @@
         function(http) {
           this.http = http;
           this.deactivateURL = '/management/teachers/individual/deactivate/';
-          this.individualRequestURL = '/management/teachers/individual/';
-          this.requestURL = '/management/teachers/all/';
+          this.individualRequestURL = '/management/teachers/getIndividualTeacher/';
+          this.requestURL = '/management/teachers/getAllTeachers/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.DeactivateTeacher = function(teacherID) {
-            return this.http.post(this.deactivateURL, teacherID, this.headers).toPromise()
+            var params = {
+              id: teacherID
+            };
+            return this.http.post(this.deactivateURL, params, this.headers).toPromise()
             .then(response => {
               var valid = JSON.parse(response._body);
               return Promise.resolve(valid);

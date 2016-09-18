@@ -1,5 +1,7 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 
+<div *ngIf="FormIsAvailable()">
+
    <div class="flexsearch">
 		<div class="flexsearch--wrapper">
 			<form class="flexsearch--form" action="#" method="post">
@@ -28,4 +30,8 @@
           <td>{{teacher.dateemployed}}</td>
         </tr>
     </table>
+
+</div>
+
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>
   

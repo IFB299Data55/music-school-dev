@@ -12,7 +12,6 @@
             this.CookieService.SetCookie('email', email);
             this.CookieService.SetCookie('type', type);
             this.CookieService.SetCookie('validation', validation);
-            this.CookieService.SetCookie('userType', userType);
           }
 
           this.GetCurrentUser = function() {
@@ -32,7 +31,6 @@
             this.CookieService.ClearCookie('email');
             this.CookieService.ClearCookie('type');
             this.CookieService.ClearCookie('validation');
-            this.CookieService.ClearCookie('userType');
           }
 
           this.IsSomeoneLoggedIn = function() {

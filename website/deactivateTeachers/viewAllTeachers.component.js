@@ -9,9 +9,11 @@
       constructor: [
         app.DeactivateTeachersService,
         ng.router.Router,
-	      function(DeactivateTeachersService, Router) {
+        app.UserService,
+	      function(DeactivateTeachersService, Router, UserService) {
           this.DeactivateTeachersService = DeactivateTeachersService;
           this.Router = Router;
+          this.UserService = UserService;
           
           this.teachers = [];
           this.filteredTeachers = [];
@@ -45,6 +47,14 @@
                 this.filteredTeachers.push(teacher);
               }
             }
+          }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.checkUserType('manager')) {
+              return true;
+            }
+            
+            return false;
           }
 
 	      }

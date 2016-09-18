@@ -1,12 +1,18 @@
-<div>
-	<p>Name: {{teacher.firstname}} {{teacher.lastname}}</p>
-	<p>DOB: {{teacher.dob}}</p>
-	<p>Address: {{teacher.address}}</p>
-	<p>Phone: {{teacher.phone}}</p>
-	<p>Email: {{teacher.email}}</p>
-	<p>Date Employed: {{teacher.dateemployed}}</p>
-	<p>Description: {{teacher.description}}</p>
+<div *ngIf="FormIsAvailable()">
+
+	<div>
+		<p>Name: {{teacher.firstname}} {{teacher.lastname}}</p>
+		<p>DOB: {{teacher.dob}}</p>
+		<p>Address: {{teacher.address}}</p>
+		<p>Phone: {{teacher.phone}}</p>
+		<p>Email: {{teacher.email}}</p>
+		<p>Date Employed: {{teacher.dateemployed}}</p>
+		<p>Description: {{teacher.description}}</p>
+	</div>
+
+	<div (click)="DeactivateTeacher(teacher.id)">Deactivate</div>
+	<div (click)="GoBack()">Go Back</div>
+
 </div>
 
-<div (click)="DeactivateTeacher(teacher.id)">Deactivate</div>
-<div (click)="GoBack()">Go Back</div>
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>

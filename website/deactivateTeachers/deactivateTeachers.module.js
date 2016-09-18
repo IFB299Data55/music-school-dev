@@ -12,7 +12,7 @@
         , app.ViewAllTeachersComponent
         , app.ViewIndividualTeacherComponent
       ],
-      providers: [ app.DeactivateTeachersService ],
+      providers: [ app.DeactivateTeachersService, app.UserService, app.CookieService ],
       bootstrap: [ app.DeactivateTeachersRouterComponent ]
     })
     .Class({
