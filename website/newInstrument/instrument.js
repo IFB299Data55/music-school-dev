@@ -1,4 +1,4 @@
-function Instrument(type = '', condition = '', serialNumber = '', purchasePrice = '', hireFee = '', purchaseDate = '', description = '') {
+function Instrument(type = '', condition = '', serialNumber = '', purchasePrice = '', hireFee = '', purchaseDate = '', description = '', newInstType = '') {
   this.type = type;
   this.condition = condition;
   this.serialNumber = serialNumber;
@@ -6,4 +6,5 @@ function Instrument(type = '', condition = '', serialNumber = '', purchasePrice 
   this.hireFee = hireFee;
   this.purchaseDate = purchaseDate;
   this.description = description;
+  this.newInstType = newInstType;
 }

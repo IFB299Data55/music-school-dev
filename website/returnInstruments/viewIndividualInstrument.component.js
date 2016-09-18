@@ -8,12 +8,14 @@
     .Class({
       constructor: [
 	      app.ReturnInstrumentsService,
+        app.UserService,
         ng.router.Router,
         ng.router.ActivatedRoute,
-        function(ReturnInstrumentsService, Router, ActivatedRoute) {
+        function(ReturnInstrumentsService, Router, ActivatedRoute, UserService) {
           this.ReturnInstrumentsService = ReturnInstrumentsService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
+          this.UserService = UserService;
           this.error;
           this.instrument = {};
 
@@ -32,9 +34,17 @@
                 }
               })
               .catch(err => {
-                console.log(err);
               });
           }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type == 'manager') {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
         }
       ]
     });

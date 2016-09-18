@@ -33,6 +33,9 @@
 				<li *ngIf="user.type == 'student'"><a href="/lessons/application/">
 					Apply For Lessons
 				</a></li>
+				<li *ngIf="user.type == 'student'"><a href="/student/instruments/borrowed/">
+					View Borrowed Instruments
+				</a></li>
 			</ul>
 		</li>
 	  	<li class="dropdown" *ngIf="!(user.type == 'student')">
@@ -46,6 +49,9 @@
 				<li *ngIf="user.type == 'manager'"><a href="/register/teacher/">
 					Register
 				</a></li>
+				<li *ngIf="user.type == 'teacher'"><a href="/teacher/studentApplications/">
+					View Student Applications
+				</a></li>
 		    </ul>
 	  	</li>
 		<li class="dropdown" *ngIf="!(user.type == 'teacher' || user.type == 'student')">
@@ -58,6 +64,9 @@
 				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/instrument/new/">
 					Add New Instrument
+				</a></li>
+				<li *ngIf="user.type == 'manager'"><a href="/management/instrument/return/">
+					Return Hired Instruments
 				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/teachers/">
 		        	View Teacher Accounts
