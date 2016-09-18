@@ -59,6 +59,7 @@ exports.include = (app) => {
 					, 30
 				]
 			};
+
 			var experienceColumns = "student_id, inst_type_id, grade";
 			var newExperienceQuery = {
 				text: "INSERT INTO music_school.student_experience("+experienceColumns+") VALUES("
@@ -72,26 +73,50 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(newLessonQuery).on('error', function(err) {
+			var instrumentHireColumns = "instrument_id, student_id, request_date, hire_status_id";
+			var instrumentHireQuery = {
+				text: "INSERT INTO music_school.instrument_hire("+instrumentHireColumns+") VALUES("
+					+"$1,$2,now(),$3"
+				+")",
+				name: 'instrument-hire-request',
+				values: [
+					  lesson.instrumentId
+					, lesson.studentId
+					, 1
+				]
+			};
+
+			app.client.query(newLessonQuery)
+			.on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-					console.log("Errors Happened in StdntLsnAppRting: ", err);
+					console.log("Errors Happened in StdntLsnAppRting 1: ", err);
 					response.send(valid);
 				}
 			}).on('end', function() {
-				app.client.query(newExperienceQuery).on('error', function(err) {
+				app.client.query(newExperienceQuery)
+				.on('error', function(err) {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-						console.log("Errors Happened in StdntLsnAppRting: ", err);
+						console.log("Errors Happened in StdntLsnAppRting 2: ", err);
 						response.send(valid);
 					}
 				}).on('end', function() {
-					
-					if (!response.headersSent) {
-						response.send(valid);
-					}
+					app.client.query(instrumentHireQuery)
+					.on('error', function(err) {
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+							console.log("Errors Happened in StdntLsnAppRting 3: ", err);
+							response.send(valid);
+						}
+					}).on('end', function() {
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					});
 				});
 			});
 		} else if (!response.headersSent) {
