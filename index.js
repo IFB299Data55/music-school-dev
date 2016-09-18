@@ -36,6 +36,9 @@ require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);
 require('./NewInstrumentRouting.js').include(app);
+require('./DeactivateTeachersRouting.js').include(app);
+require('./ReturnInstrumentsRouting.js').include(app);
+require('./AcceptStudentsRouting.js').include(app);
 
 /* Setup 404 page */
 app.use(function(request, response) {

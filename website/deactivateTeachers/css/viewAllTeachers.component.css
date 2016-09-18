@@ -1,0 +1,188 @@
+
+.errorMessage {
+    color: rgb(200,0,0);
+}
+
+
+.flexsearch--wrapper {
+	height: auto;
+	width: auto;
+	overflow: hidden;
+	background: transparent;
+	margin: 0;
+    margin-left: -70px;
+    margin-right: 90px;
+	position: static;
+}
+	
+.flexsearch--form {
+	overflow: hidden;
+	position: relative;
+}
+	
+.flexsearch--input-wrapper {
+	padding: 0 66px 8px 0; 
+	overflow: hidden;
+}
+
+#myInput {
+  width: 100%;
+}
+
+
+.flexsearch {
+  padding: 0 25px 0 200px; 
+}
+
+#myInput {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 40px;
+  padding-left: 20px;
+  border-color: #888;
+  border-radius: 35px; 
+  border-style: solid;
+  border-width: 2px;
+  margin-top: 15px;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 18px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+	
+
+#myInput:focus {
+  outline: none;
+  border-color: #333;
+}
+
+#myInput:focus.flexsearch--submit {
+ 	color: #333; 
+}
+
+.flexsearch--submit:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+	color: #888;  
+}
+
+input:-moz-placeholder {
+  color: #888
+}
+
+/******************************************/
+
+table {
+  border-collapse: separate;
+  border-spacing: 4px;
+  width: 80%;
+  margin-left: 100px;
+  
+  
+}
+table,
+th,
+td {
+  border: none;
+  text-align: center;
+  
+}
+th,
+td {
+  padding: 10px 15px;
+  text-align: center;
+  border: 1px solid rgba(34, 36, 38, 0.1);
+}
+
+
+.background1 {
+    background-color: #F7F7F7;
+}
+
+.background2 {
+    background-color: #CCCCCC;
+
+}
+
+th {
+    background-color: #8A8A8A;
+    color: white;
+}
+
+
+/********************************************/
+
+.ui.button {
+  cursor: pointer;
+  display: inline-block;
+  min-height: 1em;
+  outline: none;
+  border: none;
+  vertical-align: baseline;
+  background: #E0E1E2 none;
+  color: rgba(0, 0, 0, 0.6);
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  margin: 0em 0.25em 0em 0em;
+  padding: 0.78571429em 1.5em 0.78571429em;
+  text-transform: none;
+  text-shadow: none;
+  font-weight: bold;
+  line-height: 1em;
+  font-style: normal;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.28571429rem;
+  box-shadow: 0px 0px 0px 1px transparent inset, 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+  transition: opacity 0.1s ease, background-color 0.1s ease, color 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+  will-change: '';
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ui.red.button {
+  background-color: #DB2828;
+  color: #FFFFFF;
+  text-shadow: none;
+  background-image: none;
+  
+  
+
+}
+.ui.red.button {
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+.ui.red.buttons .button:hover,
+.ui.red.button:hover {
+  background-color: #d01919;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+.ui.red.buttons .button:focus,
+.ui.red.button:focus {
+  background-color: #ca1010;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+.ui.red.buttons .button:active,
+.ui.red.button:active {
+  background-color: #b21e1e;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+.ui.red.buttons .active.button,
+.ui.red.buttons .active.button:active,
+.ui.red.active.button,
+.ui.red.button .active.button:active {
+  background-color: #d41515;
+  color: #FFFFFF;
+  text-shadow: none;
+}

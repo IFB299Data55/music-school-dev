@@ -1,0 +1,18 @@
+<p *ngIf="error" class="errorMessage">{{error}}</p>
+
+<div class="ui cards">
+  <div class="card" *ngFor="let student of students">
+    <div class="content clickable" (click)="SelectStudentRequest(student.requestid)">
+      <div class="header">
+          <b>{{student.firstname}} {{student.lastname}}</b>
+      </div>
+      <div class="meta">
+        Age: {{student.dob}}
+          <br>
+        Instrument: {{student.instrument}}
+          <br>
+        Grade: {{student.grade}}
+      </div>
+    </div>
+  </div>
+</div>
