@@ -45,35 +45,41 @@ exports.include = (app) => {
 			instrument: instrument
 		}
 
-		var getQuery = "SELECT ih.id as hireid, s.first_name as firstname, s.last_name as lastname, "
-						+"s.phone_no as phone, s.email as email, TO_CHAR(ih.hire_date,'YYYY-MM-DD') as hiredate, "
-						+"it.name as instrumenttype, i.model as instrumentname, TO_CHAR(ih.due_date,'YYYY-MM-DD') as duedate, "
-						+"i.serial_no as serialnumber, c.condition as condition, TO_CHAR(i.purchase_date,'YYYY-MM-DD') as purchasedate, "
-						+"i.purchase_price as purchaseprice, i.hire_fee as hirefee "
-						+"FROM music_school.instrument_hire ih, music_school.students s, "
-						+"music_school.instrument_types it, music_school.instruments i, music_school.conditions c "
-						+"WHERE ih.student_id = s.id AND ih.instrument_id = i.id "
-						+"AND i.condition_id = c.id "
-						+"AND i.inst_type_id = it.id AND ih.id ="+instrumentID+" "
-						+"AND NOT ih.is_returned AND ih.hire_status_id = 2;";
-
-		app.client.query(getQuery).on('row', function(row) {
-			instrument.push(row);
-		})
-		.on('end', function() {
-			if (!response.headersSent) {
-				if (instrument.length > 0) {
-					response.send(result);
-				} else {
-					result.status = false;
-					response.send(result);
-				}
-			}
-		})
-		.on('error', function(err) {
+		if (!instrumentID) {
 			result.status = false;
 			response.send(result);
-		});
+		} else {
+			var getQuery = "SELECT ih.id as hireid, s.first_name as firstname, s.last_name as lastname, "
+							+"s.phone_no as phone, s.email as email, TO_CHAR(ih.hire_date,'YYYY-MM-DD') as hiredate, "
+							+"it.name as instrumenttype, i.model as instrumentname, TO_CHAR(ih.due_date,'YYYY-MM-DD') as duedate, "
+							+"i.serial_no as serialnumber, c.condition as condition, TO_CHAR(i.purchase_date,'YYYY-MM-DD') as purchasedate, "
+							+"i.purchase_price as purchaseprice, i.hire_fee as hirefee "
+							+"FROM music_school.instrument_hire ih, music_school.students s, "
+							+"music_school.instrument_types it, music_school.instruments i, music_school.conditions c "
+							+"WHERE ih.student_id = s.id AND ih.instrument_id = i.id "
+							+"AND i.condition_id = c.id "
+							+"AND i.inst_type_id = it.id AND ih.id ="+instrumentID+" "
+							+"AND NOT ih.is_returned AND ih.hire_status_id = 2;";
+
+			app.client.query(getQuery).on('row', function(row) {
+				instrument.push(row);
+			})
+			.on('end', function() {
+				if (!response.headersSent) {
+					if (instrument.length > 0) {
+						response.send(result);
+					} else {
+						result.status = false;
+						response.send(result);
+					}
+				}
+			})
+			.on('error', function(err) {
+				result.status = false;
+				response.send(result);
+			});
+		}
+
 	});
 
 	app.post('/management/instruments/individual/return/', function(request, response) {
@@ -84,21 +90,23 @@ exports.include = (app) => {
 		}
 
 		if (!hireID) {
-			hireID = 1;
+			result.status = false;
+			response.send(result);
+		} else {
+			var returnQuery = "UPDATE music_school.instrument_hire SET return_date = NOW(), hire_status_id = 6, is_returned = TRUE WHERE id = "+hireID+";";
+
+			app.client.query(returnQuery).on('error', function(err) {
+				result.status = false;
+				response.send(result);
+			})
+			.on('end', function() {
+				if (!response.headersSent) {
+					response.send(result);
+				}
+			});
 		}
 
 
-		var returnQuery = "UPDATE music_school.instrument_hire SET return_date = NOW(), hire_status_id = 6, is_returned = TRUE WHERE id = "+hireID+";";
-
-		app.client.query(returnQuery).on('error', function(err) {
-			result.status = false;
-			response.send(result);
-		})
-		.on('end', function() {
-			if (!response.headersSent) {
-				response.send(result);
-			}
-		})
 	});
 
 	app.get('/management/instrument/return/*', function(request, response) {

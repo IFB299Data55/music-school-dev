@@ -1,7 +1,8 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 
+<div *ngIf="PageIsAvailable()">
 
-      <div class="flexsearch">
+  <div class="flexsearch">
 		<div class="flexsearch--wrapper">
 			<form class="flexsearch--form" action="#" method="post">
 				<div class="flexsearch--input-wrapper">
@@ -10,13 +11,11 @@
 				</div>
 			</form>
 		</div>
-      </div>
+  </div>
    
         
-<div class="column">
-    
-    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" id="myTable" data-filter="true" data-input="#filterTable-input">
-        
+    <table class="ui right aligned celled table" data-role="table" data-mode="columntoggle" class="ui-responsive ui-shadow" 
+            id="myTable" data-filter="true" data-input="#filterTable-input"> 
       <thead>
         <th class="left aligned">Student Name</th>
         <th>Instrument Model</th>
@@ -24,7 +23,7 @@
         <th>Due Date</th>
       </thead>
       <tbody>
-        <tr class="positive" *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
+        <tr *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
           <td class="left aligned">{{instrument.firstname}} {{instrument.lastname}}</td>
           <td>{{instrument.instrumentname}}</td>
           <td>{{instrument.instrumenttype}}</td>
@@ -32,6 +31,7 @@
         </tr>
       </tbody>
     </table>
-  </div>
-   
-    
+
+</div>
+
+<p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>
