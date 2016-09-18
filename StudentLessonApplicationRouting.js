@@ -1,14 +1,18 @@
+/* Routing for Student Lesson Applications */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/lessons/application/', function(request, response) {
 	  response.render('lessonApplication/index');
 	});
 
+	/* Register Lesson */
 	app.post('/lessons/application/', function(request, response) {
 		validateInstId = false;
 		var lesson = request.body;
 
+		/* Setup error Array */
 		var isValid = {
 			instrumentType: true,
             hireType: true,
@@ -20,11 +24,14 @@ exports.include = (app) => {
             endTime: true,
             errorMessage:''
 		};
+
+		/* Setup response frame */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation */
 		if (validateAll(lesson, isValid)) {
 			valid.status = true;
 			if(!validateInstId) lesson.instrumentId = '';
@@ -34,13 +41,15 @@ exports.include = (app) => {
 			response.send(valid);
 		}
 
+		/* If is valid */
 		if(valid.status) {
+			/* Convert inputs into Database structure */
 			var d = new Date();
 
 			var databaseStartTimeString = TurnIntoDBTime(lesson.startTime);
 			var databaseEndTimeString = TurnIntoDBTime(lesson.endTime);
 
-			
+			/* Setup queries */
 			var lessonColumns = "student_id, inst_type_id, " + /*teacher_id, + */"request_date, request_status_id, lesson_start_time, lesson_end_time, lesson_day, lesson_year, lesson_term, lesson_fee";
 			var newLessonQuery = {
 				text: "INSERT INTO music_school.lessons("+lessonColumns+") VALUES("
@@ -59,6 +68,7 @@ exports.include = (app) => {
 					, 30
 				]
 			};
+
 			var experienceColumns = "student_id, inst_type_id, grade";
 			var newExperienceQuery = {
 				text: "INSERT INTO music_school.student_experience("+experienceColumns+") VALUES("
@@ -72,30 +82,60 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(newLessonQuery).on('error', function(err) {
+			var instrumentHireColumns = "instrument_id, student_id, request_date, hire_status_id";
+			var instrumentHireQuery = {
+				text: "INSERT INTO music_school.instrument_hire("+instrumentHireColumns+") VALUES("
+					+"$1,$2,now(),$3"
+				+")",
+				name: 'instrument-hire-request',
+				values: [
+					  lesson.instrumentId
+					, lesson.studentId
+					, 1
+				]
+			};
+
+			/* Run queries */
+			app.client.query(newLessonQuery) //Run First Query
+			.on('error', function(err) {
+				/* Error Handling */
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-					console.log("Errors Happened in StdntLsnAppRting: ", err);
+					console.log("Errors Happened in StdntLsnAppRting 1: ", err);
 					response.send(valid);
 				}
 			}).on('end', function() {
-				app.client.query(newExperienceQuery).on('error', function(err) {
+				app.client.query(newExperienceQuery) //Run Second Query
+				.on('error', function(err) {
+					/* Error Handling */
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-						console.log("Errors Happened in StdntLsnAppRting: ", err);
+						console.log("Errors Happened in StdntLsnAppRting 2: ", err);
 						response.send(valid);
 					}
 				}).on('end', function() {
-					
-					if (!response.headersSent) {
-						response.send(valid);
-					}
+					app.client.query(instrumentHireQuery) //Run Third Query
+					.on('error', function(err) {
+						/* Error Handling */
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+							console.log("Errors Happened in StdntLsnAppRting 3: ", err);
+							response.send(valid);
+						}
+					}).on('end', function() {
+						/* All queries ran: lesson registered */
+						if (!response.headersSent) {
+							response.send(valid);
+						}
+					});
 				});
 			});
 		} else if (!response.headersSent) {
-			console.log("Invalid data in StdntLsnAppRting:", request.body);
+			/* Error Handling */
+			console.log("Invalid data in StdntLsnAppRting 4:", request.body);
 			response.send(valid);
 		}
 	});
@@ -105,6 +145,7 @@ exports.include = (app) => {
 	});
 }
 
+/* Validation Functions */
 var validateInstId = false;
 
 function TurnIntoDBTime(startTime) {
