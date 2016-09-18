@@ -9,9 +9,11 @@
       constructor: [
         app.AcceptStudentsService,
         ng.router.Router,
-	      function(AcceptStudentsService, Router) {
+        app.UserService,
+	      function(AcceptStudentsService, Router, UserService) {
           this.AcceptStudentsService = AcceptStudentsService;
           this.Router = Router;
+          this.UserService = UserService;
           
           this.students = [];
 
@@ -51,6 +53,15 @@
                 this.error = 'An error has occured. Please try again later.';
               });
           }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type = 'teacher') {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
 	      }
       ]
     });

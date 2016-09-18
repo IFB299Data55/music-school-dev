@@ -11,10 +11,12 @@
     	  app.AcceptStudentsService,
         ng.router.Router,
         ng.router.ActivatedRoute,
-        function(AcceptStudentsService, Router, ActivatedRoute) {
+        app.UserService,
+        function(AcceptStudentsService, Router, ActivatedRoute, UserService) {
           this.AcceptStudentsService = AcceptStudentsService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
+          this.UserService = UserService;
           this.error;
           this.student = {};
 
@@ -45,6 +47,15 @@
                 }
               });
           }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type = 'teacher') {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
 	      }
       ]
     });
