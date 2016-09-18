@@ -1,14 +1,14 @@
 (function(app) {
-  app.LoginAppModule =
+  app.ManagerLoginAppModule =
     ng.core.NgModule({
       imports: [ 
 	      ng.platformBrowser.BrowserModule
       , ng.forms.FormsModule
       , ng.http.HttpModule
       ],
-      declarations: [ app.LoginComponent, app.LoggedInComponent ],
+      declarations: [ app.ManagerLoginComponent ],
       providers: [ app.LoginService, app.CookieService, app.UserService ],
-      bootstrap: [ app.LoginComponent ]
+      bootstrap: [ app.ManagerLoginComponent ]
     })
     .Class({
       constructor: function() {}

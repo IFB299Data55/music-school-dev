@@ -1,39 +1,31 @@
 (function(app) {
-  app.LoginComponent =
+  app.ManagerLoginComponent =
     ng.core.Component({
-      selector: 'login-app',
-      templateUrl: '/shared/views/loginForm.ejs'
+      selector: 'manager-login-app',
+      templateUrl: localPath+'views/loginForm.ejs',
+      styleUrls: ['../..'+localPath+'css/loginForm.css']
     })
     .Class({
       constructor: [
-        app.CookieService,
         app.LoginService,
-        function(CookieService, LoginService) {
-          this.CookieService = CookieService;
+        function(LoginService) {
           this.LoginService = LoginService;
+          this.title = "Manager Login";
           this.loggedIn = false;
           this.loggingIn = false;
-          this.showForm = false;
 
           this.user = {
             email: '',
             password: ''
           };
 
-          this.ShowForm = function() {
-            this.showForm = true;
-          }
-
           this.Login = function() {
             this.loggingIn = true;
 
-            this.LoginService.AttemptLogin(this.user)
+            this.LoginService.AttemptLogin(this.user, 'manager')
             .then(response => {
               if(response.valid != 'invalid') {
-                this.loggedIn = true;
-                this.loggingIn = false;
-                this.showForm = false;
-                this.LoginService.Login(response);
+                this.LoginService.Login(response.user);
               } else {
                 this.loggingIn = false;
                 this.error = response.error;
@@ -43,7 +35,7 @@
           }
 
           this.CheckLoggedIn = function() {
-            if(this.CookieService.CookieExists('email')) {
+            if(this.LoginService.IsSomeoneLoggedIn()) {
               this.loggedIn = true;
             } else {
               this.loggedIn = false;
@@ -57,7 +49,7 @@
       ]
     });
 
-  app.LoginComponent.prototype.ngOnInit = function() {
+  app.ManagerLoginComponent.prototype.ngOnInit = function() {
     this.CheckLoggedIn();
   };
 })(window.app || (window.app = {}));
