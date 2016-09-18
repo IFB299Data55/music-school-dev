@@ -1,0 +1,45 @@
+<div class="mainHeader">
+	{{title}}
+</div>
+
+<div class="mainBody">
+
+  <p *ngIf="error">{{error}}</p>
+
+  <div *ngIf="PageIsAvailable()">
+
+    <p *ngIf="empty">No borrowed instruments to display.</p>
+
+    <div class="ui cards">
+      <div class="card" *ngFor="let instrument of instruments">
+        <div class="content">
+          <div class="header">
+            <b>{{instrument.instrumentname}}</b>
+          </div>
+          <div class="meta">
+            Serial Number: {{instrument.serialnumber}}
+              <br>
+            Hire Fee: ${{instrument.hirefee}}
+              <br>
+            Condition: {{instrument.condition}}
+              <br>
+            Date: {{instrument.duedate}}
+              <br>
+            Hire Status: {{instrument.status}}
+          </div>
+        </div>
+        <div class="extra content" *ngIf="instrument.notes">
+          <div class="description">
+            {{instrument.notes}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>
+
+</div>
+
+        

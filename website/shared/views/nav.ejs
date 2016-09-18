@@ -33,6 +33,9 @@
 				<li *ngIf="user.type == 'student'"><a href="/lessons/application/">
 					Apply For Lessons
 				</a></li>
+				<li *ngIf="user.type == 'student'"><a href="/student/instruments/borrowed/">
+					View Borrowed Instruments
+				</a></li>
 			</ul>
 		</li>
 	  	<li class="dropdown" *ngIf="!(user.type == 'student')">
