@@ -1,3 +1,4 @@
+/* Routing For Database Functions */
 exports.include = (app) => {
 	require('../database.js');
 
@@ -18,7 +19,9 @@ exports.include = (app) => {
 		else response.send('Available');
 	});
 
+	/* Gets all Instrument Types */
 	app.get('/database/getInstrumentTypes', function(request, response){
+		//setup response frame
 		var res = {
 			valid: true,
 			instrumentTypes: [],
@@ -31,6 +34,7 @@ exports.include = (app) => {
 		};
 
 		app.client.query(getInstrumentTypesQuery).on('error', function(err) {
+			/* Error Handling */
 			if (!response.headersSent) {
 				res.valid = false;
 				res.errorMessage = 'An error has occured. Please try again later or contact an administrator';
@@ -38,16 +42,20 @@ exports.include = (app) => {
 				response.send(res);
 			}
 		}).on('row', function(row) {
+			//Add instrument types to array
 			res.instrumentTypes.push(row);
 		})
 		.on('end', function() {
+			//return response
 			if (!response.headersSent) {
 				response.send(res);
 			}
 		});
 	});
 
+	/* Gets All Conditions */
 	app.get('/database/getConditions', function(request, response) {
+		//setup response frame
 		var res = {
 			valid: true,
 			conditions: [],
@@ -60,6 +68,7 @@ exports.include = (app) => {
 		};
 
 		app.client.query(getInstrumentTypesQuery).on('error', function(err) {
+			/* Error Handling */
 			if (!response.headersSent) {
 				res.valid = false;
 				res.errorMessage = 'An error has occured. Please try again later or contact an administrator';
@@ -67,24 +76,29 @@ exports.include = (app) => {
 				response.send(res);
 			}
 		}).on('row', function(row) {
+			//add conditions to array
 			res.conditions.push(row);
 		})
 		.on('end', function() {
+			//return response
 			if (!response.headersSent) {
 				response.send(res);
 			}
 		});
 	});
 
+	/* Gets all Instruments of particular instrument Type */
 	app.get('/database/getInstruments', function(request, response){
-		var instrumentId = request.query.id;
+		var instrumentTypeId = request.query.id;
+		//setup response frame
 		var res = {
 			valid: false,
 			instruments: [],
 			error: ''
 		};
 
-		res.valid = validateGeneral(instrumentId);
+		//Validate param (stop Injection attacks)
+		res.valid = validateGeneral(instrumentTypeId);
 		
 		if(res.valid) {
 			var getInstrumentsQuery = {
@@ -93,12 +107,11 @@ exports.include = (app) => {
 					 +"WHERE i.condition_id = c.id AND inst_type_id = $1 AND i.id NOT IN (SELECT instrument_id FROM music_school.instrument_hire "
 					 	+"WHERE hire_status_id NOT IN (6))",
 				name: "get-instruments-of-type",
-				values: [instrumentId]
+				values: [instrumentTypeId]
 			};
 
-			console.log(getInstrumentsQuery);
-
 			app.client.query(getInstrumentsQuery).on('error', function(err) {
+				/* Error Handling */
 				if (!response.headersSent) {
 					res.valid = false;
 					res.errorMessage = 'An error has occured. Please try again later or contact an administrator';
@@ -106,9 +119,11 @@ exports.include = (app) => {
 					response.send(res);
 				}
 			}).on('row', function(row) {
+				//Add instruments to array
 				res.instruments.push(row);
 			})
 			.on('end', function() {
+				//return response
 				if (!response.headersSent) {
 					response.send(res);
 				}
@@ -120,6 +135,7 @@ exports.include = (app) => {
 	});
 }
 
+/* General Validation Function */
 function validateGeneral(string) {
 	var regexp = new RegExp("^[A-Za-z0-9 ]*$");
 	if (regexp.test(string)) {

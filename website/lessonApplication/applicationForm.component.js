@@ -153,6 +153,10 @@
               });
           }
 
+          this.ResetInstrumentType = function() {
+            this.lesson.hireType = '';
+          }
+
           this.UpdateInstruments = function() {
             this.lesson.instrumentId = '';
               if(this.lesson.instrumentType) {

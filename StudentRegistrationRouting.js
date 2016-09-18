@@ -1,13 +1,18 @@
+/* Routing For Student Registration */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/register/student/', function(request, response) {
 	  response.render('studentRegistration/index');
 	});
 
+	/* Register Student */
 	app.post('/register/student/', function(request, response) {
-		//DATABASE CONNECTION
+		//Get Post Data
 		var student = request.body;
+
+		/* Setup error array */
 		var isValid = {
 			firstName:true,
 			middleName:true,
@@ -19,11 +24,14 @@ exports.include = (app) => {
 			password:true,
 			errorMessage: ''
 		};
+
+		/* Setup response */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation to stop attacks */
 		if (validateAll(student, isValid)) {
 			valid.status = true;
 		} else {
@@ -33,12 +41,14 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			/* Hash Password */
 			var d = new Date();
 			var n = d.getTime();
 
 			var saltedPassword = student.password + "student".HashCode() + n;
 			var hashedPassword = saltedPassword.HashCode();
 
+			/* Setup Queries */
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.students WHERE email = $1",
 				name: "check-student-email",
@@ -79,38 +89,47 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(checkEmail).on('row', function(row) {
+			/* Run Queries */
+			app.client.query(checkEmail)//Run Query One
+			.on('error', function() {
+				/* Error Handling */
+				console.log("Errors in StndtRegRting 1: ", err);
+				valid.status = false;
+				isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+				response.send(valid);
+			})
+			.on('row', function(row) {
+				/* Email already exists */
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
 			})
-			.on('error', function() {
-				console.log(err);
-				valid.status = false;
-				isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-				response.send(valid);
-			})
 			.on('end', function(){
-				app.client.query(newStudentPasswordQuery).on('error', function(err) {
+				app.client.query(newStudentPasswordQuery) //Run Query 2
+				.on('error', function(err) {
+					/* Error Handling */
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 						response.send(valid);
 					}
-					console.log(err);
+					console.log("Errors in StndtRegRting 2: ", err);
 				})
 				.on('end', function() {
-					app.client.query(newStudentQuery).on('error', function(err) {
+					app.client.query(newStudentQuery) //Run Query 3
+					.on('error', function(err) {
+						/* Error Handling */
 						if (!response.headersSent) {
 							valid.status = false;
 							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
 							response.send(valid);
 						}
-						console.log(err);
+						console.log("Errors in StndtRegRting 3: ", err);
 					})
 					.on('end', function() {
+						// Registration Successful
 						if (!response.headersSent) {
 							response.send(valid);
 						}
@@ -125,6 +144,7 @@ exports.include = (app) => {
 	});
 }
 
+/* Hashing Function */
 String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
@@ -136,6 +156,7 @@ String.prototype.HashCode = function() {
   return hash;
 };
 
+/* Validation Functions */
 function validateAll(student, isValid) {
 	if (validateFirstName(student.firstName, isValid) &&
 		validateMiddleName(student.middleName, isValid) &&

@@ -1,14 +1,16 @@
+/* Routing for new instruments Page */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/management/instrument/new', function(request, response) {
 	  response.render('newInstrument/index');
 	});
 
+	/* Register Instrument */
 	app.post('/management/instrument/new', function(request, response) {
-		//DATABASE CONNECTION
 		var instrument = request.body;
-		console.log(instrument);
+		/* Setup error Array */
 		var isValid = {
 			type:true,
 			condition:true,
@@ -20,11 +22,14 @@ exports.include = (app) => {
 			description:true,
 			errorMessage: ''
 		};
+
+		/* Setup Response */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation functions */
 		if (validateAll(instrument, isValid)) {
 			valid.status = true;
 		} else {
@@ -33,6 +38,7 @@ exports.include = (app) => {
 			response.send(valid);
 		}
 
+		/* If Valid */
 		if(valid.status) {
 			var instrumentColumns = "inst_type_id, serial_no, condition_id, model, purchase_date, purchase_price, inst_notes, hire_fee, is_sold_or_disposed";
 			var newInstrumentQuery = {
@@ -55,6 +61,7 @@ exports.include = (app) => {
 			};
 
 			app.client.query(newInstrumentQuery).on('error', function(err) {
+				/* Error Handling */
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
@@ -63,6 +70,7 @@ exports.include = (app) => {
 				}
 			})
 			.on('end', function() {
+				//Insert successful: send response
 				if (!response.headersSent) {
 					response.send(valid);
 				}
@@ -75,6 +83,7 @@ exports.include = (app) => {
 	});
 }
 
+/* Validation Functions */
 function validateAll(instrument, isValid) {
 	if (validateType(instrument.type, isValid) &&
 		validateCondition(instrument.condition, isValid) &&
