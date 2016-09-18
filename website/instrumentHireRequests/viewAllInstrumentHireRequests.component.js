@@ -9,17 +9,23 @@
       constructor: [
         app.InstrumentHireRequestsService,
         ng.router.Router,
-	      function(InstrumentHireRequestsService, Router) {
+        app.UserService,
+	      function(InstrumentHireRequestsService, Router, UserService) {
           this.InstrumentHireRequestsService = InstrumentHireRequestsService;
           this.Router = Router;
+          this.UserService = UserService;
           
-          this.instrumentHireRequests = ['asdfasdf'];
+          this.instrumentHireRequests = [];
+          this.filteredRequests = [];
+          this.filterText = '';
 
           this.GetInstrumentHireRequests = function() {
             this.InstrumentHireRequestsService.GetInstrumentHireRequests()
               .then(response => {
                 if (!response.error) {
                   this.instrumentHireRequests = response.instrumentHireRequests;
+                  this.filteredRequests = this.instrumentHireRequests;
+                  this.Filter('');
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }
@@ -29,9 +35,34 @@
           }
 
           this.SelectInstrumentHireRequest = function(requestID) {
-            // select the student
+            var link = ['/individual', requestID];
+            this.Router.navigate(link);
           }
+
+          this.Filter = function() {
+            this.filteredRequests = [];
+            filterString = new RegExp(this.filterText, "gi");
+            for (var i = 0; i < this.instrumentHireRequests.length; i++) {
+              var hireRequest = this.instrumentHireRequests[i];
+              var name = hireRequest.firstname+" "+hireRequest.lastname;
+              if (name.match(filterString)) {
+                this.filteredRequests.push(hireRequest);
+              }
+            }
+          }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type == 'manager') {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
 	      }
       ]
     });
+    app.ViewAllInstrumentsComponent.prototype.ngOnInit = function() {
+      this.GetInstruments();
+    };
 })(window.app || (window.app = {}));

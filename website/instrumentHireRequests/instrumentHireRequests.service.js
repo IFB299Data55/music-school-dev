@@ -5,12 +5,17 @@
         ng.http.Http,
         function(http) {
           this.http = http;
-          this.responseURL = '/management/instrument/individual/';
-          this.requestURL = '/management/instrument/all/';
+          this.acceptResponseURL = '/management/instrument/requests/respondToRequest/';
+          this.declineResponseURL = '/management/instrument/requests/respondToRequest/';
+          this.requestURL = '/management/instrument/getInstrumentHireRequests/';
+          this.individualRequestURL = '/management/instrument/requests/getIndividualRequest/'
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.AcceptInstrumentHireRequest = function(requestID) {
-            return this.http.post(this.responseURL, requestID, this.headers).toPromise()
+            var params = {
+              requestID: requestID
+            };
+            return this.http.post(this.acceptResponseURL, params, this.headers).toPromise()
             .then(response => {
               var valid = JSON.parse(response._body);
               return Promise.resolve(valid);
@@ -19,7 +24,10 @@
           }
 
           this.RejectInstrumentHireRequest = function(requestID) {
-            return this.http.post(this.responseURL, requestID, this.headers).toPromise()
+            var params = {
+              requestID: requestID
+            };
+            return this.http.post(this.declineResponseURL, params, this.headers).toPromise()
             .then(response => {
               var valid = JSON.parse(response._body);
               return Promise.resolve(valid);
@@ -36,8 +44,14 @@
             .catch(this.handleError);
           }
 
-          this.GetInstrumentHireRequest = function(studentID) {
-            // return a student
+          this.GetInstrument = function(instrumentID) {
+            var url = this.individualRequestURL+"?id="+instrumentID;
+            return this.http.get(url, this.headers).toPromise()
+            .then(response => {
+              var result = JSON.parse(response._body);
+              return Promise.resolve(result);
+            })
+            .catch(this.handleError);
           }
 
           this.handleError = function(error) {

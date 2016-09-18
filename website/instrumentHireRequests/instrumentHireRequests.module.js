@@ -12,7 +12,7 @@
         , app.ViewAllInstrumentHireRequestsComponent
         , app.ViewIndividualInstrumentHireRequestComponent
       ],
-      providers: [ app.InstrumentHireRequestsService ],
+      providers: [ app.InstrumentHireRequestsService, app.UserService, app.CookieService ],
       bootstrap: [ app.InstrumentHireRequestsRouterComponent ]
     })
     .Class({

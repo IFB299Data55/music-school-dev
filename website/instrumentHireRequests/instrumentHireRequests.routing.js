@@ -4,6 +4,10 @@ var instrumentHireRequestsRouting = [
 		component: app.ViewAllInstrumentHireRequestsComponent
 	}
 	, {
+		path: 'individual/:id',
+		component: app.ViewIndividualInstrumentHireRequestComponent
+	}
+	, {
 		path: 'individual',
 		component: app.ViewIndividualInstrumentHireRequestComponent
 	}

@@ -9,7 +9,7 @@
     .Class({
       constructor: [
 	      function() {
-	    	  this.title = 'View Instrument Hires';
+	    	  this.title = 'Current Instrument Hires';
 	      }
       ]
     });
