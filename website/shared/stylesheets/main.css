@@ -76,42 +76,8 @@ body, nav {
 
 }
 
-login-app form {
-    margin-top: 20px;
-    margin-right: 20px;
-}
-
-login-app p{
-    color: white;
-}
-
-login-app label {
-    color: white;
-    padding-right: 10px;
-    text-align: right;
-}
-
-login-app div {
-    clear: both;
-    margin: 5px;
-}
-
-login-app input {
-    float: right
-}
-
-login-app button {
-    background: none;
-    border: none;
-    float: right;
-}
-
-login-app li a {
-    font-size: 18px;
-}
-
-logged-in-app {
-    padding-right: 20px;
+#userDetails button {
+    margin: 10px;
 }
 
 @media screen and (max-width: 767px) {
