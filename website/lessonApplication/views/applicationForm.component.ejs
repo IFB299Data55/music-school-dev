@@ -8,6 +8,7 @@
 					<label 	for="instrumentType">Instrument Type: </label>
 					<select id="instrumentType" name="instrumentType"
 							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" 
+							(change)="ResetInstrumentType()"
 							(blur)="UpdateInstruments()" required>
 						<option *ngFor="let instrumentType of instrumentTypeList"
 						value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
@@ -32,7 +33,7 @@
 					<label 	for="grade">Your Grade: </label>
 					<input type="text" id="grade" name="grade"
 							[(ngModel)]="lesson.grade" #grade="ngModel" 
-							(blur)="UpdateInstruments()" pattern="^[0-7]$" required/>
+							pattern="^[0-7]$" required/>
 					<p class="errorMessage" [hidden]="(grade.valid || grade.untouched) && isValid.grade">Please enter your approximate grade.</p>
 				</div>
 			</div>
