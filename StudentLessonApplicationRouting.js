@@ -7,6 +7,55 @@ exports.include = (app) => {
 	  response.render('lessonApplication/index');
 	});
 
+	/* Check if Current Student Is Allowed To Register a Lesson */
+	app.post('/lessons/application/checkStudent', function(request, response) {
+		var student = request.body;
+
+		//Setup response
+		var res = {
+			valid: false
+		};
+
+		//Validate
+		if(validNumber(student.id)) {
+			//Setup Query
+			var checkStudentIdQuery = {
+				text: "SELECT * FROM music_school.students_allowed_applications saa "
+					 +"WHERE saa.id = $1",
+				name: 'check-student-id',
+				values: [
+					  student.id
+				]
+			};
+
+			//Run Query
+			app.client.query(checkStudentIdQuery) 
+			.on('error', function(err) {
+				/* Error Handling */
+				if (!response.headersSent) {
+					res.valid = false;
+					console.log("Errors Happened in stntIdChk 1: ", err);
+					response.send(valid);
+				}
+			})
+			.on('row', function(row) {
+				/* Student Was there */
+				if (!response.headersSent) {
+					res.valid = true;
+					response.send(res);
+				}
+			})
+			.on('end', function() {
+				/* Student wasn't there */
+				if (!response.headersSent) {
+					response.send(res);
+				}
+			});
+		} else {
+			response.send(res);
+		}
+	});
+
 	/* Register Lesson */
 	app.post('/lessons/application/', function(request, response) {
 		validateInstId = false;
@@ -181,8 +230,7 @@ function validateGrade(grade, isValid) {
 }
 
 function validateInstrumentType(instrumentType, isValid) {
-	var regexp = new RegExp("^[0-9]+$");
-	if (regexp.test(instrumentType)) {
+	if (validNumber(instrumentType)) {
 		return true;
 	}
 	isValid.instrumentType = false;
@@ -203,8 +251,7 @@ function validateHireType(hireType, isValid) {
 }
 
 function validateStudentId(studentId, isValid) {
-	var regexp = new RegExp("^[0-9]+$");
-	if (regexp.test(studentId)) {
+	if (validNumber(studentId)) {
 		return true;
 	}
 	isValid.instrumentId = false;
@@ -213,8 +260,8 @@ function validateStudentId(studentId, isValid) {
 
 function validateInstrumentId(instrumentId, isValid) {
 	if(!validateInstId) return true;
-	var regexp = new RegExp("^[0-9]+$");
-	if (regexp.test(instrumentId)) {
+
+	if (validNumber(instrumentId)) {
 		return true;
 	}
 	isValid.instrumentId = false;
@@ -245,5 +292,11 @@ function validateEndTime(endTime, isValid) {
 		return true;
 	}
 	isValid.endTime = false;
+	return false;
+}
+
+function validNumber(number) {
+	var regexp = new RegExp("^[0-9]+$");
+	if(regexp.test(number)) return true;
 	return false;
 }

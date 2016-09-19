@@ -14,7 +14,7 @@
           this.RegistrationService = RegistrationService;
           this.UserService = UserService;
           this.Router = Router;
-	        this.teacher = new Teacher();
+	        this.manager = new Manager();
           this.submitted = false;
           this.isValid = {
             firstName:true,
@@ -33,9 +33,9 @@
             this.error = '';
             //Send to registration Service
             //then redirect
-            this.RegistrationService.AttemptRegistration(this.teacher)
+            this.RegistrationService.AttemptRegistration(this.manager)
               .then(response => {
-                if (response.status) {
+                if (response.valid) {
                   var link = ['/Confirmation'];
                   this.Router.navigate(link);
                 } else {
