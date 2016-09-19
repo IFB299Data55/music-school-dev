@@ -11,7 +11,6 @@
   -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
-  width: 500px;
   padding-right: 0;
   min-height: 0px;
   background: #FFFFFF;
@@ -24,7 +23,6 @@
 
 .ui.cards { 
   margin: -0.875em -0.5em;
-  margin-left: 300px;
   padding-bottom: 50px;
  
 }
