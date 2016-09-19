@@ -51,7 +51,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-4" *ngIf="instrument.type == 0">
+		<div class="col-sm-4" *ngIf="instrument.type == '0'">
 			<label 	for="newInstType">Type Name: </label>
 			<input 	type="newInstType" id="newInstType" name="newInstType" #newInstType="ngModel"
 					[(ngModel)]="instrument.newInstType" pattern="^[A-Za-z ]+$" required/>

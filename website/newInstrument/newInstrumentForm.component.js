@@ -34,6 +34,7 @@
 
           this.Add = function() {
             this.submitted = true;
+            this.error = '';
 
             this.NewInstrumentService.AttemptAdd(this.instrument)
               .then(response => {

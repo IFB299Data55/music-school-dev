@@ -16,6 +16,9 @@
           this.UserService = UserService;
           this.lesson = new Lesson();
 
+          this.initialPermissionCheck = true;
+          this.studentIdValidated = false;
+          this.formUnavailableReason = 'You do not have access to this page.';
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
@@ -90,6 +93,7 @@
 
           this.Register = function() {
             this.submitted = true;
+            this.error = '';
             //Fix startTime
             this.CalcEndTimeInHours();
             //Send to registration Service
@@ -133,15 +137,37 @@
               var user = this.UserService.GetCurrentUser();
               if(user.type == 'student') {
                 this.lesson.studentId = user.id;
-                return true;
-              }
-            }
-            
-            return false;
+
+                if(this.initialPermissionCheck) {
+                  this.initialPermissionCheck = false;
+
+                  var req = {
+                    id: this.lesson.studentId
+                  }
+
+                  this.LessonApplicationService.StudentCanRegister(req)
+                  .then(response => {
+
+                    if(response.valid) {
+                      this.studentIdValidated = true;
+                      return true;
+                    } else {
+                      this.formUnavailableReason = 'You have already used all your lesson bookings.';
+                      return false;
+                    }
+                  })
+                  .catch(() => {
+                    this.error = 'User unable to be validated.';
+                  });
+                } else if(this.studentIdValidated) return true;
+                else return false;
+              } else  return false;
+            } else return false;
           }
 
           this.UpdateInstrumentTypes = function() {
-              this.LessonApplicationService.GetInstrumentTypes().then(response => {
+              this.LessonApplicationService.GetInstrumentTypes()
+              .then(response => {
                 if(response.valid) {
                   this.instrumentTypeList = response.instrumentTypes;
                 } else {

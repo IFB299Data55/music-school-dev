@@ -90,6 +90,7 @@ exports.include = (app) => {
 	/* Gets all Instruments of particular instrument Type */
 	app.get('/database/getInstruments', function(request, response){
 		var instrumentTypeId = request.query.id;
+		var all = request.query.all;
 		//setup response frame
 		var res = {
 			valid: false,
@@ -101,11 +102,17 @@ exports.include = (app) => {
 		res.valid = validateGeneral(instrumentTypeId);
 		
 		if(res.valid) {
-			var getInstrumentsQuery = {
+			var getInstrumentsQuery;
+			var conditionRestriction = '';
+			if(!all){
+				conditionRestriction = 'AND i.condition_id NOT IN (5)';
+			}
+			
+			getInstrumentsQuery = {
 				text: "SELECT i.id, i.serial_no, i.model, i.hire_fee, c.condition, i.inst_notes"
 					 +" FROM music_school.instruments i, music_school.conditions c "
 					 +"WHERE i.condition_id = c.id AND inst_type_id = $1 AND i.id NOT IN (SELECT instrument_id FROM music_school.instrument_hire "
-					 	+"WHERE hire_status_id NOT IN (6))",
+					 	+"WHERE hire_status_id NOT IN (6))" + conditionRestriction,
 				name: "get-instruments-of-type",
 				values: [instrumentTypeId]
 			};

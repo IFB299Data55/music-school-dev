@@ -92,6 +92,10 @@ exports.include = (app) => {
 							if (!response.headersSent) {
 								valid.status = false;
 								isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+								if(err.constraint == 'inst_serial_no_uq') {
+									isValid.serialNumber = false;
+									isValid.errorMessage = 'Serial Number Already Exists.';
+								}
 								response.send(valid);
 								console.log('error in NewInstrumentRouting: ', err);
 							}
@@ -130,6 +134,10 @@ exports.include = (app) => {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+						if(err.constraint == 'inst_serial_no_uq') {
+							isValid.serialNumber = false;
+							isValid.errorMessage = 'Serial Number Already Exists.';
+						}
 						response.send(valid);
 						console.log('error in NewInstrumentRouting: ', err);
 					}

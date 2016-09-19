@@ -34,6 +34,7 @@ require('./loginRouting.js').include(app);
 require('./lessonInformation.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
+require('./ManagerRegistrationRouting.js').include(app);
 require('./StudentLessonApplicationRouting.js').include(app);
 require('./NewInstrumentRouting.js').include(app);
 require('./DeactivateTeachersRouting.js').include(app);
