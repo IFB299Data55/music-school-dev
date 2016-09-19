@@ -16,38 +16,41 @@
           this.UserService = UserService;
           
           this.instrumentHireRequests = [];
-          this.filteredRequests = [];
+          this.filteredInstrumentRequests = [];
           this.filterText = '';
 
           this.GetInstrumentHireRequests = function() {
             this.InstrumentHireRequestsService.GetInstrumentHireRequests()
               .then(response => {
-                if (!response.error) {
+                if (response.status) {
                   this.instrumentHireRequests = response.instrumentHireRequests;
-                  this.filteredRequests = this.instrumentHireRequests;
-                  this.Filter('');
+                  this.filteredInstrumentRequests = this.instrumentHireRequests;
+                  this.filterText = '';
                 } else {
-                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                  if (!response.results) {
+                    this.error = 'There are no current Hire Requests.';
+                  } else {
+                    this.error = 'An error has occured. Please contact administration for further assistance.';
+                  }
                 }
               }).catch(err => {
-                console.log(err);
-                this.error = 'An error has occured. Please try again later';
+                this.error = 'An error has occured. Please try again later.';
             });
           }
 
           this.SelectInstrumentHireRequest = function(requestID) {
-            var link = ['/individual', requestID];
+            var link = ['/individual/', requestID];
             this.Router.navigate(link);
           }
 
           this.Filter = function() {
-            this.filteredRequests = [];
+            this.filteredInstrumentRequests = [];
             filterString = new RegExp(this.filterText, "gi");
             for (var i = 0; i < this.instrumentHireRequests.length; i++) {
               var hireRequest = this.instrumentHireRequests[i];
               var name = hireRequest.firstname+" "+hireRequest.lastname;
               if (name.match(filterString)) {
-                this.filteredRequests.push(hireRequest);
+                this.filteredInstrumentRequests.push(hireRequest);
               }
             }
           }

@@ -80,6 +80,7 @@ exports.include = (app) => {
 		});
 	});
 
+	/* Accept a student */
 	app.post('/teacher/studentApplications/individual/accept/', function(request, response) {
 		var requestID = request.body.request;
 		var teacherID = request.body.teacher;

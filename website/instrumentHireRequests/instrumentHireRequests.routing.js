@@ -8,10 +8,6 @@ var instrumentHireRequestsRouting = [
 		component: app.ViewIndividualInstrumentHireRequestComponent
 	}
 	, {
-		path: 'individual',
-		component: app.ViewIndividualInstrumentHireRequestComponent
-	}
-	, {
 		path: '',
 		redirectTo: 'all',
 		pathMatch: 'full'

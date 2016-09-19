@@ -131,16 +131,17 @@ exports.include = (app) => {
 				]
 			};
 
-			var instrumentHireColumns = "instrument_id, student_id, request_date, hire_status_id";
+			var instrumentHireColumns = "instrument_id, student_id, request_date, hire_status_id, is_returned";
 			var instrumentHireQuery = {
 				text: "INSERT INTO music_school.instrument_hire("+instrumentHireColumns+") VALUES("
-					+"$1,$2,now(),$3"
+					+"$1,$2,now(),$3,$4"
 				+")",
 				name: 'instrument-hire-request',
 				values: [
 					  lesson.instrumentId
 					, lesson.studentId
 					, 1
+					, false
 				]
 			};
 

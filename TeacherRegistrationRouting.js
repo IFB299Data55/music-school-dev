@@ -134,13 +134,24 @@ exports.include = (app) => {
 					.on('end', function(){
 						if (!response.headersSent) {
 							//Send Email
-							var message = "You have been successfully registered as a teacher for the School of Music! Your temporary password is: " + teacher.password;
+							var textMessage = "Dear " + teacher.firstName + " " + teacher.lastName + ", "
+										 +"\n\nYou have been registered as a teacher for the School of Music."
+										 +"\nYour Temprary password is: '" + teacher.password +"'."
+										 +"\nWe hope you enjoy your employment with us."
+										 +"\n\nRegards,"
+										 +"\nSchool of Music Team";
+
+							var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+														 .replace(new RegExp("$"), '</p>')
+														 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+														 .replace(new RegExp("\n","g"), '</p><p>');
+
 							var teacherConfirmationEmail = {
 								from: '"School of Music Admin" <test@gmail.com>',
 								to: teacher.email,
 								subject: "New Teacher Account",
-								text: message,
-								html: '<p>'+message+'</p>'
+								text: textMessage,
+								html: htmlMessage
 							};
 
 							app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {

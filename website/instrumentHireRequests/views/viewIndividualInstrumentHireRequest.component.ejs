@@ -1,5 +1,4 @@
 <div *ngIf="PageIsAvailable()">
-
 	<div class="card">
 		<div class="content">
 			<div class="header">
@@ -26,9 +25,9 @@
 				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
 				</div>
 	    	</div>
+	    	<p *ngIf="error" class="errorMessage">{{error}}</p>
 		</div>
 	</div>
-
 </div>
 
 <p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>

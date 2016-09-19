@@ -5,15 +5,15 @@
         ng.http.Http,
         function(http) {
           this.http = http;
-          this.acceptResponseURL = '/management/instrument/requests/respondToRequest/';
-          this.declineResponseURL = '/management/instrument/requests/respondToRequest/';
+          this.acceptResponseURL = '/management/instrument/requests/respondToRequest/accept/';
+          this.declineResponseURL = '/management/instrument/requests/respondToRequest/reject/';
           this.requestURL = '/management/instrument/getInstrumentHireRequests/';
           this.individualRequestURL = '/management/instrument/requests/getIndividualRequest/'
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.AcceptInstrumentHireRequest = function(requestID) {
+          this.AcceptInstrumentHireRequest = function(hireID) {
             var params = {
-              requestID: requestID
+              hireID: hireID
             };
             return this.http.post(this.acceptResponseURL, params, this.headers).toPromise()
             .then(response => {
@@ -23,9 +23,9 @@
             .catch(this.handleError);
           }
 
-          this.RejectInstrumentHireRequest = function(requestID) {
+          this.RejectInstrumentHireRequest = function(hireID) {
             var params = {
-              requestID: requestID
+              hireID: hireID
             };
             return this.http.post(this.declineResponseURL, params, this.headers).toPromise()
             .then(response => {
@@ -44,8 +44,8 @@
             .catch(this.handleError);
           }
 
-          this.GetInstrument = function(instrumentID) {
-            var url = this.individualRequestURL+"?id="+instrumentID;
+          this.GetInstrument = function(hireId) {
+            var url = this.individualRequestURL+"?id="+hireId;
             return this.http.get(url, this.headers).toPromise()
             .then(response => {
               var result = JSON.parse(response._body);
