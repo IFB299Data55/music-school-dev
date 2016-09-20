@@ -45,7 +45,7 @@ exports.include = (app) => {
 
 	function GenerateTeacherLoginQuery(user) {
 		return {
-			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.teachers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1",
+			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.teachers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1 AND is_terminated = FALSE",
 			name: "teacher-login-query",
 			values: [	
 				user.email
@@ -55,7 +55,7 @@ exports.include = (app) => {
 
 	function GenerateManagerLoginQuery(user) {
 		return {
-			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.managers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1",
+			text: "SELECT u.id, u.first_name||' '||u.last_name as display_name, p.salt, p.password FROM music_school.managers u, music_school.passwords p WHERE p.id = u.password_id AND u.email=$1 AND is_terminated = FALSE",
 			name: "manager-login-query",
 			values: [	
 				user.email
