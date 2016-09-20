@@ -7,9 +7,7 @@
       Cards
 ---------------*/
 .header{
-    font-weight: bold;
-    padding-left: 30px;
-    padding-right: 30px;
+    font-weight: bold; 
 }
 
 .ui.cards > .card,
@@ -84,10 +82,11 @@
 }
 
 
-.button22 {
-  margin-left: 50px;
+.button22{
+  margin-left: 15px;
   margin-top: -5px;
   margin-right: 5px;
+  float: right;
   border: none;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -104,11 +103,13 @@
   border-bottom-left-radius: 0.28571429rem;
   border-top-left-radius: 0.28571429rem;
   background: white;
+  
 }
 
-.button21 {
+.button21{
   margin-top: -5px;
   border: none;
+  float: right;
   margin-left: -2px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -125,32 +126,25 @@
   border-bottom-right-radius: 0.28571429rem;
   border-top-right-radius: 0.28571429rem;
   background: white;
+  
 }
 
-.extra.content {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 20px;  
+.ui.two.buttons{
+    margin-left: 25px;
+    display:inline;
 }
 
 .card {
   font-size: 1em;
   margin-left: 30%;
   width: 40%;
-  border: 1px solid rgb(220, 220, 220);
-  border-radius: 1rem;
-  box-shadow: 1px 1px 1px 0px rgb(220, 220, 220);
+  border: ;
 }
 
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-}
-
-p {
-  padding-bottom: 5px;
-  padding-left: 30px;
 }
 
 .clickable:hover {
