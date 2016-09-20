@@ -3,13 +3,13 @@
     <fieldset id="teacherinfo">
         <legend><span>Personal Information</span></legend>
         <div class="row">
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         		<label for="firstName">First Name:</label>
 	            <input 	title="Letters and Spaces" type="text" id="firstName" name="firstName" #firstName="ngModel"
 				[(ngModel)]="teacher.firstName" pattern="^[A-Za-z ]+$" required/>
 				<p class="errorMessage" [hidden]="(firstName.valid || firstName.untouched) && isValid.firstName">Invalid input. Must only contain letters.</p>
         	</div>
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         		<label for="email">Email:</label>
 	            <input 	title="example@example.com" type="email" id="email" name="email" #email="ngModel"
 				[(ngModel)]="teacher.email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required/>
@@ -17,13 +17,13 @@
 	        </div>
 	    </div>
 	    <div class="row">
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         		<label for="middleName">Middle Name:</label>
 	            <input 	title="Letters and Spaces" type="text" id="middleName" name="middleName" #middleName="ngModel"
 				[(ngModel)]="teacher.middleName" pattern="^[A-Za-z ]*$" />
 				<p class="errorMessage" [hidden]="(middleName.valid || middleName.untouched) && isValid.middleName">Invalid input. Must only contain letters.</p>
         	</div>
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         		<label for="phoneNumber">Phone:</label>
 	            <input 	title="8 digit home phone or 10 digit mobile" id="phoneNumber" name="phoneNumber" #phoneNumber="ngModel"
 				[(ngModel)]="teacher.phoneNumber" pattern="^\d{8}$|^04\d{8}$" required/>
@@ -31,13 +31,13 @@
 	        </div>
 	    </div>
 	    <div class="row">
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         		<label for="lastName">Last Name:</label>
 	            <input 	title="Letters and Spaces" type="text" id="lastName" name="lastName" #lastName="ngModel"
 				[(ngModel)]="teacher.lastName" pattern="^[A-Za-z ]+$" required/>
 				<p class="errorMessage" [hidden]="(lastName.valid || lastName.untouched) && isValid.lastName">Invalid input. Must only contain letters.</p>
         	</div>
-        	<div class="col-sm-4">
+        	<div class="col-sm-6">
         	 	<label for="birthday">Date of Birth:</label>
 	            <input 	title="01/02/1992" type="text" id="birthday" name="birthday" #birthday="ngModel"
 				[(ngModel)]="teacher.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" required/>
@@ -66,8 +66,9 @@
 	        <textarea id="feedback" name="feedback" rows="7" cols="55" [(ngModel)]="teacher.description" ></textarea>
         </div>
     </fieldset>
-    
-    <button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>
+    <div class="buttonContainer">
+    	<button [disabled]="!registrationForm.form.valid" type="Submit">Submit</button>
+    </div>
 </form>
 <div [hidden]="!submitted">
 	<p>Attempting to Register your new account...</p>

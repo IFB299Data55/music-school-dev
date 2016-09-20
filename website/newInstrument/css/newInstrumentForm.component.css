@@ -1,59 +1,21 @@
-/* new instrument stylesheet*/
-
-.row {
-    margin-left: 20px;
+.buttonContainer {
+  margin-top: 30px;
+  text-align: center;
+  padding-right: 6%;
 }
 
-fieldset {
-    margin-bottom: 30px;
-    font-family: Avenir;
+form button {
+  margin: auto;
+  color: #FFF;
+  background: rgb(50,150,50);
+  font-weight: bold;
 }
 
-fieldset div {
-    display: block;
+form button:hover {
+  background: rgb(30,130,30);
 }
 
-fieldset label {
-    display: block;
-}
-
-input {
-    width: 15em;
-}
-
-input:focus, textarea:focus {
-    background: white;
-    resize: none;
-}
-
-input:required, textarea:required {
-    box-shadow:none;
-}
-
-.ng-valid {
-    border-left: 3px solid rgb(70,200,70);
-}
-
-.ng-invalid {
-    border-left: 3px solid rgb(225,0,0);
-}
-
-textarea {
-    width: 400px;
-    margin-top: 15px;
-    font-family: Avenir;
-    font-size: 15px;
-}
-
-button {
-   margin-top: 40px;
-   margin-bottom: 40px;
-}
-
-button[disabled] {
+form button[disabled] {
     opacity: 0.5;
-}
-
-.errorMessage {
-    color: rgb(200,0,0);
+    background: rgb(150,50,50);
 }

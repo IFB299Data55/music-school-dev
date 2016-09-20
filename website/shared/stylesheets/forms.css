@@ -1,0 +1,86 @@
+/* Registration teacher stylesheet*/
+
+form {
+  width: 60%;
+  margin: auto;
+}
+
+form .row {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+form fieldset {
+    margin-bottom: 30px;
+    font-family: Avenir;
+}
+
+form fieldset div {
+    display: block;
+}
+
+form label {
+    display: block;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    border: 1px solid black;
+    padding: 0px 10px 0px 10px;
+    border-radius: 25px;
+}
+
+form select {
+    width: 100%;
+    border: 1px solid black;
+    padding: 0px 10px 0px 10px;
+}
+
+form input:focus, form textarea:focus, form select:focus {
+    background: white;
+    resize: none;
+    border-top: 2px solid rgb(100, 100, 180);
+    border-right: 2px solid rgb(100, 100, 180);
+    border-bottom: 2px solid rgb(100, 100, 180);
+    margin-top: -2px;
+}
+
+form input:required, form textarea:required {
+    box-shadow:none;
+}
+
+.ng-valid {
+    border-left: 2px solid rgb(70,200,70);
+}
+
+.ng-invalid {
+    border-left: 2px solid rgb(225,0,0);
+}
+
+form textarea {
+    width: 100%;
+    margin-top: 15px;
+    font-family: Avenir;
+    font-size: 15px;
+}
+
+.errorMessage {
+    color: rgb(200,0,0);
+}
+
+form button {
+  margin-top: 20px;
+}
+
+@media screen and (min-width: 1200px) {
+  form {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  form {
+    width: 100%;
+  }
+}
