@@ -134,13 +134,24 @@ exports.include = (app) => {
 					.on('end', function(){
 						if (!response.headersSent) {
 							//Send Email
-							var message = "You have been successfully registered as a manager for the School of Music! Your temporary password is: " + manager.password;
+							var textMessage = "Dear " + manager.firstName + " " + manager.lastName + ", "
+										 +"\n\nYou have been registered as a manager for the School of Music."
+										 +"\nYour Temprary password is: '" + manager.password +"'."
+										 +"\nWe hope you enjoy your employment with us."
+										 +"\n\nRegards,"
+										 +"\nSchool of Music Team";
+
+							var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+														 .replace(new RegExp("$"), '</p>')
+														 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+														 .replace(new RegExp("\n","g"), '</p><p>');
+
 							var managerConfirmationEmail = {
 								from: '"School of Music Admin" <test@gmail.com>',
 								to: manager.email,
 								subject: "New Manager Account",
-								text: message,
-								html: '<p>'+message+'</p>'
+								text: textMessage,
+								html: htmlMessage
 							};
 
 							app.transporter.sendMail(managerConfirmationEmail, function(error, info) {

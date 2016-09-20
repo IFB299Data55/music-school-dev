@@ -22,14 +22,19 @@
           this.GetInstruments = function() {
             this.ReturnInstrumentsService.GetInstruments()
               .then(response => {
-                if (!response.error) {
+                if (response.valid) {
                   this.instruments = response.instruments;
                   this.filteredInstruments = this.instruments;
-                  this.Filter('');
+                  this.filterText = '';
                 } else {
-                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                  if(response.results) {
+                    this.error = 'An error has occured. Please contact administration for further assitance.';
+                  } else {
+                    this.error = 'No instruments are currently borrowed.';
+                  }
                 }
-              }).catch(err => {
+              })
+              .catch(err => {
                 console.log(err);
                 this.error = 'An error has occured. Please try again later';
             });

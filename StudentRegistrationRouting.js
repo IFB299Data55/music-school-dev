@@ -131,6 +131,31 @@ exports.include = (app) => {
 					.on('end', function() {
 						// Registration Successful
 						if (!response.headersSent) {
+							var textMessage = "Dear " + student.firstName + " " + student.lastName + ", "
+										 +"\n\nYou have been registered as a student for the School of Music."
+										 +"\nWe hope you enjoy your experience with us."
+										 +"\n\nRegards,"
+										 +"\nSchool of Music Team";
+
+							var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+														 .replace(new RegExp("$"), '</p>')
+														 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+														 .replace(new RegExp("\n","g"), '</p><p>');
+
+							var managerConfirmationEmail = {
+								from: '"School of Music Admin" <test@gmail.com>',
+								to: student.email,
+								subject: "New Student Account",
+								text: textMessage,
+								html: htmlMessage
+							};
+
+							app.transporter.sendMail(managerConfirmationEmail, function(error, info) {
+								if(error) {
+									console.log(error);
+								}
+							});
+
 							response.send(valid);
 						}
 					});

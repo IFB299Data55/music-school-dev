@@ -23,7 +23,7 @@
         <th>Hire Date</th>
       </thead>
       <tbody>
-        <tr *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
+        <tr *ngFor="let instrument of filteredInstrumentRequests" (click)="SelectInstrumentHireRequest(instrument.hireid)">
           <td class="left aligned">{{instrument.firstname}} {{instrument.lastname}}</td>
           <td>{{instrument.instrumentname}}</td>
           <td>{{instrument.instrumenttype}}</td>

@@ -9,9 +9,9 @@
   <div *ngIf="PageIsAvailable()">
 
     <h3>Hired Instruments</h3>
-      <p *ngIf="!hiredInstruments.length">No Hired Instruments to display.</p>
+      <p *ngIf="hiredInstruments.length == 0">No Hired Instruments to display.</p>
       <div class="ui cards" *ngIf="hiredInstruments.length">
-        <div class="card" *ngFor="let instrument of hiredInstruments">
+        <div class="card col-sm-3" *ngFor="let instrument of hiredInstruments">
           <div class="content">
             <div class="header">
               <b>{{instrument.instrumentname}}</b>
@@ -23,9 +23,7 @@
                 <br>
               Condition: {{instrument.condition}}
                 <br>
-              Date: {{instrument.duedate}}
-                <br>
-              Hire Status: {{instrument.status}}
+              Due Date: {{instrument.duedate}}
             </div>
           </div>
           <div class="extra content" *ngIf="instrument.notes">
@@ -37,9 +35,9 @@
       </div>
 
     <h3>Requested Instruments</h3>
-      <p *ngIf="!hiredInstruments.length">No Requested Instruments to display.</p>
+      <p *ngIf="requestedInstruments.length == 0">No Requested Instruments to display.</p>
       <div class="ui cards" *ngIf="requestedInstruments.length">
-        <div class="card" *ngFor="let instrument of requestedInstruments">
+        <div class="card col-sm-3" *ngFor="let instrument of requestedInstruments">
           <div class="content">
             <div class="header">
               <b>{{instrument.instrumentname}}</b>
@@ -51,9 +49,7 @@
                 <br>
               Condition: {{instrument.condition}}
                 <br>
-              Date: {{instrument.duedate}}
-                <br>
-              Hire Status: {{instrument.status}}
+              Due Date: {{instrument.duedate}}
             </div>
           </div>
           <div class="extra content" *ngIf="instrument.notes">
@@ -65,9 +61,9 @@
       </div>
 
     <h3>Rejected Instruments</h3>
-      <p *ngIf="!hiredInstruments.length">No Rejected Instruments to display.</p>
+      <p *ngIf="rejectedInstruments.length == 0">No Rejected Instruments to display.</p>
       <div class="ui cards" *ngIf="rejectedInstruments.length">
-        <div class="card" *ngFor="let instrument of rejectedInstruments">
+        <div class="card col-sm-3" *ngFor="let instrument of rejectedInstruments">
           <div class="content">
             <div class="header">
               <b>{{instrument.instrumentname}}</b>
@@ -79,9 +75,7 @@
                 <br>
               Condition: {{instrument.condition}}
                 <br>
-              Date: {{instrument.duedate}}
-                <br>
-              Hire Status: {{instrument.status}}
+              Due Date: {{instrument.duedate}}
             </div>
           </div>
           <div class="extra content" *ngIf="instrument.notes">
@@ -93,12 +87,12 @@
       </div>
 
     <h3>Previously Hired Instruments</h3>
-      <p *ngIf="!hiredInstruments.length">No Previously Hired Instruments to display.</p>
+      <p *ngIf="previousInstruments.length == 0">No Previously Hired Instruments to display.</p>
       <div class="ui cards" *ngIf="previousInstruments.length">
-        <div class="card" *ngFor="let instrument of previousInstruments">
+        <div class="card col-sm-3" *ngFor="let instrument of previousInstruments">
           <div class="content">
             <div class="header">
-              <b>{{instrument.instrumentname}}</b>
+              <b>{{instrument.instrumentname}} {{instrument.instrumenttype}}</b>
             </div>
             <div class="meta">
               Serial Number: {{instrument.serialnumber}}
@@ -106,10 +100,6 @@
               Hire Fee: ${{instrument.hirefee}}
                 <br>
               Condition: {{instrument.condition}}
-                <br>
-              Date: {{instrument.duedate}}
-                <br>
-              Hire Status: {{instrument.status}}
             </div>
           </div>
           <div class="extra content" *ngIf="instrument.notes">
