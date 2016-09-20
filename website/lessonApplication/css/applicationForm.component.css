@@ -1,91 +1,47 @@
-/* Registration teacher stylesheet*/
-
-.row {
-    margin-left: 20px;
+.buttonContainer {
+  margin-top: 30px;
+  text-align: center;
+  padding-right: 6%;
 }
 
-.row div {
-    padding-top: 5px;
-    padding-bottom: 5px;
+form button {
+  margin: auto;
+  color: #FFF;
+  background: rgb(50,150,50);
+  font-weight: bold;
 }
 
-fieldset {
-    margin-bottom: 30px;
-    font-family: Avenir;
+form button:hover {
+  background: rgb(30,130,30);
 }
 
-fieldset div {
-    display: block;
-}
-
-fieldset label {
-    display: block;
-}
-
-input, select {
-    width: 15em;
-    height: 26px;
-}
-
-input:focus, textarea:focus {
-    background: white;
-    resize: none;
-}
-
-input:required {
-    box-shadow:none;
+form button[disabled] {
+    opacity: 0.5;
+    background: rgb(150,50,50);
 }
 
 .ng-valid, .validTable {
-    border-left: 3px solid rgb(70,200,70);
+    border-left: 2px solid rgb(70,200,70);
 }
 
 .ng-invalid, .invalidTable {
-    border-left: 3px solid rgb(225,0,0);
-}
-
-textarea {
-    width: 400px;
-    margin-top: 15px;
-    font-family: Avenir;
-    font-size: 15px;
-}
-
-button {
-   margin-top: 40px;
-   margin-bottom: 40px;
-}
-
-button[disabled] {
-    opacity: 0.5;
-}
-
-.disabled {
-	opacity: 0.5;
-}
-
-.errorMessage {
-    color: rgb(200,0,0);
+    border-left: 2px solid rgb(225,0,0);
 }
 
 table {
     border: 1px solid rgb(200,200,200);
     border-radius: 10px;
-    margin-left: 10px;
+    margin-left: -20px; /* Cancel out row margin */
 }
-/*
-table tr {
-    display: block;
-}*/
+
+p.col-sm-12.errorMessage {
+    margin-left: -20px; /* Cancel out row margin */
+}
 
 table tr:first-child {
     background: rgb(240,240,240);
     border-radius: 10px 10px 0px 0px;
     border-bottom: 1px solid rgb(200,200,200);
-}
-
-table tr:first-child th {
-    border-radius: 10px 10px 0px 0px;
 }
 
 table th, table td {

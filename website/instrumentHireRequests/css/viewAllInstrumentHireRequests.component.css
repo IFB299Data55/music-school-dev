@@ -1,176 +1,57 @@
 .errorMessage {
-    color: rgb(200,0,0);
-}
-
-
-/*******************************
-             Table
-*******************************/
-
-.content {
-  width: 100%;
-}
-
-.flexsearch--wrapper {
-  height: auto;
-  width: auto;
-  overflow: hidden;
-  background: transparent;
-  position: static;
-}
-  
-.flexsearch--form {
-  overflow: hidden;
-  position: relative;
-}
-  
-.flexsearch--input-wrapper {
-  padding: 0 28px 8px 0; 
-  overflow: hidden;
-}
-
-#myInput {
-  width: 100%;
-}
-
-
-.flexsearch {
   width: 80%;
-  margin-left: 10%;
+  margin: auto;
 }
 
-#myInput {
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
+.searchContainer {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+input {
   height: 40px;
-  padding-left: 20px;
-  border-color: #888;
+  border: 2px solid #888;
   border-radius: 35px; 
-  border-style: solid;
-  border-width: 2px;
-  margin-top: 15px;
+  padding-left: 10px;
   color: #333;
   font-family: 'Helvetica', sans-serif;
   font-size: 18px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
+  width: 100%;
+  margin-bottom: 5px;
 }
   
 
-#myInput:focus {
-  outline: none;
+input:focus {
   border-color: #333;
-}
-
-#myInput:focus.flexsearch--submit {
-  color: #333; 
-}
-
-.flexsearch--submit:hover {
   color: #333;
-  cursor: pointer;
 }
 
-::-webkit-input-placeholder {
-  color: #888;  
-}
-
-input:-moz-placeholder {
-  color: #888
-}
-
-
-#myTable {
+table {
   width: 80%;
-  background: #FFFFFF;
-  margin-left: 10%;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  box-shadow: none;
-  border-radius: 0.28571429rem;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.87);
-  border-collapse: separate;
-  border-spacing: 0px;
-}
-#myTable:first-child {
-  margin-top: 0em;
-}
-#myTable:last-child {
-  margin-bottom: 30px;
-
-  
-}
-
-.ui-table-columntoggle-btn {
-    display: none !important;
-}
-
-#myTable thead {
+  margin: auto;
+  border: 1px solid rgb(220, 220, 220);
   box-shadow: none;
 }
-#myTable thead th {
+
+th {
   cursor: auto;
   background: #F9FAFB;
-  text-align: inherit;
-  color: rgba(0, 0, 0, 0.87);
-  padding: 0.92857143em 0.78571429em;
-  vertical-align: inherit;
-  font-style: none;
+  border-bottom: 1px solid rgb(220, 220, 220);
+
+  padding: 10px;
   font-weight: bold;
-  text-transform: none;
-  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
   border-left: none;
-    
-}
-#myTable thead tr > th:first-child {
-  border-left: none;
-}
-#myTable thead tr:first-child > th:first-child {
-  border-radius: 0.28571429rem 0em 0em 0em;
-}
-#myTable thead tr:first-child > th:last-child {
-  border-radius: 0em 0.28571429rem 0em 0em;
-}
-#myTable thead tr:first-child > th:only-child {
-  border-radius: 0.28571429rem 0.28571429rem 0em 0em;
 }
 
 
-#myTable tr td {
-  border-top: 1px solid rgba(34, 36, 38, 0.1);
+table tr td {
+  border-top: 1px solid rgb(220, 220, 220);
 }
-#myTable tr:first-child td {
+table tr:first-child td {
   border-top: none;
 }
 
-
-#myTable td {
-  padding: 0.78571429em 0.78571429em;
-  text-align: inherit;
+table td {
+  padding: 10px;
 }
-
-
-#myTable[class*="left aligned"],
-#myTable [class*="left aligned"] {
-  text-align: left;
-}
-#myTable[class*="center aligned"],
-#myTable [class*="center aligned"] {
-  text-align: center;
-}
-#myTable[class*="right aligned"],
-#myTable [class*="right aligned"] {
-  text-align: right;
-}
-
-
-.ui.celled.table tr th,
-.ui.celled.table tr td {
-  border-left: 1px solid rgba(34, 36, 38, 0.1);
-}
-.ui.celled.table tr th:first-child,
-.ui.celled.table tr td:first-child {
-  border-left: none;
-}
-

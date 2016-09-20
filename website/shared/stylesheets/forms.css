@@ -26,24 +26,23 @@ form label {
 
 form input {
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid rgb(100,100,100);
     padding: 0px 10px 0px 10px;
     border-radius: 25px;
 }
 
 form select {
     width: 100%;
-    border: 1px solid black;
+    border: 1px solid rgb(100,100,100);
     padding: 0px 10px 0px 10px;
 }
 
 form input:focus, form textarea:focus, form select:focus {
     background: white;
     resize: none;
-    border-top: 2px solid rgb(100, 100, 180);
-    border-right: 2px solid rgb(100, 100, 180);
-    border-bottom: 2px solid rgb(100, 100, 180);
-    margin-top: -2px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 form input:required, form textarea:required {
