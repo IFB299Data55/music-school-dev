@@ -166,21 +166,27 @@ exports.include = (app) => {
 						response.send(valid);
 					}
 				}).on('end', function() {
-					app.client.query(instrumentHireQuery) //Run Third Query
-					.on('error', function(err) {
-						/* Error Handling */
+					if(lesson.hireType == 'Hire') {
+						app.client.query(instrumentHireQuery) //Run Third Query
+						.on('error', function(err) {
+							/* Error Handling */
+							if (!response.headersSent) {
+								valid.status = false;
+								isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+								console.log("Errors Happened in StdntLsnAppRting 3: ", err);
+								response.send(valid);
+							}
+						}).on('end', function() {
+							/* All queries ran: lesson registered */
+							if (!response.headersSent) {
+								response.send(valid);
+							}
+						});
+					} else {
 						if (!response.headersSent) {
-							valid.status = false;
-							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-							console.log("Errors Happened in StdntLsnAppRting 3: ", err);
 							response.send(valid);
 						}
-					}).on('end', function() {
-						/* All queries ran: lesson registered */
-						if (!response.headersSent) {
-							response.send(valid);
-						}
-					});
+					}
 				});
 			});
 		} else if (!response.headersSent) {
