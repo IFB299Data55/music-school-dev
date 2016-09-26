@@ -3,7 +3,7 @@
 	<div class="card">
 		<div class="content">
 			<div class="header">
-				Student Name: {{instrument.firstname}} {{instrument.lastname}}
+				<legend><span>Student Name: {{instrument.firstname}} {{instrument.lastname}}</span></legend>
 			</div>
 			<div class="meta">
 				<p>Student Phone: {{instrument.phone}}</p>
@@ -21,8 +21,8 @@
 			</div>
 			<div class="extra content">
 	    		<div class="ui two buttons">
+					<button class="button22 clickable" (click)="GoBack()">Go Back</button>
 					<button class="button21 clickable" (click)="ReturnInstrument(instrument.hireid)">Mark as Returned</button>
-				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
 				</div>
 	    	</div>
 	    	<p *ngIf="error" class="errorMessage">{{error}}</p>

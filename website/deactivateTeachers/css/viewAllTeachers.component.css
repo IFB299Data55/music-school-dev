@@ -92,6 +92,7 @@ input:-moz-placeholder {
   color: rgba(0, 0, 0, 0.87);
   border-collapse: separate;
   border-spacing: 0px;
+  border-radius: 3px;
 }
 #myTable:first-child {
   margin-top: 0em;
@@ -126,7 +127,7 @@ input:-moz-placeholder {
 #myTable thead tr > th:first-child {
   border-left: none;
 }
-#myTable thead tr:first-child > th:first-child {
+/*#myTable thead tr:first-child > th:first-child {
   border-radius: 0.28571429rem 0em 0em 0em;
 }
 #myTable thead tr:first-child > th:last-child {
@@ -134,7 +135,7 @@ input:-moz-placeholder {
 }
 #myTable thead tr:first-child > th:only-child {
   border-radius: 0.28571429rem 0.28571429rem 0em 0em;
-}
+}*/
 
 
 #myTable tr td {

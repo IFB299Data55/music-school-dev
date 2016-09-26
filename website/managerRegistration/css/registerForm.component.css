@@ -1,21 +1,21 @@
-.buttonContainer {
+/*.buttonContainer {
   margin-top: 30px;
   text-align: center;
   padding-right: 6%;
-}
+}*/
 
-form button {
+/*form button {
   margin: auto;
   color: #FFF;
   background: rgb(50,150,50);
   font-weight: bold;
-}
+}*/
 
-form button:hover {
+/*form button:hover {
   background: rgb(30,130,30);
-}
+}*/
 
-form button[disabled] {
+/*form button[disabled] {
     opacity: 0.5;
     background: rgb(150,50,50);
-}
+}*/

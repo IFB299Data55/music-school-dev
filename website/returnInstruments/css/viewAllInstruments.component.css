@@ -38,9 +38,9 @@ th {
   cursor: auto;
   background: #F9FAFB;
   border-bottom: 1px solid rgb(220, 220, 220);
-
   padding: 10px;
   font-weight: bold;
+  font-size: 1.2em;
   border-left: none;
 }
 
@@ -48,10 +48,15 @@ th {
 table tr td {
   border-top: 1px solid rgb(220, 220, 220);
 }
+
 table tr:first-child td {
   border-top: none;
 }
 
 table td {
   padding: 10px;
+}
+
+tr {
+  cursor: pointer;
 }

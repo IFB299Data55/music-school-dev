@@ -1,68 +1,79 @@
-.buttonContainer {
+/*.buttonContainer {
   margin-top: 30px;
   text-align: center;
   padding-right: 6%;
-}
+}*/
 
 form button {
   margin: auto;
-  color: #FFF;
+  /*color: #FFF;
   background: rgb(50,150,50);
-  font-weight: bold;
+  font-weight: bold;*/
 }
 
-form button:hover {
+/*form button:hover {
   background: rgb(30,130,30);
-}
+}*/
 
 form button[disabled] {
-    opacity: 0.5;
-    background: rgb(150,50,50);
+    margin: auto;
+    /*opacity: 0.6;
+    background: white;
+    color: rgb(225,0,0);
+    border: none;
+    box-shadow: 0px 0px 0px 1px #DB2828 inset !important;
+    font-size: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 25px;
+    padding-left: 25px;
+    line-height: 1em;
+    border-radius: 0.5rem;*/
 }
 
-.ng-valid, .validTable {
+/*.ng-valid, .validTable {
     border-left: 2px solid rgb(70,200,70);
 }
 
 .ng-invalid, .invalidTable {
     border-left: 2px solid rgb(225,0,0);
-}
+}*/
 
-table {
+/*table {
     border: 1px solid rgb(200,200,200);
     border-radius: 10px;
-    margin-left: -20px; /* Cancel out row margin */
-}
+    margin-left: -20px;
+}*/
 
-p.col-sm-12.errorMessage {
-    margin-left: -20px; /* Cancel out row margin */
-}
+/*p.col-sm-12.errorMessage {
+    margin-left: -20px;
+}*/
 
-table tr:first-child {
+/*table tr:first-child {
     background: rgb(240,240,240);
     border-radius: 10px 10px 0px 0px;
     border-bottom: 1px solid rgb(200,200,200);
-}
+}*/
 
-table th, table td {
+/*table th, table td {
     padding: 10px;
     text-align: center;
-}
+}*/
 
-.selectableRow:hover {
+/*.selectableRow:hover {
     background: rgb(250,250,250);
     cursor: pointer;
-}
+}*/
 
 .selectedInstrument.selectableRow:hover {
     background: white;
     cursor: default;
 }
 
-.selectedInstrument {
+/*.selectedInstrument {
     background: white;
     font-weight: bold;
-}
+}*/
 
 .tableError {
     text-align: center;
