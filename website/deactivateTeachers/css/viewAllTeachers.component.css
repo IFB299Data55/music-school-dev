@@ -99,8 +99,6 @@ input:-moz-placeholder {
 }
 #myTable:last-child {
   margin-bottom: 30px;
-
-  
 }
 
 .ui-table-columntoggle-btn {
@@ -140,6 +138,7 @@ input:-moz-placeholder {
 
 #myTable tr td {
   border-top: 1px solid rgba(34, 36, 38, 0.1);
+  cursor: pointer;
 }
 #myTable tr:first-child td {
   border-top: none;

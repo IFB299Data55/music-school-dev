@@ -7,7 +7,9 @@
       Cards
 ---------------*/
 .header{
-    font-weight: bold; 
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 30px; 
 }
 
 .ui.cards > .card,
@@ -83,62 +85,73 @@
 
 
 .button22{
-  margin-left: 15px;
+  margin-left: 80px; /* DO NOT GET RID OF THIS LINE!! OVERRIDING! */
   margin-top: -5px;
   margin-right: 5px;
-  float: right;
   border: none;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 25px;
   padding-left: 25px;
-  line-height: 1em;
+  /*line-height: 1em;*/
   font-size: 17px;
   font-style: normal;
   text-align: center;
   font-weight: normal;
   border-color: white;
   box-shadow: 0px 0px 0px 01px #21BA45 inset !important;
-  color: #21BA45 !important;
-  border-bottom-left-radius: 0.28571429rem;
-  border-top-left-radius: 0.28571429rem;
+  color: #21BA45;
+  border-radius: 0.5rem;
+  /*border-top-left-radius: 0.28571429rem;*/
   background: white;
-  
 }
 
 .button21{
   margin-top: -5px;
   border: none;
-  float: right;
   margin-left: -2px;
   padding-top: 10px;
   padding-bottom: 10px;
   padding-right: 25px;
   padding-left: 25px;
-  line-height: 1em;
+  /*line-height: 1em;*/
   font-size: 17px;
   font-style: normal;
   text-align: center;
   font-weight: normal;
   border-color: white;
   box-shadow: 0px 0px 0px 1px #DB2828 inset !important;
-  color: #DB2828 !important;
-  border-bottom-right-radius: 0.28571429rem;
-  border-top-right-radius: 0.28571429rem;
+  color: #DB2828;
+  border-radius: 0.5rem;
+  /*border-top-right-radius: 0.28571429rem;*/
   background: white;
-  
 }
 
-.ui.two.buttons{
-    margin-left: 25px;
-    display:inline;
+.button22:hover {
+  cursor: pointer;
+  background: #21BA45;
+  color: #FFF;
+}
+
+.button21:hover {
+  cursor: pointer;
+  background: #DB2828;
+  color: #FFF;
+}
+
+.extra.content {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }
 
 .card {
   font-size: 1em;
   margin-left: 30%;
   width: 40%;
-  border: ;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 1rem;
+  box-shadow: 1px 1px 1px 0px rgb(220, 220, 220);
 }
 
 html {
@@ -147,9 +160,16 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-.clickable:hover {
-  cursor: pointer;
-  background: rgb(240,240,240) !important;
+.left {
+  /*padding-bottom: 5px;*/
+  padding-left: 30px;
+  float: left;
+}
+
+.right {
+  float: right;
+  padding-right: 30px;
+  /*padding-bottom: 5px;*/
 }
 
 .meta {

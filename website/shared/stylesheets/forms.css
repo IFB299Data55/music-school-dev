@@ -68,12 +68,13 @@ form input:required, form textarea:required {
 
 table {
     border: 1px solid rgb(200,200,200);
+    margin: auto;
     /*border-radius: 10px;*/
     /*margin-left: -20px;*/
 }
 
 table tr:first-child {
-    background: rgb(240,240,240);
+    /*background: rgb(240,240,240);*/
     /*border-radius: 10px 10px 0px 0px;*/
     border-bottom: 1px solid rgb(200,200,200);
 }

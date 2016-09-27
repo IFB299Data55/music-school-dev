@@ -6,18 +6,18 @@
 				<legend><span>Student Name: {{instrument.firstname}} {{instrument.lastname}}</span></legend>
 			</div>
 			<div class="meta">
-				<p>Student Phone: {{instrument.phone}}</p>
-				<p>Student Email: {{instrument.email}}</p>
-				<p>Instrument Model: {{instrument.instrumentname}}</p>
-				<p>Instrument Type: {{instrument.instrumenttype}}</p>
-				<p>Due Date: {{instrument.duedate}}</p>
-				<p>Hire Date: {{instrument.hiredate}}</p>
-				<p>Serial Number: {{instrument.serialnumber}}</p>
-				<p>Condition: {{instrument.condition}}</p>
-				<p>Purchase Date: {{instrument.purchasedate}}</p>
-				<p>Purchase Price: ${{instrument.purchaseprice}}</p>
-				<p>Hire Fee: ${{instrument.hirefee}}</p>
-				<p>Notes: {{instrument.notes}}</p>
+				<div class="left">Student Phone:</div> <div class="right">{{instrument.phone}}</div><br><br>
+				<div class="left">Student Email:</div> <div class="right">{{instrument.email}}</div><br><br>
+				<div class="left">Instrument Model:</div> <div class="right">{{instrument.instrumentname}}</div><br><br>
+				<div class="left">Instrument Type:</div> <div class="right">{{instrument.instrumenttype}}</div><br><br>
+				<div class="left">Due Date:</div> <div class="right">{{instrument.duedate}}</div><br><br>
+				<div class="left">Hire Date:</div> <div class="right">{{instrument.hiredate}}</div><br><br>
+				<div class="left">Serial Number:</div> <div class="right">{{instrument.serialnumber}}</div><br><br>
+				<div class="left">Condition:</div> <div class="right">{{instrument.condition}}</div><br><br>
+				<div class="left">Purchase Date:</div> <div class="right">{{instrument.purchasedate}}</div><br><br>
+				<div class="left">Purchase Price:</div> <div class="right">${{instrument.purchaseprice}}</div><br><br>
+				<div class="left">Hire Fee:</div> <div class="right">${{instrument.hirefee}}</div><br><br>
+				<div class="left">Notes:</div> <div class="right">{{instrument.notes}}</div><br><br>
 			</div>
 			<div class="extra content">
 	    		<div class="ui two buttons">
