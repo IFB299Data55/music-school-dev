@@ -14,11 +14,11 @@
 	<p>
 		We can also cater to those wishing to play ethnic instruments, please make an inquiry with the music school for more information.
 	</p>
-	<table>
-	<tr>
+	<table id="myTable">
+	<thead>
 		  <th>Instrument</th>
 		  <th>Fee</th>
-	</tr>
+	</thead>
 	<tr *ngFor="let instrument of instruments">
 		  <td>{{instrument.name}}</td>
 		  <td>${{instrument.fee}}</td>

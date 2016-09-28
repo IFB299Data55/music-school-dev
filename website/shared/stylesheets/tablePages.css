@@ -1,62 +1,110 @@
-.errorMessage {
+.tableErrorMessage {
   width: 80%;
   margin: auto;
+  color: rgb(200,0,0);
 }
 
-.searchContainer {
+.content {
+  width: 100%;
+}
+
+/*.flexsearch--wrapper {
+  height: auto;
+  width: auto;
+  background: transparent;
+  position: static;
+}*/
+  
+/*.flexsearch--form {
+  overflow: hidden;
+  position: relative;
+}*/
+  
+.flexsearch--input-wrapper {
+  padding: 0 28px 8px 0; 
+}
+
+#myInput {
+  width: 100%;
+}
+
+.flexsearch {
   width: 80%;
-  margin: auto;
-  text-align: center;
+  margin-left: 10%;
 }
 
-input {
+#myInput {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
   height: 40px;
-  border: 2px solid #888;
+  padding-left: 20px;
+  border-color: #888;
   border-radius: 35px; 
-  padding-left: 10px;
+  border-style: solid;
+  border-width: 2px;
+  margin-top: 15px;
   color: #333;
   font-family: 'Helvetica', sans-serif;
   font-size: 18px;
-  width: 100%;
-  margin-bottom: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
   
-
-input:focus {
+#myInput:focus {
+  outline: none;
   border-color: #333;
+}
+
+#myInput:focus.flexsearch--submit {
+  color: #333; 
+}
+
+.flexsearch--submit:hover {
   color: #333;
-}
-
-table {
-  width: 80%;
-  /*margin: auto;
-  border: 1px solid rgb(220, 220, 220);
-  box-shadow: none;*/
-}
-
-th {
-  cursor: auto;
-  background: #F9FAFB;
-  border-bottom: 1px solid rgb(220, 220, 220);
-  padding: 10px;
-  font-weight: bold;
-  font-size: 1.2em;
-  border-left: none;
-}
-
-
-table tr td {
-  border-top: 1px solid rgb(220, 220, 220);
-}
-
-table tr:first-child td {
-  border-top: none;
-}
-
-table td {
-  padding: 10px;
-}
-
-tr {
   cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+  color: #888;  
+}
+
+#myInput:-moz-placeholder {
+  color: #888
+}
+
+#myTable {
+  width: 80%;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  text-align: left;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+#myTable:first-child {
+  margin-top: 0em;
+}
+#myTable:last-child {
+  margin-bottom: 30px;
+}
+
+#myTable thead {
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  background: #F9FAFB;
+}
+
+#myTable thead th {
+  text-align: inherit;
+  color: rgba(0, 0, 0, 0.87);
+  padding: 10px;
+  font-size: 1.2em;
+}
+
+#myTable tr {
+  cursor: pointer;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+#myTable td {
+  padding: 10px;
+  text-align: inherit;
 }

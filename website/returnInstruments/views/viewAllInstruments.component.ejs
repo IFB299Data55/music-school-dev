@@ -1,11 +1,15 @@
 <div *ngIf="PageIsAvailable()">
-  <p *ngIf="error" class="errorMessage">{{error}}</p>
-  
-  <div class="searchContainer">
-    <input name="search" type="text" id="search" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
+  <p *ngIf="error" class="tableErrorMessage">{{error}}</p>
+<div class="content">
+  <div class="flexsearch">
+		<div class="flexsearch--wrapper">
+			<div class="flexsearch--input-wrapper">
+        <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
+      </div>
+    </div>
   </div>
     
-  <table class="table-hover"> 
+  <table class="table-hover" id="myTable"> 
     <thead>
       <th>Student Name</th>
       <th>Instrument Model</th>
@@ -14,7 +18,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.hireid)">
-        <td class="left aligned">{{instrument.firstname}} {{instrument.lastname}}</td>
+        <td>{{instrument.firstname}} {{instrument.lastname}}</td>
         <td>{{instrument.instrumentname}}</td>
         <td>{{instrument.instrumenttype}}</td>
         <td>{{instrument.duedate}}</td>
@@ -22,6 +26,7 @@
     </tbody>
   </table>
 
+</div>
 </div>
 
 <p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>

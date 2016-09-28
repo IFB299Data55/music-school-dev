@@ -1,10 +1,15 @@
 <div *ngIf="PageIsAvailable()">
 
-  <div class="searchContainer">
-    <input name="search" type="text" id="search" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
+<div class="content">
+  <div class="flexsearch">
+		<div class="flexsearch--wrapper">
+			<div class="flexsearch--input-wrapper">
+        <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
+      </div>
+    </div>
   </div>
          
-  <table> 
+  <table id="myTable"> 
     <thead>
       <th>Student Name</th>
       <th>Instrument Model</th>
@@ -20,7 +25,8 @@
       </tr>
     </tbody>
   </table>
-  <p *ngIf="error" class="errorMessage">{{error}}</p>
+  <p *ngIf="error" class="tableErrorMessage">{{error}}</p>
+</div>
 </div>
 
 <p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>

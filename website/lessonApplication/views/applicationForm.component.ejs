@@ -44,15 +44,15 @@
 		[disabled]="instrumentList.length == 0" id="instrumentInfo">
 			<legend><span>Instrument to Hire</span></legend>
 			<div class="row">
-				<table class="col-sm-12 table-hover" [class.validTable]="instrumentId.valid" [class.invalidTable]="!instrumentId.valid">
-					<tr>
+				<table class="col-sm-12 table-hover" id="myTable" [class.validTable]="instrumentId.valid" [class.invalidTable]="!instrumentId.valid">
+					<thead>
 						<th>Serial</th>
 						<th>Model</th>
 						<th>Hire Fee</th>
 						<th>Condition</th>
 						<th>Notes</th>
 						<th>Hire</th>
-					</tr>
+					</thead>
 					<tr class="tableError" *ngIf="instrumentList.length == 0">
 						<td colspan="6">No instruments to display</td>
 					</tr>

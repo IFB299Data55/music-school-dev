@@ -3,15 +3,13 @@
 <div class="ui cards">
   <div class="card" *ngFor="let student of students">
     <div class="content clickable" (click)="SelectStudentRequest(student.requestid)">
-      <div class="header">
-          <b>{{student.firstname}} {{student.lastname}}</b>
+      <div class="cardHeader">
+          <legend>{{student.firstname}} {{student.lastname}}</legend>
       </div>
       <div class="meta">
-        Age: {{student.dob}}
-          <br>
-        Instrument: {{student.instrument}}
-          <br>
-        Grade: {{student.grade}}
+        <div class="cardLeft">Age:</div> <div class="cardRight">{{student.dob}}</div><br>
+        <div class="cardLeft">Instrument:</div> <div class="cardRight">{{student.instrument}}</div><br>
+        <div class="cardLeft">Grade:</div> <div class="cardRight">{{student.grade}}</div>
       </div>
     </div>
   </div>
