@@ -20,6 +20,13 @@ exports.include = (app) => {
 			birthday:true,
 			phoneNumber:true,
 			coverLetter:true,
+			reference1name:true,
+			reference1number:true,
+			reference2name:true,
+			reference2number:true,
+			reference3name:true,
+			reference3number:true,
+			hours:true,
 			email:true,
 			dbError:false,
 			dbErrorMessage:''
@@ -41,8 +48,40 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			console.log('response');
 			response.send(valid);
-			/*.on('end', function(){
+
+			var teacherApplicantsCols = "first_name, middle_name, last_name, dob, phone_no, email, coverletter, date_applied, status, is_short_listed, is_approved"
+			var newTeacherApplicantQuery = {
+				text: "INSERT INTO music_school.teacher_applicants("+teacherApplicantsCols+") VALUES("
+						+"$1,$2,$3,"
+						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,now(),"
+						+"1,FALSE,FALSE"
+					 +")",
+				name: "create-new-teacher-applicant",
+				values: [
+					  teacherApplication.firstName
+					, teacherApplication.middleName
+					, teacherApplication.lastName
+					, teacherApplication.birthday
+					, teacherApplication.phoneNumber
+					, teacherApplication.email
+					, teacherApplication.coverLetter
+				]
+			};
+
+			//Run Queries
+			/*app.client.query(newTeacherApplicantQuery)
+			.on('error', function(err) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+					console.log("Error occured in TeacherApplication: ", err);
+				}
+			})
+			.on('end', function() {
 				if (!response.headersSent) {
 					//Send Email
 					var textMessage = "Dear " + teacher.firstName + " " + teacher.lastName + ", "
@@ -90,6 +129,8 @@ function validateAll(teacherApplication, isValid) {
 		validatePhoneNumber(teacherApplication.phoneNumber, isValid) &&
 		validateCoverLetter(teacherApplication.coverLetter, isValid) &&
 		validateInstruments(teacherApplication.instruments, isValid) &&
+		validateReferences(teacherApplication, isValid) &&
+		validateHours(teacherApplication.hours, isValid) &&
 		validateEmail(teacherApplication.email, isValid)) {
 		return true;
 	} else {
@@ -175,6 +216,48 @@ function validateInstruments(instruments, isValid) {
 	return false;
 }
 
+function validateReferences(teacherApplication, isValid) {
+	var valid = true;
+	if (!validateReferenceName(teacherApplication.reference1name)) {
+		isValid.reference1name = false;
+		valid = false;
+	}
+	if (!validateReferenceNumber(teacherApplication.reference1number)) {
+		isValid.reference1number = false;
+		valid = false;
+	}
+	if (teacherApplication.reference2name != '' && teacherApplication.reference2number != '') {
+		if (!validateReferenceName(teacherApplication.reference2name)) {
+			isValid.reference2name = false;
+			valid = false;
+		}
+		if (!validateReferenceNumber(teacherApplication.reference2number)) {
+			isValid.reference2number = false;
+			valid = false;
+		}
+	}
+	if (teacherApplication.reference3name != '' && teacherApplication.reference3number != '') {
+		if (!validateReferenceName(teacherApplication.reference3name)) {
+			isValid.reference3name = false;
+			valid = false;
+		}
+		if (!validateReferenceNumber(teacherApplication.reference3number)) {
+			isValid.reference3number = false;
+			valid = false;
+		}
+	}
+	return valid;
+}
+
+function validateHours(hours, isValid) {
+	var regexp = new RegExp("^[0-9]+$");
+	if (regexp.test(hours)) {
+		return true;
+	}
+	isValid.hours = false;
+	return false;
+}
+
 function validateEmail(email, isValid) {
 	var regexp = new RegExp("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[a-z]{2,3}$|^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}\.[A-Za-z]{2,3}$");
 	if (regexp.test(email)) {
@@ -182,4 +265,22 @@ function validateEmail(email, isValid) {
 	}
 	isValid.email = false;
 	return false;
+}
+
+function validateReferenceName(name) {
+	var regexpName = new RegExp("^[A-Za-z ]+$");
+	if (regexpName.test(name)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function validateReferenceNumber(number) {
+	var regexpNumber = new RegExp("^[0-9]{8}$|^04[0-9]{8}$");
+	if (regexpNumber.test(number)) {
+		return true;
+	} else {
+		return false;
+	}
 }

@@ -1,11 +1,21 @@
-function TeacherApplication(firstName = '', middleName = '', lastName = '', birthday = '', phoneNumber = '', email = '', resume = '', coverLetter = '', instruments = '') {
+function TeacherApplication(firstName = '', middleName = '', lastName = '', 
+							birthday = '', phoneNumber = '', email = '', 
+							coverLetter = '', reference1name = '', reference1number = '', 
+							reference2name = '', reference2number = '', reference3name = '', 
+							reference3number = '', instruments = '', hours = '') {
   this.firstName = firstName;
   this.middleName = middleName;
   this.lastName = lastName;
   this.birthday = birthday;
   this.phoneNumber = phoneNumber;
   this.email = email;
-  this.resume = resume;
+  this.reference1name = reference1name;
+  this.reference1number = reference1number;
+  this.reference2name = reference2name;
+  this.reference2number = reference2number;
+  this.reference3name = reference3name;
+  this.reference3number = reference3number;
   this.instruments = instruments;
   this.coverLetter = coverLetter;
+  this.hours = hours;
 }

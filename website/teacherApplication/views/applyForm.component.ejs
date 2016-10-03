@@ -63,10 +63,27 @@
     </fieldset>
 
     <fieldset id="resumefield">
-        <legend><span>Resume</span></legend>
+        <legend><span>References</span></legend>
         <div class="col-sm-12">
-	        <label for="resume">Resume:</label>
-	        <textarea id="resume" name="resume" rows="7" cols="55" [(ngModel)]="teacherApplication.resume" pattern="^[A-Za-z0-9 ._%+-]+$" required></textarea>
+	        <label for="reference1name">First Reference:</label>
+            <input title="Letters and Spaces" type="text" id="reference1name" name="reference1name" placeholder="Name" #reference1name="ngModel" [(ngModel)]="teacherApplication.reference1name" pattern="^[A-Za-z ]+$" required/>
+            <input title="Letters and Spaces" type="text" id="reference1number" name="reference1number" placeholder="Number" #reference1number="ngModel" [(ngModel)]="teacherApplication.reference1number" pattern="^\d{8}$|^04\d{8}$" required/>
+
+            <label for="reference2name">Second Reference:</label>
+            <input title="Letters and Spaces" type="text" id="reference2name" name="reference2name" placeholder="Name" #reference2name="ngModel" [(ngModel)]="teacherApplication.reference2name" pattern="^[A-Za-z ]+$" />
+            <input title="Letters and Spaces" type="text" id="reference2number" name="reference2number" placeholder="Number" #reference2number="ngModel" [(ngModel)]="teacherApplication.reference2number" pattern="^\d{8}$|^04\d{8}$" />
+
+            <label for="reference3name">Third Reference:</label>
+            <input title="Letters and Spaces" type="text" id="reference3name" name="reference3name" placeholder="Name" #reference3name="ngModel" [(ngModel)]="teacherApplication.reference3name" pattern="^[A-Za-z ]+$" />
+            <input title="Letters and Spaces" type="text" id="reference3number" name="reference3number" placeholder="Number" #reference3number="ngModel" [(ngModel)]="teacherApplication.reference3number" pattern="^\d{8}$|^04\d{8}$" />
+        </div>
+    </fieldset>
+
+    <fieldset id="resumefield">
+        <legend><span>Number of Hours</span></legend>
+        <div class="col-sm-12">
+            <label for="hours">How many hours a week are you looking to work?</label>
+            <input title="Letters and Spaces" type="text" id="hours" name="hours" #hours="ngModel" [(ngModel)]="teacherApplication.hours" pattern="^[0-9]+$" required/>
         </div>
     </fieldset>
 
