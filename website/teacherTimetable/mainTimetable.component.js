@@ -22,21 +22,27 @@
             'Friday'
           ];
 
-          this.times = [
-            '6am',
-            '7am',
-            '8am',
-            '9am',
-            '10am',
-            '11am',
-            '12am',
-            '1pm',
-            '2pm',
-            '3pm',
-            '4pm',
-            '5pm',
-            '6pm',
-          ];
+          this.times = [];
+
+          for(var time = 0; time < 13; time++) { //13 times
+            var timeObj = {
+              time: (time+5)%12 + 1,
+              ampm: time > 5 ? 'pm':'am',
+              days: []
+            };
+
+            for(var day = 0; day < this.days.length; day++) {
+              var dayObj = {
+                day: this.days[day],
+                status: (time%2)==0 ? time>5 ? 'unavailable' : 'booked' :'available',
+                student: ''
+              };
+
+              timeObj.days.push(dayObj);
+            }
+
+            this.times.push(timeObj);
+          }
 
           this.FormIsAvailable = function() {
             if(this.UserService.GetCurrentUser().type == 'teacher') {

@@ -9,12 +9,12 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let time of times">
-				<td class="main">{{time}}</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td class="last"></td>
+				<td>{{time.time}}{{time.ampm}}</td>
+				<td *ngFor="let day of time.days"
+				[class.available]="day.status=='available'"
+				[class.booked]="day.status=='booked'"
+				[class.unavailable]="day.status=='unavailable'"
+				>{{day.status}}</td>
 			</tr>
 		</tbody>
 	</table>

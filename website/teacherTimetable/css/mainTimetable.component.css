@@ -37,3 +37,17 @@ table tbody tr:last-child td:first-child {
 	border-left: 1px solid rgb(200,200,200);
 	border-right: 1px solid rgb(200,200,200);
 }
+
+.available {
+	background: rgb(40,250,40);
+}
+
+.booked {
+	background: rgb(40,40,250);
+	color: white;
+}
+
+.unavailable {
+	background: rgb(200,200,200);
+	opacity: 0.5;
+}
