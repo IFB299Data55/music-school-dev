@@ -69,11 +69,15 @@ table {
     margin: auto;
 }
 
-#formTable tr:first-child {
+table tr:first-child {
     border-bottom: 1px solid rgb(200,200,200);
 }
 
-#formTable th, table td {
+table thead {
+  background: rgb(240,240,240);
+}
+
+table th, table td {
     padding: 10px;
     text-align: center;
 }
@@ -86,6 +90,7 @@ form textarea {
     width: 100%;
     font-size: 15px;
     border-radius: 25px;
+    padding: 5px 10px 5px 10px;
 }
 
 .errorMessage {
