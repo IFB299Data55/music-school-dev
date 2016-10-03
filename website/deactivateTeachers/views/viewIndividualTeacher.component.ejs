@@ -2,22 +2,22 @@
 
 	<div class="card">
 		<div class="content">
-			<div class="header">
-				<p>Name: {{teacher.firstname}} {{teacher.lastname}}</p>
+			<div class="cardHeader">
+				<legend><span>Name: {{teacher.firstname}} {{teacher.lastname}}</span></legend>
 			</div>
 			<div class="meta">
-				<p>DOB: {{teacher.dob}}</p>
-				<p>Address: {{teacher.address}}</p>
-				<p>Phone: {{teacher.phone}}</p>
-				<p>Email: {{teacher.email}}</p>
-				<p>Date Employed: {{teacher.dateemployed}}</p>
-				<p>Description: {{teacher.description}}</p>
+				<div class="cardLeft">DOB:</div> <div class="cardRight">{{teacher.dob}}</div><br><br>
+				<div class="cardLeft">Address:</div> <div class="cardRight">{{teacher.address}}</div><br><br>
+				<div class="cardLeft">Phone:</div> <div class="cardRight">{{teacher.phone}}</div><br><br>
+				<div class="cardLeft">Email:</div> <div class="cardRight">{{teacher.email}}</div><br><br>
+				<div class="cardLeft">Date Employed:</div> <div class="cardRight">{{teacher.dateemployed}}</div><br><br>
+				<div class="cardLeft">Description:</div> <div class="cardRight">{{teacher.description}}</div><br><br>
 			</div>
 		</div>
 		<div class="extra content">
     		<div class="ui two buttons">
-				<button class="button21 clickable" (click)="DeactivateTeacher(teacher.id)">Deactivate</button>
 			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
+				<button class="button21 clickable" (click)="DeactivateTeacher(teacher.id)">Deactivate</button>
 			</div>
     	</div>
 	</div>

@@ -1,17 +1,17 @@
-<p *ngIf="error" class="errorMessage">{{error}}</p>
+<p *ngIf="error" class="tableErrorMessage">{{error}}</p>
 
 <div class="content" *ngIf="FormIsAvailable()">
 
-   <div class="flexsearch">
+  <div class="flexsearch">
 		<div class="flexsearch--wrapper">
 			<div class="flexsearch--input-wrapper">
 			 <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
 			</div>
 		</div>
-      </div>
+  </div>
       
           
-    <table class="ui right aligned celled table" data-role="table" data-mode=" columntoggle" class="ui-responsive ui-shadow" id="myTable" data-filter="true" data-input="#filterTable-input">
+    <table class="table-hover" data-role="table" data-mode=" columntoggle" id="myTable" data-filter="true" data-input="#filterTable-input">
     
       <thead>
         <th class="left aligned">Name</th>

@@ -2,30 +2,30 @@
 
 	<div class="card">
 		<div class="content">
-			<div class="header">
-				Student Name: {{instrument.firstname}} {{instrument.lastname}}
+			<div class="cardHeader">
+				<legend><span>Student Name: {{instrument.firstname}} {{instrument.lastname}}</span></legend>
 			</div>
 			<div class="meta">
-				<p>Student Phone: {{instrument.phone}}</p>
-				<p>Student Email: {{instrument.email}}</p>
-				<p>Instrument Model: {{instrument.instrumentname}}</p>
-				<p>Instrument Type: {{instrument.instrumenttype}}</p>
-				<p>Due Date: {{instrument.duedate}}</p>
-				<p>Hire Date: {{instrument.hiredate}}</p>
-				<p>Serial Number: {{instrument.serialnumber}}</p>
-				<p>Condition: {{instrument.condition}}</p>
-				<p>Purchase Date: {{instrument.purchasedate}}</p>
-				<p>Purchase Price: ${{instrument.purchaseprice}}</p>
-				<p>Hire Fee: ${{instrument.hirefee}}</p>
-				<p>Notes: {{instrument.notes}}</p>
+				<div class="cardLeft">Student Phone:</div> <div class="cardRight">{{instrument.phone}}</div><br><br>
+				<div class="cardLeft">Student Email:</div> <div class="cardRight">{{instrument.email}}</div><br><br>
+				<div class="cardLeft">Instrument Model:</div> <div class="cardRight">{{instrument.instrumentname}}</div><br><br>
+				<div class="cardLeft">Instrument Type:</div> <div class="cardRight">{{instrument.instrumenttype}}</div><br><br>
+				<div class="cardLeft">Due Date:</div> <div class="cardRight">{{instrument.duedate}}</div><br><br>
+				<div class="cardLeft">Hire Date:</div> <div class="cardRight">{{instrument.hiredate}}</div><br><br>
+				<div class="cardLeft">Serial Number:</div> <div class="cardRight">{{instrument.serialnumber}}</div><br><br>
+				<div class="cardLeft">Condition:</div> <div class="cardRight">{{instrument.condition}}</div><br><br>
+				<div class="cardLeft">Purchase Date:</div> <div class="cardRight">{{instrument.purchasedate}}</div><br><br>
+				<div class="cardLeft">Purchase Price:</div> <div class="cardRight">${{instrument.purchaseprice}}</div><br><br>
+				<div class="cardLeft">Hire Fee:</div> <div class="cardRight">${{instrument.hirefee}}</div><br><br>
+				<div class="cardLeft">Notes:</div> <div class="cardRight">{{instrument.notes}}</div><br><br>
 			</div>
 			<div class="extra content">
 	    		<div class="ui two buttons">
+					<button class="button22 clickable" (click)="GoBack()">Go Back</button>
 					<button class="button21 clickable" (click)="ReturnInstrument(instrument.hireid)">Mark as Returned</button>
-				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
 				</div>
 	    	</div>
-	    	<p *ngIf="error" class="errorMessage">{{error}}</p>
+	    	<p *ngIf="error" class="cardErrorMessage">{{error}}</p>
 		</div>
 	</div>
 
