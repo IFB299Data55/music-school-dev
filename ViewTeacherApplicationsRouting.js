@@ -8,12 +8,17 @@ exports.include = (app) => {
 	app.get('/management/teacherApplications/getTeacherApplications/', function(request, response) {
 
 		var teacherApplicationsResult = [];
+		var teacherInstrumentExperience = [];
+		var teacherLanguageSkill = [];
 		var result = {
 			status: true,
-			teacherApplications: teacherApplicationsResult
+			teacherApplications: teacherApplicationsResult,
+			teacherInstrument: teacherInstrumentExperience,
+			teacherLanguage: teacherLanguageSkill
 		}
 
-		var getQuery = "SELECT id as teacherapplicantid, first_name as firstname, last_name as lastname, "
+
+		var getQuery = "SELECT id, first_name as firstname, last_name as lastname, "
 						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied "
 						+"FROM music_school.teacher_applicants "
 						+"WHERE status = 1 AND is_approved = FALSE"; // applied and not approved

@@ -1,15 +1,16 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 
 <div class="ui cards">
-  <div class="card" *ngFor="let student of students">
-    <div class="content clickable" (click)="SelectStudentRequest(student.requestid)">
+  <div class="card" *ngFor="let teacherApplication of teacherApplications">
+    <div class="content clickable" (click)="SelectTeacherApplication(teacherApplication.id)">
       <div class="cardHeader">
-          <legend>{{student.firstname}} {{student.lastname}}</legend>
+          <legend>{{teacherApplication.firstname}} {{teacherApplication.lastname}}</legend>
       </div>
       <div class="meta">
-        <div class="cardLeft">Age:</div> <div class="cardRight">{{student.dob}}</div><br>
-        <div class="cardLeft">Instrument:</div> <div class="cardRight">{{student.instrument}}</div><br>
-        <div class="cardLeft">Grade:</div> <div class="cardRight">{{student.grade}}</div>
+        <div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div><br>
+        <div class="cardLeft">Languages:</div> <div class="cardRight">{{teacherApplication.languages}}</div><br>
+        <div class="cardLeft">Instruments:</div> <div class="cardRight">{{teacherApplication.instruments}}</div>
+        <div class="cardLeft">Hours:</div> <div class="cardRight">{{teacherApplication.hours}}</div>
       </div>
     </div>
   </div>
