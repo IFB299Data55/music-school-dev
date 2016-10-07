@@ -1,0 +1,33 @@
+<div *ngIf="PageIsAvailable()">
+	<div class="card">
+		<div class="content">
+			<div class="header">
+				Student Name: {{instrument.firstname}} {{instrument.lastname}}
+			</div>
+			<div class="meta">
+				<p>Student Phone: {{instrument.phone}}</p>
+				<p>Student Email: {{instrument.email}}</p>
+				<p>Instrument Model: {{instrument.instrumentname}}</p>
+				<p>Instrument Type: {{instrument.instrumenttype}}</p>
+				<p>Due Date: {{instrument.duedate}}</p>
+				<p>Hire Date: {{instrument.hiredate}}</p>
+				<p>Serial Number: {{instrument.serialnumber}}</p>
+				<p>Condition: {{instrument.condition}}</p>
+				<p>Purchase Date: {{instrument.purchasedate}}</p>
+				<p>Purchase Price: ${{instrument.purchaseprice}}</p>
+				<p>Hire Fee: ${{instrument.hirefee}}</p>
+				<p>Notes: {{instrument.notes}}</p>
+			</div>
+			<div class="extra content">
+	    		<div class="ui two buttons">
+					<button class="button21 clickable" (click)="AcceptInstrumentHireRequest(instrument.hireid)">Accept Hire Request</button>
+					<button class="button21 clickable" (click)="RejectInstrumentHireRequest(instrument.hireid)">Decline Hire Request</button>
+				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
+				</div>
+	    	</div>
+	    	<p *ngIf="error" class="errorMessage">{{error}}</p>
+		</div>
+	</div>
+</div>
+
+<p *ngIf="!PageIsAvailable()">You do not have access to this page.</p>

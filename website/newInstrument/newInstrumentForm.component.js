@@ -8,14 +8,17 @@
     .Class({
       constructor: [
         app.NewInstrumentService,
+        app.UserService,
         ng.router.Router,
-	      function(NewInstrumentService, Router) {
+	      function(NewInstrumentService, UserService, Router) {
           this.NewInstrumentService = NewInstrumentService;
+          this.UserService = UserService;
           this.Router = Router;
 	    	  this.instrument = new Instrument();
           this.submitted = false;
           this.isValid = {
             type:true,
+            newInstType:true,
             condition:true,
             serialNumber:true,
             model:true,
@@ -31,6 +34,7 @@
 
           this.Add = function() {
             this.submitted = true;
+            this.error = '';
 
             this.NewInstrumentService.AttemptAdd(this.instrument)
               .then(response => {
@@ -46,6 +50,14 @@
                 this.submitted = false;
                 this.error = 'An error has occured. Please try again later';
             });
+          }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.checkUserType('manager')) {
+              return true;
+            }
+            
+            return false;
           }
 	      }
       ]

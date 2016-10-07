@@ -1,15 +1,18 @@
+/* Routing for Teacher Registration */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/register/teacher/', function(request, response) {
 	  response.render('teacherRegistration/index');
 	});
 
+	/* Register Teacher */
 	app.post('/register/teacher/', function(request, response) {
-		// DATABASE CONNECTION
-		
+		// Get Post Data
 		var teacher = request.body;
 
+		//Set up error array
 		var isValid = {
 			firstName:true,
 			middleName:true,
@@ -21,11 +24,14 @@ exports.include = (app) => {
 			dbError:false,
 			dbErrorMessage:''
 		};
+
+		//Set up response
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 		
+		//Run validation
 		if (validateAll(teacher, isValid)) {
 			valid.status = true;
 		} else {
@@ -35,13 +41,15 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			//Hash password
 			var d = new Date();
 			var n = d.getTime();
 
-			teacher.password = "test";
-			var saltedPassword = teacher.password + n;
-			var hashedPassword = saltedPassword.hashCode();
+			teacher.password = Math.random().toString(36).substring(2,8); //Gen Here
+			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
+			var hashedPassword = saltedPassword.HashCode();
 
+			//setup Queries
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.teachers WHERE email = $1",
 				name: "check-teacher-email",
@@ -82,15 +90,28 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(checkEmail).on('row', function(row) {
+			//Run Queries
+			app.client.query(checkEmail)
+			.on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+					console.log("Error occured in TchrReg: ", err);
+				}
+			})
+			.on('row', function(row) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
 			})
 			.on('end', function(){
-				app.client.query(newTeacherPasswordQuery).on('error', function(err) {
+				app.client.query(newTeacherPasswordQuery)
+				.on('error', function(err) {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.dbError = true;
@@ -100,7 +121,8 @@ exports.include = (app) => {
 					}
 				})
 				.on('end', function(){
-					app.client.query(newTeacherQuery).on('error', function(err) {
+					app.client.query(newTeacherQuery)
+					.on('error', function(err) {
 						if (!response.headersSent) {
 							valid.status = false;
 							isValid.dbError = true;
@@ -111,6 +133,33 @@ exports.include = (app) => {
 					})
 					.on('end', function(){
 						if (!response.headersSent) {
+							//Send Email
+							var textMessage = "Dear " + teacher.firstName + " " + teacher.lastName + ", "
+										 +"\n\nYou have been registered as a teacher for the School of Music."
+										 +"\nYour Temprary password is: '" + teacher.password +"'."
+										 +"\nWe hope you enjoy your employment with us."
+										 +"\n\nRegards,"
+										 +"\nSchool of Music Team";
+
+							var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+														 .replace(new RegExp("$"), '</p>')
+														 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+														 .replace(new RegExp("\n","g"), '</p><p>');
+
+							var teacherConfirmationEmail = {
+								from: '"School of Music Admin" <test@gmail.com>',
+								to: teacher.email,
+								subject: "New Teacher Account",
+								text: textMessage,
+								html: htmlMessage
+							};
+
+							app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+								if(error) {
+									console.log(error);
+								}
+							});
+
 							response.send(valid);
 						}
 					});
@@ -124,7 +173,7 @@ exports.include = (app) => {
 	});
 }
 
-String.prototype.hashCode = function() {
+String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
   for (i = 0, len = this.length; i < len; i++) {

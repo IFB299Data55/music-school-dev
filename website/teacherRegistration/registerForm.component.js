@@ -8,9 +8,11 @@
     .Class({
       constructor: [
         app.RegistrationService,
+        app.UserService,
         ng.router.Router,
-	      function(RegistrationService, Router) {
+	      function(RegistrationService, UserService, Router) {
           this.RegistrationService = RegistrationService;
+          this.UserService = UserService;
           this.Router = Router;
 	        this.teacher = new Teacher();
           this.submitted = false;
@@ -28,6 +30,7 @@
 
           this.Register = function() {
             this.submitted = true;
+            this.error = '';
             //Send to registration Service
             //then redirect
             this.RegistrationService.AttemptRegistration(this.teacher)
@@ -47,6 +50,14 @@
                 this.submitted = false;
                 this.error = 'An error has occured. Please try again later';
             });
+          }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.GetCurrentUser().type == 'manager') {
+                return true;
+            }
+            
+            return false;
           }
 	      }
       ]

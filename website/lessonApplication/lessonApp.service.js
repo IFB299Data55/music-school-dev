@@ -20,8 +20,18 @@
               var url = '/lessons/application/';
               return this.http.post(url, lesson, this.headers).toPromise()
               .then(response => {
-                var valid = JSON.parse(response._body);
-                return Promise.resolve(valid);
+                var res = JSON.parse(response._body);
+                return Promise.resolve(res);
+              })
+              .catch(this.handleError);
+          }
+
+          this.StudentCanRegister = function(req) {
+              var url = '/lessons/application/checkStudent';
+              return this.http.post(url, req, this.headers).toPromise()
+              .then(response => {
+                var res = JSON.parse(response._body);
+                return Promise.resolve(res);
               })
               .catch(this.handleError);
           }

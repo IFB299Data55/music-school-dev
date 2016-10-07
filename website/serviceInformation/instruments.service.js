@@ -5,14 +5,14 @@
         ng.http.Http,
         function(http) {
           this.http = http;
-          this.registerUrl = '/register/student';
+          this.registerUrl = '/information/getInstruments';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.AttemptRegistration = function(student) {
-              return this.http.post(this.registerUrl, student, this.headers).toPromise()
+          this.GetInstruments = function() {
+              return this.http.get(this.registerUrl, this.headers).toPromise()
               .then(response => {
-                var valid = JSON.parse(response._body);
-                return valid;
+                var instruments = JSON.parse(response._body);
+                return Promise.resolve(instruments);
               })
               .catch(this.handleError);
           }

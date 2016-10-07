@@ -16,10 +16,14 @@
           this.UserService = UserService;
           this.lesson = new Lesson();
 
+          this.initialPermissionCheck = true;
+          this.studentIdValidated = false;
+          this.formUnavailableReason = 'You do not have access to this page.';
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
             instrumentType: true,
+            grade: true,
             hireType: true,
             instrumentId: true,
             day: true,
@@ -89,6 +93,7 @@
 
           this.Register = function() {
             this.submitted = true;
+            this.error = '';
             //Fix startTime
             this.CalcEndTimeInHours();
             //Send to registration Service
@@ -129,15 +134,40 @@
 
           this.FormIsAvailable = function() {
             if(this.UserService.IsSomeoneLoggedIn()) {
-              this.lesson.studentId = this.UserService.GetCurrentUser().id;
-              return true;
-            } else {
-              return false;
-            }
+              var user = this.UserService.GetCurrentUser();
+              if(user.type == 'student') {
+                this.lesson.studentId = user.id;
+
+                if(this.initialPermissionCheck) {
+                  this.initialPermissionCheck = false;
+
+                  var req = {
+                    id: this.lesson.studentId
+                  }
+
+                  this.LessonApplicationService.StudentCanRegister(req)
+                  .then(response => {
+
+                    if(response.valid) {
+                      this.studentIdValidated = true;
+                      return true;
+                    } else {
+                      this.formUnavailableReason = 'You have already used all your lesson bookings.';
+                      return false;
+                    }
+                  })
+                  .catch(() => {
+                    this.error = 'User unable to be validated.';
+                  });
+                } else if(this.studentIdValidated) return true;
+                else return false;
+              } else  return false;
+            } else return false;
           }
 
           this.UpdateInstrumentTypes = function() {
-              this.LessonApplicationService.GetInstrumentTypes().then(response => {
+              this.LessonApplicationService.GetInstrumentTypes()
+              .then(response => {
                 if(response.valid) {
                   this.instrumentTypeList = response.instrumentTypes;
                 } else {
@@ -149,13 +179,16 @@
               });
           }
 
+          this.ResetInstrumentType = function() {
+            this.lesson.hireType = '';
+          }
+
           this.UpdateInstruments = function() {
             this.lesson.instrumentId = '';
               if(this.lesson.instrumentType) {
                 this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
                   if(response.valid) {
                     this.instrumentList = response.instruments;
-                    console.log(this.instrumentList);
                   } else {
                     this.error = response.error;
                   }

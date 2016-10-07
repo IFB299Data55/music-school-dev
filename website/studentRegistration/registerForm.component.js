@@ -28,6 +28,7 @@
 
           this.Register = function() {
             this.submitted = true;
+            this.error = '';
             //Send to registration Service
             //then redirect
             this.RegistrationService.AttemptRegistration(this.student)
