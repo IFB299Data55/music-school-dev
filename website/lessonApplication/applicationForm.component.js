@@ -23,14 +23,26 @@
           this.givenStartTime = '';
           this.isValid = {
             instrumentType: true,
-            grade: true,
-            hireType: true,
-            instrumentId: true,
-            day: true,
-            startTime: true,
-            endTime: true,
-            errorMessage:''
+            grade:          true,
+            hireType:       true,
+            instrumentId:   true,
+            day:            true,
+            startTime:      true,
+            endTime:        true,
+            language:       true,
+            teacher:        true,
+            errorMessage:   ''
           };
+
+          this.languages = [{
+            id: 1,
+            name: 'English'
+          }];
+
+          this.teachers = [{
+            id: 1,
+            name: "John Doe"
+          }];
 
           this.CalcEndTimeInHours = function() {
             this.ProcessStartTime();
@@ -165,30 +177,45 @@
             } else return false;
           }
 
-          this.UpdateInstrumentTypes = function() {
-              this.LessonApplicationService.GetInstrumentTypes()
+          this.GetDatabaseValues = function() {
+              this.LessonApplicationService.GetDatabaseValues()
               .then(response => {
                 if(response.valid) {
                   this.instrumentTypeList = response.instrumentTypes;
+                  this.languages = response.languages;
                 } else {
                   this.error = response.error;
                 }
               })
               .catch(() => {
-                this.error = 'Instrument Types were unable to be retrieved.';
+                this.error = 'A Database connection could not be established.';
               });
           }
 
-          this.ResetInstrumentType = function() {
+          this.ResetDependents = function() {
             this.lesson.hireType = '';
+            this.lesson.teacher = 0;
           }
 
-          this.UpdateInstruments = function() {
+          this.UpdateDependents = function() {
             this.lesson.instrumentId = '';
               if(this.lesson.instrumentType) {
                 this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
                   if(response.valid) {
                     this.instrumentList = response.instruments;
+                  } else {
+                    this.error = response.error;
+                  }
+                })
+                .catch(() => {
+                  this.error = 'Instrument list was unable to be retrieved.';
+                });
+              }
+
+              if(this.instrumentType && this.lesson.language) {
+                this.LessonApplicationService.GetTeachers(this.lesson.instrumentType, this.lesson.languages).then(response => {
+                  if(response.valid) {
+                    this.teachers = response.teachers;
                   } else {
                     this.error = response.error;
                   }
