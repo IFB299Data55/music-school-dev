@@ -330,7 +330,15 @@ exports.include = (app) => {
 var validateInstId = false;
 
 function processTime(time) {
-	
+	var response = '';
+	if(time > 12)
+		response = (time-12)+'pm';
+	else 
+		response = time+'am';
+
+	console.log(response);
+
+	return response;
 }
 
 function TurnIntoDBTime(startTime) {
