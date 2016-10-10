@@ -17,15 +17,15 @@
 	        this.teacher = new Teacher();
           this.submitted = false;
           this.isValid = {
-            firstName:true,
-            middleName:true,
-            lastName:true,
-            birthday:true,
-            address:true,
-            phoneNumber:true,
-            email:true,
-            dbError:false,
-            dbErrorMessage:''
+            firstName:      true,
+            middleName:     true,
+            lastName:       true,
+            birthday:       true,
+            address:        true,
+            phoneNumber:    true,
+            email:          true,
+            dbError:        false,
+            dbErrorMessage: ''
           };
 
           this.Register = function() {
