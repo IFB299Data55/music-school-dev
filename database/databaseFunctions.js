@@ -171,7 +171,8 @@ exports.include = (app) => {
 					 +"   AND te.inst_type_id = $1"
 					 +"   AND te.grade >= 4" //4 is the "teaching" requirement
 					 +"   AND tl.language_id = $2"
-					 +"   AND t.is_terminated = FALSE",
+					 +"   AND t.is_terminated = FALSE"
+					 +" ORDER BY grade DESC, first_name ASC",
 				name: "get-applicable-teachers",
 				values: [
 					instrumentTypeId,

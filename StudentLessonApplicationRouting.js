@@ -138,7 +138,7 @@ exports.include = (app) => {
 			};
 
 			var instrumentHireColumns = "instrument_id, student_id, request_date, hire_status_id, is_returned";
-			
+
 			var instrumentHireQuery = {
 				text: "INSERT INTO music_school.instrument_hire("+instrumentHireColumns+") VALUES("
 					+"$1,$2,now(),$3,$4"
@@ -184,13 +184,16 @@ exports.include = (app) => {
 								response.send(valid);
 							}
 						}).on('end', function() {
-							/* All queries ran: lesson registered */
+							/* All queries ran: lesson registered + instrument requested */
 							if (!response.headersSent) {
+								emailStudent(lesson);
 								response.send(valid);
 							}
 						});
 					} else {
+						/* All queries ran: lesson registered */
 						if (!response.headersSent) {
+							emailStudent(lesson);
 							response.send(valid);
 						}
 					}
@@ -202,6 +205,62 @@ exports.include = (app) => {
 			response.send(valid);
 		}
 	});
+
+	function emailStudent(lesson) {
+		var student = {
+			first_name: '',
+			last_name: '',
+			email: ''
+		};
+
+		this.emailInfo = {
+			instrumentTypeDesc: '',
+			instrumentName: ''
+		};
+
+		getStudentDetailsQuery = "SELECT s.first_name, s.last_name, s.email FROM music_school.students s WHERE id = $1";
+
+		app.client.query(getStudentDetailsQuery, [lesson.studentId])
+		.on('error', function(err) {
+			console.log('An error has occurred in Lesson Application email students:');
+			console.log(err);
+		})
+		.on('row', function(row) {
+			student = row;
+		})
+		.on('end', function() {
+			if(student.email != '') {
+				var textMessage = "Dear " + student.first_name + " " + student.last_name + ", "
+							 +"\n\nYou have applied for a lesson at The School of Music."
+							 +"\nThe lesson details are as followed:"
+							 +"\nInstrument Type: \t"+ lesson.emailInfo.instrumentTypeDesc
+							 +"\nInstrument Hired:\t"+ lesson.emailInfo.instrumentName
+							 +"\nLesson Time:     \t"+ processTime(lesson.startTime) + " - " + processTime(lesson.endTime)
+							 +"\nTeacher:         \t"+ lesson.emailInfo.teacherName
+							 +"\n\nRegards,"
+							 +"\nSchool of Music Team";
+
+				var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+											 .replace(new RegExp("$"), '</p>')
+											 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+											 .replace(new RegExp("\n","g"), '</p><p>');
+
+				var managerConfirmationEmail = {
+					from: '"School of Music Admin" <test@gmail.com>',
+					to: student.email,
+					subject: "Lesson Booking Successful",
+					text: textMessage,
+					html: htmlMessage
+				};
+
+				app.transporter.sendMail(managerConfirmationEmail, function(error, info) {
+					if(error) {
+						console.log(error);
+					}
+				});
+			}
+		});
+	}
 
 	/* Gets all Instrument Types */
 	app.get('/lessons/application/getDatabaseValues', function(request, response){
@@ -269,6 +328,10 @@ exports.include = (app) => {
 
 /* Validation Functions */
 var validateInstId = false;
+
+function processTime(time) {
+	
+}
 
 function TurnIntoDBTime(startTime) {
 	if (startTime < 10)

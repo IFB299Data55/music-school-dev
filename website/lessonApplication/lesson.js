@@ -8,4 +8,9 @@ function Lesson(instrumentType = '', hireType = '', instrumentId = '', startTime
 	this.studentId = studentId;
 	this.language = languageId;
 	this.teacher = teacherId;
+	this.emailInfo = {
+		instrumentTypeDesc: '',
+		instrumentName: 'BYO',
+		teacherName: 'any'
+	};
 }

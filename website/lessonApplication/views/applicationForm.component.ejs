@@ -11,7 +11,8 @@
 							(change)="ResetDependents()"
 							(blur)="UpdateDependents()" required>
 						<option *ngFor="let instrumentType of instrumentTypeList"
-						value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
+						value="{{instrumentType.id}}"
+						(click)="lesson.emailInfo.instrumentTypeDesc = instrumentType.name" required>{{instrumentType.name}}</option>
 					</select>
 					<p class="errorMessage" [hidden]="(instrumentType.valid || instrumentType.untouched) && isValid.instrumentType">A Value must be selected.</p>
 				</div>
@@ -59,7 +60,7 @@
 						<td colspan="6">No instruments to display</td>
 					</tr>
 					<tr *ngFor="let instrument of instrumentList" class="selectableRow" 
-					(click)="SelectInstrument(instrument.id)" 
+					(click)="SelectInstrument(instrument)" 
 					[class.selectedRow]="instrument.id == lesson.instrumentId">
 						<td>{{instrument.serial_no}}</td>
 						<td>{{instrument.model}}</td>
@@ -93,8 +94,10 @@
 					<select id="teacher" name="teacher"
 							[(ngModel)]="lesson.teacher" #teacher="ngModel"
 							[disabled]="!lesson.instrumentType || !lesson.language" required>
+						<option value=""></option>
 						<option value="0">Any</option>
-						<option *ngFor="let teacher of teachers" value="{{teacher.id}}">{{teacher.first_name}} {{teacher.last_name}} (Grade {{teacher.grade}})</option>
+						<option *ngFor="let teacher of teachers" value="{{teacher.id}}"
+						(click)="lesson.emailInfo.teacherName = teacher.first_name+' '+teacher.last_name">{{teacher.first_name}} {{teacher.last_name}} (Grade {{teacher.grade}})</option>
 					</select>
 					<p class="errorMessage" [hidden]="(teacher.valid || teacher.untouched) && isValid.teacher">Make sure you've selected a teacher</p>
 				</div>

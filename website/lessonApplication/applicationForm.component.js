@@ -18,7 +18,7 @@
 
           this.initialPermissionCheck = true;
           this.studentIdValidated = false;
-          this.formUnavailableReason = 'You do not have access to this page.';
+          this.formUnavailableReason = 'This form is loading...';
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
@@ -137,6 +137,7 @@
           }
 
           this.FormIsAvailable = function() {
+
             if(this.UserService.IsSomeoneLoggedIn()) {
               var user = this.UserService.GetCurrentUser();
               if(user.type == 'student') {
@@ -165,8 +166,14 @@
                   });
                 } else if(this.studentIdValidated) return true;
                 else return false;
-              } else  return false;
-            } else return false;
+              } else {
+                this.formUnavailableReason = 'You are not logged in as a student.';
+                return false;
+              }
+            } else {
+              this.formUnavailableReason = 'You are not logged in.';
+              return false;
+            }
           }
 
           this.GetDatabaseValues = function() {
@@ -190,7 +197,8 @@
           }
 
           this.ResetTeachers = function() {
-            this.lesson.teacher = 0;
+            this.lesson.teacher = '';
+            this.lesson.emailInfo.teacherName = 'Any';
           }
 
           this.UpdateTeachers = function() {
@@ -212,6 +220,7 @@
 
           this.UpdateDependents = function() {
             this.lesson.instrumentId = '';
+            this.lesson.emailInfo.instrumentName = 'BYO';
               if(this.lesson.instrumentType) {
                 this.LessonApplicationService.GetInstruments(this.lesson.instrumentType)
                 .then(response => {
@@ -229,8 +238,9 @@
               this.UpdateTeachers();
           }
 
-          this.SelectInstrument = function(id) {
-              this.lesson.instrumentId = id;
+          this.SelectInstrument = function(instrument) {
+              this.lesson.instrumentId = instrument.id;
+              this.lesson.emailInfo.instrumentName = instrument.serial_no + ' ' + instrument.model;
           }
 	      }
       ]
