@@ -64,6 +64,19 @@
 	        </div>
 	    -->
 	    </div>
+	    <div class="row">
+	    	<div class="col-sm-12">
+	    	<label for="languages">Languages</label>
+	    	<select title="Hold Control or Command and click to select multiple"
+	    	id="languages" name="langauges"
+	    	[(ngModel)]="teacher.languages"
+	    	#languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
+		    	<option value="1">English</option>
+		    	<option value="2">French</option>
+		    	<option value="3">Chinese</option>
+	    	</select>
+	    	</div>
+	    </div>
     </fieldset>    
     <fieldset id="locationinfo">
         <legend><span>Location Information</span></legend>
@@ -80,7 +93,7 @@
     <fieldset id="additionalinformation">
         <legend><span>Additional Information</span></legend>
         <div class="col-sm-12">
-	        <label for="feedback">Additional information to display to students about your experience and/or qualifications</label>
+	        <label for="feedback">Please list any instruments you are able to play that were not listed above.</label>
 	        <textarea id="feedback" name="feedback" rows="7" cols="55" [(ngModel)]="teacher.description" ></textarea>
         </div>
     </fieldset>

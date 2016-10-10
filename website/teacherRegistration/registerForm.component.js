@@ -52,6 +52,10 @@
             });
           }
 
+          this.test = function() {
+            console.log(this.teacher.languages);
+          }
+
           this.FormIsAvailable = function() {
             if(this.UserService.GetCurrentUser().type == 'manager') {
                 return true;
