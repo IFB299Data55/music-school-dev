@@ -336,8 +336,6 @@ function processTime(time) {
 	else 
 		response = time+'am';
 
-	console.log(response);
-
 	return response;
 }
 
