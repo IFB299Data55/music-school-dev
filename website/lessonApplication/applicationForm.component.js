@@ -34,15 +34,9 @@
             errorMessage:   ''
           };
 
-          this.languages = [{
-            id: 1,
-            name: 'English'
-          }];
+          this.instrumentList = [];
 
-          this.teachers = [{
-            id: 1,
-            name: "John Doe"
-          }];
+          this.teachers = [];
 
           this.CalcEndTimeInHours = function() {
             this.ProcessStartTime();
@@ -118,9 +112,7 @@
                                     };
             this.LessonApplicationService.CheckAvailability(availabilityCheck).then(response => {
               if(response._body == 'Available') {
-                console.log(this.lesson);
                 this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(response => {
-                  console.log(response);
                   if(response.status) {
                     var link = ['/Confirmation'];
                     this.Router.navigate(link);
@@ -194,13 +186,35 @@
 
           this.ResetDependents = function() {
             this.lesson.hireType = '';
+            this.ResetTeachers();
+          }
+
+          this.ResetTeachers = function() {
             this.lesson.teacher = 0;
+          }
+
+          this.UpdateTeachers = function() {
+            this.teachers = [];
+            if(this.lesson.instrumentType && this.lesson.language) {
+              this.LessonApplicationService.getTeachers(this.lesson.instrumentType, this.lesson.language)
+              .then(response => {
+                if(response.valid) {
+                  this.teachers = response.teachers;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'Instrument list was unable to be retrieved.';
+              });
+            }
           }
 
           this.UpdateDependents = function() {
             this.lesson.instrumentId = '';
               if(this.lesson.instrumentType) {
-                this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
+                this.LessonApplicationService.GetInstruments(this.lesson.instrumentType)
+                .then(response => {
                   if(response.valid) {
                     this.instrumentList = response.instruments;
                   } else {
@@ -212,18 +226,7 @@
                 });
               }
 
-              if(this.instrumentType && this.lesson.language) {
-                this.LessonApplicationService.GetTeachers(this.lesson.instrumentType, this.lesson.languages).then(response => {
-                  if(response.valid) {
-                    this.teachers = response.teachers;
-                  } else {
-                    this.error = response.error;
-                  }
-                })
-                .catch(() => {
-                  this.error = 'Instrument list was unable to be retrieved.';
-                });
-              }
+              this.UpdateTeachers();
           }
 
           this.SelectInstrument = function(id) {
@@ -233,6 +236,6 @@
       ]
     });
     app.ApplicationFormComponent.prototype.ngOnInit = function() {
-      this.UpdateInstrumentTypes();
+      this.GetDatabaseValues();
     };
 })(window.app || (window.app = {}));
