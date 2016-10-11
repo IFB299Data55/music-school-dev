@@ -1,53 +1,112 @@
-table tr:first-child {
-    border-bottom: none;
+/*--------------
+      Card
+---------------*/
+.header{
+    font-style: bold; 
 }
 
-table thead th{
-	border-bottom: 1px solid rgb(200,200,200);
+.ui.cards > .card,
+.ui.card {
+  max-width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 200px;
+  min-height: 0px;
+  background: #FFFFFF;
+  padding: 0em;
+  border: none;
+  border-radius: 0.28571429rem;
+  box-shadow: 0px 1px 3px 0px #D4D4D5, 0px 0px 0px 1px #D4D4D5;
+  
 }
 
-table thead th {
-	width: 15%;
+
+/*--------------
+Cards control the box 
+---------------*/
+
+
+.ui.cards { 
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.875em -0.5em;
+  margin-left: 15px;
+  
+ 
+}
+.ui.cards > .card {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0.875em 0.5em;
+  float: none;
 }
 
-table tbody tr {
-	height: 5em;
+/*--------------
+  Rounded Edges
+---------------*/
+
+.card > :first-child,
+.card > :first-child {
+  border-radius: 0.28571429rem 0.28571429rem 0em 0em !important;
+  border-top: none !important;
 }
 
-table tr td {
-	border: 1px solid rgb(240,240,240);
+.card > :last-child {
+    
+  border-radius: 0em 0em 0.28571429rem 0.28571429rem !important;
 }
 
-table tbody tr td:first-child {
-	background: rgb(240,240,240);
-	border-left: 1px solid rgb(200,200,200);
-	border-right: 1px solid rgb(200,200,200);
+
+/*--------------
+     Content
+---------------*/
+
+.cards > .card > .content,
+.card > .content {
+  -webkit-box-flex: 1;
+  -webkit-flex-grow: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border: none;
+  border-top: 1px solid rgba(34, 36, 38, 0.1);
+  background: none;
+  margin: 0em;
+  padding: 1em 1em;
+  box-shadow: none;
+  font-size: 1em;
+  border-radius: 0em;
 }
 
-table tbody tr td:last-child {
-	border-right: 1px solid rgb(200,200,200);
+/*----------------
+ Floated Content
+-----------------*/
+
+.card [class*="right floated"],
+.card [class*="right floated"] {
+  border-radius:50% 50% 50% 50%;  
+  width:50px;
+  height:50px;    
+  float: right;
 }
 
-table tbody tr:last-child td {
-	border-bottom: 1px solid rgb(200,200,200);
+
+.card {
+  font-size: 1em;
 }
 
-table tbody tr:last-child td:first-child {
-	background: rgb(240,240,240);
-	border-left: 1px solid rgb(200,200,200);
-	border-right: 1px solid rgb(200,200,200);
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
-.available {
-	background: rgb(40,250,40);
-}
 
-.booked {
-	background: rgb(40,40,250);
-	color: white;
-}
-
-.unavailable {
-	background: rgb(200,200,200);
-	opacity: 0.5;
-}
