@@ -206,6 +206,66 @@ exports.include = (app) => {
 			response.send(res);
 		}
 	});
+
+	/* Gets all Instrument Types and Languages */
+	app.get('/database/getInstrumentTypesAndLanguages', function(request, response){
+		//setup response frame
+		var res = {
+			valid: true,
+			languagesList: [],
+			instrumentTypes: [],
+			error: ''
+		};
+		
+		var getInstrumentTypesQuery = {
+			text: "SELECT id, name FROM music_school.instrument_types",
+			name: "get-instrument-type-list"
+		};
+
+		var getLanguages = {
+			text: "SELECT id as id, language as name FROM music_school.languages",
+			name: "get-language-list"
+		};
+
+		app.client.query(getInstrumentTypesQuery)
+		.on('error', function(err) {
+			/* Error Handling */
+			if (!response.headersSent) {
+				res.valid = false;
+				res.error = 'An error has occured. Please try again later or contact an administrator';
+				console.log("Errors Happened within DatabaseFunctions : getInstrumentTypesAndLanguages : Query 1 \n", err);
+				response.send(res);
+			}
+		}).on('row', function(row) {
+			//Add instrument types to array
+			res.instrumentTypes.push(row);
+		})
+		.on('end', function() {
+			//return response
+			if (!response.headersSent) {
+				app.client.query(getLanguages)
+				.on('error', function(err) {
+					/* Error Handling */
+					if (!response.headersSent) {
+						res.valid = false;
+						res.error = 'An error has occured. Please try again later or contact an administrator';
+						res.instrumentTypes = [];
+						console.log("Errors Happened within DatabaseFunctions : getInstrumentTypesAndLanguages : Query 2 \n", err);
+						response.send(res);
+					}
+				}).on('row', function(row) {
+					//Add instrument types to array
+					res.languagesList.push(row);
+				})
+				.on('end', function() {
+					//return response
+					if (!response.headersSent) {
+						response.send(res);
+					}
+				});
+			}
+		});
+	});
 }
 
 /* General Validation Function */
