@@ -20,8 +20,17 @@
             this.Router.navigate(link);
           }
 
+          this.FormIsAvailable = function() {
+          if(this.UserService.GetCurrentUser().type == 'teacher') {
+                return true;
+            }
+            
+            return false;
+          }
+
           this.GetStudents = function() {
-            this.AcceptStudentsService.GetStudents()
+            if(this.FormIsAvailable()) {
+              this.AcceptStudentsService.GetStudents()
               .then(response => {
                 if (!response.error) {
                   this.students = response.students;
@@ -50,6 +59,7 @@
               }).catch(() => {
                 this.error = 'An error has occured. Please try again later.';
               });
+            }
           }
 	      }
       ]

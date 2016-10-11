@@ -4,7 +4,7 @@ var teacherTTRouting = [
 		component: app.TeacherTimetableComponent
 	}
 	, {
-		path: 'lesson',
+		path: 'lesson/:id',
 		component: app.LessonInfoComponent
 	}
 	, {

@@ -1,21 +1,4 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 <div *ngIf="FormIsAvailable()">
-	<table>
-		<thead id="formTable">
-			<tr>
-				<th></th>
-				<th *ngFor="let day of days">{{day}}</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr *ngFor="let time of times">
-				<td>{{time.time}}{{time.ampm}}</td>
-				<td *ngFor="let day of time.days"
-				[class.available]="day.status=='available'"
-				[class.booked]="day.status=='booked'"
-				[class.unavailable]="day.status=='unavailable'"
-				>{{day.status}}</td>
-			</tr>
-		</tbody>
-	</table>
+	
 </div>

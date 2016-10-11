@@ -15,13 +15,36 @@
           this.UserService = UserService;
           this.Router = Router;
 
+          this.lessons = [];
+
+          this.SelectStudentRequest = function(lessonId) {
+            var link = ['/lesson', lessonId];
+            this.Router.navigate(link);
+          }
+
           this.FormIsAvailable = function() {
-            if(this.UserService.GetCurrentUser().type == 'teacher') {
+          if(this.UserService.GetCurrentUser().type == 'teacher') {
                 return true;
             }
             
             return false;
           }
+
+          this.GetLessons = function() {
+            if(this.FormIsAvailable()) {
+              this.TimetableService.GetLessons()
+              .then(response => {
+                if (!response.error) {
+                  this.lessons = response.lessons;
+                } else {
+                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                }
+              }).catch(() => {
+                this.error = 'An error has occured. Please try again later.';
+              });
+            }
+          }
+
 	      }
       ]
     });

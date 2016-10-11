@@ -1,6 +1,6 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 
-<div class="ui cards">
+<div *ngIf="FormIsAvailable()" class="ui cards">
   <div class="card" *ngFor="let student of students">
     <div class="content clickable" (click)="SelectStudentRequest(student.requestid)">
       <div class="cardHeader">
@@ -13,4 +13,7 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="!FormIsAvailable()">
+  <p>You do not have access to this page.</p>
 </div>
