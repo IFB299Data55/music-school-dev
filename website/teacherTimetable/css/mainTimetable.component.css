@@ -1,0 +1,22 @@
+/*--------------
+      Card
+---------------*/
+.ui.cards > .card,
+.ui.card {
+  width: 170px;
+  
+}
+
+/*--------------
+Cards control the box 
+---------------*/
+.ui.cards { 
+  display: flex;
+  flex-wrap: wrap;
+  margin: -0.875em -0.5em;
+  margin-left: 80px;
+  margin-bottom: -60px;  
+ 
+}
+
+
