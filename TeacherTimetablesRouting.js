@@ -22,13 +22,23 @@ exports.include = (app) => {
 		}
 
 		/*
-		SELECT l.id, s.first_name, s.last_name, it.name as instrument_type, se.grade as student_grade, l.lesson_day, l.lesson_start_time as start_time, l.lesson_end_time as end_time
-		FROM music_school.lessons l, music_school.students s, music_school.instrument_types it, music_school.student_experience se
+		SELECT l.id,
+			   s.first_name,
+			   s.last_name,
+			   it.name as instrument_type,
+			   se.grade as student_grade,
+			   l.lesson_day,
+			   l.lesson_start_time as start_time,
+			   l.lesson_end_time as end_time
+		FROM music_school.lessons l,
+		 	 music_school.students s, 
+		 	 music_school.instrument_types it, 
+		 	 music_school.student_experience se
 		WHERE l.student_id = s.id
 		  AND l.student_id = se.student_id
 		  AND l.inst_type_id = it.id
 		  AND l.teacher_id = $1
-		  AND l.request_status_id = 2 /* I Think? */
+		  AND l.request_status_id = 2 /* I Think? *//*
 		*/
 
 
