@@ -2,7 +2,7 @@ function TeacherApplication(firstName = '', middleName = '', lastName = '',
 							birthday = '', phoneNumber = '', email = '', 
 							coverLetter = '', reference1name = '', reference1number = '', 
 							reference2name = '', reference2number = '', reference3name = '', 
-							reference3number = '', instruments = '', hours = '') {
+							reference3number = '', instruments = '', hours = '', languages = []) {
   this.firstName = firstName;
   this.middleName = middleName;
   this.lastName = lastName;
@@ -16,6 +16,7 @@ function TeacherApplication(firstName = '', middleName = '', lastName = '',
   this.reference3name = reference3name;
   this.reference3number = reference3number;
   this.instruments = instruments;
+  this.languages = languages;
   this.coverLetter = coverLetter;
   this.hours = hours;
 }

@@ -50,7 +50,20 @@
         <legend><span>Instruments You Can Teach</span></legend>
         <div class="col-sm-12">
 	        <label for="instruments">List all instruments you can teach along with your grade for that instrument:</label>
-	        <textarea id="instruments" name="instruments" rows="7" cols="55" [(ngModel)]="teacherApplication.instruments" placeholder="format: instrument, grade; instrument, grade;" pattern="^([A-Za-z ]+,[ ]?[0-9];)+$" required></textarea>
+	        <textarea id="instruments" name="instruments" rows="7" cols="55" [(ngModel)]="teacherApplication.instruments" #instruments="ngModel" placeholder="format: instrument, grade; instrument, grade;" pattern="^([A-Za-z ]+,[ ]?[0-9];)+$" required></textarea>
+        </div>
+    </fieldset>
+
+    <fieldset id="languagesinformation" *ngIf="languagesList.length != 0">
+        <legend><span>Languages You Can Teach In</span></legend>
+        <div class="col-sm-12">
+            <label for="languages">Select all languages you can comfortably teach in:</label>
+            <select title="Hold Control or Command and click to select multiple" id="languages" name="langauges"
+                [(ngModel)]="teacherApplication.languages" [style.height]="languagesList.length*20 + 5 + 'px'" #languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
+                <option *ngFor="let language of languagesList" value="{{language.id}}">{{language.name}}</option>
+            </select>
+            <p class="errorMessage" [hidden]="(languages.valid || languages.untouched) && isValid.languages">At least one language must be selected.</p>
+            <p>To select multiple: Ctrl+Click to select individually, Ctrl+Shift+Click to select a range.</p>
         </div>
     </fieldset>
 

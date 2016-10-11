@@ -15,6 +15,7 @@
           this.UserService = UserService;
           this.Router = Router;
 	        this.teacherApplication = new TeacherApplication();
+          this.languagesList = [];
           this.submitted = false;
           this.isValid = {
             firstName:true,
@@ -22,6 +23,8 @@
             lastName:true,
             birthday:true,
             phoneNumber:true,
+            instruments:true,
+            languages:true,
             coverLetter:true,
             reference1name:true,
             reference1number:true,
@@ -55,11 +58,28 @@
                 }
               }).catch(error => {
                 this.submitted = false;
-                this.error = 'An error has occured. Please try again later';
-            });
+                this.error = 'An error has occured. Please try again later.';
+              });
+          }
+
+          this.GetDatabaseValues = function() {
+            this.ApplicationService.GetDatabaseValues()
+              .then(response => {
+                if(response.valid) {
+                  this.languagesList = response.languagesList;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'An error has occured. Please try again later.';
+              });
           }
 
 	      }
       ]
     });
+    app.ApplyFormComponent.prototype.ngOnInit = function() {
+      this.GetDatabaseValues();
+    };
 })(window.app || (window.app = {}));

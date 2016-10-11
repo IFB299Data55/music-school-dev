@@ -20,6 +20,8 @@ exports.include = (app) => {
 			birthday:true,
 			phoneNumber:true,
 			coverLetter:true,
+			instruments:true,
+			languages:true,
 			reference1name:true,
 			reference1number:true,
 			reference2name:true,
@@ -48,30 +50,94 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
-			console.log('response');
-			response.send(valid);
 
-			var teacherApplicantsCols = "first_name, middle_name, last_name, dob, phone_no, email, coverletter, date_applied, status, is_short_listed, is_approved"
+			var instrumentDetails = [];
+			var instrumentDetailPairsArray = teacherApplication.instruments.split(";");
+			for (var i = 0; (i+2) < instrumentDetailPairsArray.length; i+=2) {
+				var name = instrumentDetailPairsArray[i].split(",")[0];
+				var grade = instrumentDetailPairsArray[i].split(",")[1];
+				instrumentDetails[i] = name;
+				instrumentDetails[i+1] = grade;
+			}
+
+			var teacherApplicantsCols = "first_name, last_name, dob ,phone_no, email, cover_letter, date_applied, status_id, is_shortlisted, is_approved, hours";
 			var newTeacherApplicantQuery = {
 				text: "INSERT INTO music_school.teacher_applicants("+teacherApplicantsCols+") VALUES("
-						+"$1,$2,$3,"
-						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,now(),"
-						+"1,FALSE,FALSE"
+						+"$1,$2"
+						+",to_date($3, 'DD MM YYYY')"
+						+",$4,$5,$6,now(),"
+						+"1,FALSE,FALSE,$7"
 					 +")",
 				name: "create-new-teacher-applicant",
 				values: [
 					  teacherApplication.firstName
-					, teacherApplication.middleName
 					, teacherApplication.lastName
 					, teacherApplication.birthday
 					, teacherApplication.phoneNumber
 					, teacherApplication.email
 					, teacherApplication.coverLetter
+					, teacherApplication.hours
 				]
 			};
 
+			var referencesColumns = "teacher_applicant_id, name, phone_number";
+			var referencesText = "INSERT INTO music_school.teacher_applicant_references("+referencesColumns+") VALUES";
+			var referencesValues = [];
+			var counter = 1;
+			// reference 1
+			var referencesInsert = '';
+			referencesInsert += "((SELECT MAX(ID) FROM music_school.teacher_applicants), $"+ counter++ +", $"+ counter++ +")";
+			referencesValues.push(teacherApplication.reference1name);
+			referencesValues.push(teacherApplication.reference1number);
+			referencesText += referencesInsert;
+			// reference 2
+			if (teacherApplication.reference2name != '' && teacherApplication.reference2number != '') {
+				referencesInsert = ',';
+				referencesInsert += "((SELECT MAX(ID) FROM music_school.teacher_applicants), $"+ counter++ +", $"+ counter++ +")";
+				referencesValues.push(teacherApplication.reference2name);
+				referencesValues.push(teacherApplication.reference2number);
+				referencesText += referencesInsert;
+			}
+			// reference 3
+			if (teacherApplication.reference3name != '' && teacherApplication.reference3number != '') {
+				referencesInsert = ',';
+				referencesInsert += "((SELECT MAX(ID) FROM music_school.teacher_applicants), $"+ counter++ +", $"+ counter++ +")";
+				referencesValues.push(teacherApplication.reference3name);
+				referencesValues.push(teacherApplication.reference3number);
+				referencesText += referencesInsert;
+			}
+
+			var experienceColumns = "teacher_applicant_id, instrument, grade";
+			var experienceText = "INSERT INTO music_school.teacher_applicant_experience("+experienceColumns+") VALUES";
+			var experienceValues = [];
+			var counter = 1;
+			for(var i = 0; i < instrumentDetails.length; i+=2) {
+				var instrumentInsert = '';
+				if(i != 0) {
+					instrumentInsert += ','; 
+				}
+				instrumentInsert += "((SELECT MAX(ID) FROM music_school.teacher_applicants), $"+ counter++ +", $"+ counter++ +")";
+				experienceValues.push(instrumentDetails[i]);
+				experienceValues.push(instrumentDetails[i+1]);
+				experienceText += instrumentInsert;
+			}
+
+			var languageColumns = "applicant_id, language_id";
+			var languageText = "INSERT INTO music_school.teacher_applicant_languages("+languageColumns+") VALUES";
+			var languageValues = [];
+			var counter = 1;
+			for(var i = 0; i < teacherApplication.languages.length; i+=2) {
+				var languageInsert = '';
+				if(i != 0) {
+					languageInsert += ','; 
+				}
+				languageInsert += "((SELECT MAX(ID) FROM music_school.teacher_applicants), $"+ counter++ +")";
+				languageValues.push(teacherApplication.languages[i]);
+				languageText += languageInsert;
+			}
+
 			//Run Queries
-			/*app.client.query(newTeacherApplicantQuery)
+			app.client.query(newTeacherApplicantQuery)
 			.on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
@@ -82,38 +148,106 @@ exports.include = (app) => {
 				}
 			})
 			.on('end', function() {
-				if (!response.headersSent) {
-					//Send Email
-					var textMessage = "Dear " + teacher.firstName + " " + teacher.lastName + ", "
-								 +"\n\nYou have been registered as a teacher for the School of Music."
-								 +"\nYour Temprary password is: '" + teacher.password +"'."
-								 +"\nWe hope you enjoy your employment with us."
-								 +"\n\nRegards,"
-								 +"\nSchool of Music Team";
-
-					var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
-												 .replace(new RegExp("$"), '</p>')
-												 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
-												 .replace(new RegExp("\n","g"), '</p><p>');
-
-					var teacherConfirmationEmail = {
-						from: '"School of Music Admin" <test@gmail.com>',
-						to: teacher.email,
-						subject: "New Teacher Account",
-						text: textMessage,
-						html: htmlMessage
-					};
-
-					app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
-						if(error) {
-							console.log(error);
+				app.client.query(experienceText, experienceValues)
+				.on('error', function(err) {
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.dbError = true;
+						isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+						console.log("Error occured in TeacherApplication: ", err);
+					}
+				})
+				.on('end', function() {
+					app.client.query(languageText, languageValues)
+					.on('error', function(err) {
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.dbError = true;
+							isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+							response.send(valid);
+							console.log("Error occured in TeacherApplication: ", err);
 						}
-					});
+					})
+					.on('end', function() {
+						app.client.query(referencesText, referencesValues)
+						.on('error', function(err) {
+							if (!response.headersSent) {
+								valid.status = false;
+								isValid.dbError = true;
+								isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+								response.send(valid);
+								console.log("Error occured in TeacherApplication: ", err);
+							}
+						})
+						.on('end', function() {
+							if (!response.headersSent) {
+								//Send Email
+								var textMessage = "Dear " + teacherApplication.firstName + " " + teacherApplication.lastName + ", "
+											 +"\n\nYou have successfully applied to be a teacher at the School of Music."
+											 +"\nYou will be updated on the status of your application via email, and will be called if you have been selected for an interview."
+											 +"\nThank you for your interest."
+											 +"\n\nRegards,"
+											 +"\nSchool of Music Team";
 
-					response.send(valid);
-				}
-			});*/
+								var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+															 .replace(new RegExp("$"), '</p>')
+															 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+															 .replace(new RegExp("\n","g"), '</p><p>');
+
+								var teacherConfirmationEmail = {
+									from: '"School of Music Admin" <test@gmail.com>',
+									to: teacherApplication.email,
+									subject: "Successful Teacher Application",
+									text: textMessage,
+									html: htmlMessage
+								};
+
+								app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+									if(error) {
+										console.log(error);
+									}
+								});
+
+								response.send(valid);
+							}
+						})
+					})
+				})
+				
+			});
 		}
+	});
+
+	app.get('/database/getLanguages/', function(request, response) {
+		var getLanguages = {
+			text: "SELECT id, language as name FROM music_school.languages;",
+			name: "get-language-list"
+		}
+
+		var responseObject = {
+			languagesList: [],
+			valid: true,
+			error: ''
+		}
+
+		app.client.query(getLanguages)
+			.on('error', function(err) {
+				if (!response.headersSent) {
+					responseObject.status = false;
+					responseObject.error = 'An error has occured. Please try again later or contact an administrator';
+					response.send(responseObject);
+					console.log("Error occured in TeacherApplication: ", err);
+				}
+			})
+			.on('row', function(row) {
+				responseObject.languagesList.push(row);
+			})
+			.on('end', function() {
+				if (!response.headersSent) {
+					response.send(responseObject);
+				}
+			})
 	});
 
 	app.get('/apply/teacher/*', function(request, response) {
@@ -129,6 +263,7 @@ function validateAll(teacherApplication, isValid) {
 		validatePhoneNumber(teacherApplication.phoneNumber, isValid) &&
 		validateCoverLetter(teacherApplication.coverLetter, isValid) &&
 		validateInstruments(teacherApplication.instruments, isValid) &&
+		validateLanguages(teacherApplication.languages, isValid) &&
 		validateReferences(teacherApplication, isValid) &&
 		validateHours(teacherApplication.hours, isValid) &&
 		validateEmail(teacherApplication.email, isValid)) {
@@ -214,6 +349,17 @@ function validateInstruments(instruments, isValid) {
 	}
 	isValid.instruments = false;
 	return false;
+}
+
+function validateLanguages(languages, isValid) {
+	var regexp = new RegExp("^[1-9][0-9]*$");
+	for (var i = 0; i < languages.length; i++) {
+		if (!regexp.test(languages[i])) {
+			isValid.languages = false;
+			return false;
+		}
+	}
+	return true;
 }
 
 function validateReferences(teacherApplication, isValid) {
