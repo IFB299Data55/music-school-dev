@@ -18,19 +18,25 @@
 
           this.initialPermissionCheck = true;
           this.studentIdValidated = false;
-          this.formUnavailableReason = 'You do not have access to this page.';
+          this.formUnavailableReason = 'This form is loading...';
           this.submitted = false;
           this.givenStartTime = '';
           this.isValid = {
             instrumentType: true,
-            grade: true,
-            hireType: true,
-            instrumentId: true,
-            day: true,
-            startTime: true,
-            endTime: true,
-            errorMessage:''
+            grade:          true,
+            hireType:       true,
+            instrumentId:   true,
+            day:            true,
+            startTime:      true,
+            endTime:        true,
+            language:       true,
+            teacher:        true,
+            errorMessage:   ''
           };
+
+          this.instrumentList = [];
+
+          this.teachers = [];
 
           this.CalcEndTimeInHours = function() {
             this.ProcessStartTime();
@@ -106,9 +112,7 @@
                                     };
             this.LessonApplicationService.CheckAvailability(availabilityCheck).then(response => {
               if(response._body == 'Available') {
-                console.log(this.lesson);
                 this.LessonApplicationService.AttemptLessonBooking(this.lesson).then(response => {
-                  console.log(response);
                   if(response.status) {
                     var link = ['/Confirmation'];
                     this.Router.navigate(link);
@@ -133,6 +137,7 @@
           }
 
           this.FormIsAvailable = function() {
+
             if(this.UserService.IsSomeoneLoggedIn()) {
               var user = this.UserService.GetCurrentUser();
               if(user.type == 'student') {
@@ -161,32 +166,64 @@
                   });
                 } else if(this.studentIdValidated) return true;
                 else return false;
-              } else  return false;
-            } else return false;
+              } else {
+                this.formUnavailableReason = 'You are not logged in as a student.';
+                return false;
+              }
+            } else {
+              this.formUnavailableReason = 'You are not logged in.';
+              return false;
+            }
           }
 
-          this.UpdateInstrumentTypes = function() {
-              this.LessonApplicationService.GetInstrumentTypes()
+          this.GetDatabaseValues = function() {
+              this.LessonApplicationService.GetDatabaseValues()
               .then(response => {
                 if(response.valid) {
                   this.instrumentTypeList = response.instrumentTypes;
+                  this.languages = response.languages;
                 } else {
                   this.error = response.error;
                 }
               })
               .catch(() => {
-                this.error = 'Instrument Types were unable to be retrieved.';
+                this.error = 'A Database connection could not be established.';
               });
           }
 
-          this.ResetInstrumentType = function() {
+          this.ResetDependents = function() {
             this.lesson.hireType = '';
+            this.ResetTeachers();
           }
 
-          this.UpdateInstruments = function() {
+          this.ResetTeachers = function() {
+            this.lesson.teacher = '';
+            this.lesson.emailInfo.teacherName = 'Any';
+          }
+
+          this.UpdateTeachers = function() {
+            this.teachers = [];
+            if(this.lesson.instrumentType && this.lesson.language) {
+              this.LessonApplicationService.getTeachers(this.lesson.instrumentType, this.lesson.language)
+              .then(response => {
+                if(response.valid) {
+                  this.teachers = response.teachers;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'Instrument list was unable to be retrieved.';
+              });
+            }
+          }
+
+          this.UpdateDependents = function() {
             this.lesson.instrumentId = '';
+            this.lesson.emailInfo.instrumentName = 'BYO';
               if(this.lesson.instrumentType) {
-                this.LessonApplicationService.GetInstruments(this.lesson.instrumentType).then(response => {
+                this.LessonApplicationService.GetInstruments(this.lesson.instrumentType)
+                .then(response => {
                   if(response.valid) {
                     this.instrumentList = response.instruments;
                   } else {
@@ -197,15 +234,18 @@
                   this.error = 'Instrument list was unable to be retrieved.';
                 });
               }
+
+              this.UpdateTeachers();
           }
 
-          this.SelectInstrument = function(id) {
-              this.lesson.instrumentId = id;
+          this.SelectInstrument = function(instrument) {
+              this.lesson.instrumentId = instrument.id;
+              this.lesson.emailInfo.instrumentName = instrument.serial_no + ' ' + instrument.model;
           }
 	      }
       ]
     });
     app.ApplicationFormComponent.prototype.ngOnInit = function() {
-      this.UpdateInstrumentTypes();
+      this.GetDatabaseValues();
     };
 })(window.app || (window.app = {}));

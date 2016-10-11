@@ -48,22 +48,6 @@ form input:required, form textarea:required {
     box-shadow:none;
 }
 
-.ng-valid {
-    border-left: 2px solid rgb(70,200,70);
-}
-
-.ng-invalid {
-    border-left: 2px solid rgb(225,0,0);
-}
-
-.ng-valid, .validTable {
-    border-left: 2px solid rgb(70,200,70);
-}
-
-.ng-invalid, .invalidTable {
-    border-left: 2px solid rgb(225,0,0);
-}
-
 table {
     border: 1px solid rgb(200,200,200);
     margin: auto;
@@ -86,11 +70,15 @@ table th, table td {
     cursor: pointer;
 }
 
+.selectedRow {
+    background: rgba(220,240,220,0.8);
+}
+
 form textarea {
     width: 100%;
     font-size: 15px;
     border-radius: 25px;
-    padding: 5px 10px 5px 10px;
+    padding: 0px 20px 0px 20px;
 }
 
 .errorMessage {
@@ -137,6 +125,14 @@ form button[disabled] {
     padding-left: 25px;
     line-height: 1em;
     border-radius: 0.5rem;
+}
+
+.ng-valid, .validTable {
+    border-left: 2px solid rgb(70,200,70);
+}
+
+.ng-invalid, .invalidTable {
+    border-left: 2px solid rgb(225,0,0);
 }
 
 @media screen and (min-width: 1200px) {
