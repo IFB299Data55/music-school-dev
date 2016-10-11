@@ -17,16 +17,44 @@
 	        this.teacher = new Teacher();
           this.submitted = false;
           this.isValid = {
-            firstName:      true,
-            middleName:     true,
-            lastName:       true,
-            birthday:       true,
-            address:        true,
-            phoneNumber:    true,
-            email:          true,
-            dbError:        false,
-            dbErrorMessage: ''
+            firstName:          true,
+            middleName:         true,
+            lastName:           true,
+            birthday:           true,
+            address:            true,
+            phoneNumber:        true,
+            email:              true,
+            languages:          true,
+            instrumentTypeIds:  true,
+            dbError:            false,
+            dbErrorMessage:     ''
           };
+
+          this.languagesList = [{
+            id: 1,
+            name: 'English'
+          }, {
+            id: 2,
+            name: 'Chinese'
+          }, {
+            id: 3,
+            name: 'Japanese'
+          }];
+
+          this.instrumentTypes = [{
+            id: 1,
+            name: 'Triangle'
+          }, {
+            id: 2,
+            name: 'Recorder'
+          }, {
+            id: 3,
+            name: 'Drums'
+          }];
+
+          this.ResetGrades = function() {
+            this.teacher.instrumentTypeGrades = [];
+          }
 
           this.Register = function() {
             this.submitted = true;

@@ -14,15 +14,17 @@ exports.include = (app) => {
 
 		//Set up error array
 		var isValid = {
-			firstName:true,
-			middleName:true,
-			lastName:true,
-			birthday:true,
-			address:true,
-			phoneNumber:true,
-			email:true,
-			dbError:false,
-			dbErrorMessage:''
+			firstName: 		true,
+			middleName: 	true,
+			lastName: 		true,
+			birthday: 		true,
+			address: 		true,
+			phoneNumber: 	true,
+			email: 			true,
+			languages:		true,
+			instruments:	true,
+			dbError: 		false,
+			dbErrorMessage: ''
 		};
 
 		//Set up response

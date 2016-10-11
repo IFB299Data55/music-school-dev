@@ -49,32 +49,36 @@
     <fieldset id="professionalinfo">
     	<legend><span>Professional Information</span></legend>
     	<div class="row">
-    	<!--
         	<div class="col-sm-6">
-        		<label for="lastName">Last Name:</label>
-	            <input 	title="Letters and Spaces" type="text" id="lastName" name="lastName" #lastName="ngModel"
-				[(ngModel)]="teacher.lastName" pattern="^[A-Za-z ]+$" required/>
-				<p class="errorMessage" [hidden]="(lastName.valid || lastName.untouched) && isValid.lastName">Invalid input. Must only contain letters.</p>
+        		<label for="instrumentTypeIds">Instruments</label>
+		    	<select title="Hold Control or Command and click to select multiple"
+		    	id="instrumentTypeIds" name="langauges"
+		    	[(ngModel)]="teacher.instrumentTypeIds"
+		    	(change)="ResetGrades()"
+		    	#instrumentTypeIds="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$"
+		    	[style.height]="instrumentTypes.length*20 + 5 + 'px'">
+			    	<option *ngFor="let instrument of instrumentTypes" value="{{instrument.id}}">{{instrument.name}}</option>
+		    	</select>
         	</div>
         	<div class="col-sm-6">
-        	 	<label for="birthday">Date of Birth:</label>
-	            <input 	title="01/02/1992" type="text" id="birthday" name="birthday" #birthday="ngModel"
-				[(ngModel)]="teacher.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" required/>
-				<p class="errorMessage" [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy or dd-mm-yyyy.</p>
+        	 	<label>Grades</label>
+	            <div *ngFor="let instrumentTypeId of teacher.instrumentTypeIds">
+	            	{{instrumentTypes[instrumentTypeId - 1].name}}: 
+	            	<input class="gradeInput" type="text" pattern="[4-7]" name="{{instrumentTypes[instrumentTypeId - 1].name}}Grade"
+	            	[(ngModel)]="teacher.instrumentTypeGrades[instrumentTypeId - 1]" required/>
+	            </div>
 	        </div>
-	    -->
 	    </div>
 	    <div class="row">
 	    	<div class="col-sm-12">
-	    	<label for="languages">Languages</label>
-	    	<select title="Hold Control or Command and click to select multiple"
-	    	id="languages" name="langauges"
-	    	[(ngModel)]="teacher.languages"
-	    	#languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
-		    	<option value="1">English</option>
-		    	<option value="2">French</option>
-		    	<option value="3">Chinese</option>
-	    	</select>
+		    	<label for="languages">Languages</label>
+		    	<select title="Hold Control or Command and click to select multiple"
+		    	id="languages" name="langauges"
+		    	[(ngModel)]="teacher.languages"
+		    	[style.height]="languagesList.length*20 + 5 + 'px'"
+		    	#languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
+			    	<option *ngFor="let language of languagesList" value="{{language.id}}">{{language.name}}</option>
+		    	</select>
 	    	</div>
 	    </div>
     </fieldset>    
