@@ -46,19 +46,23 @@
 	    </div>
 	     
     </fieldset>
-    <fieldset id="professionalinfo">
+    <fieldset id="professionalinfo"
+    *ngIf="instrumentTypes.length + languagesList.length != 0">
     	<legend><span>Professional Information</span></legend>
-    	<div class="row">
+    	<div class="row" *ngIf="instrumentTypes.length != 0">
         	<div class="col-sm-6">
         		<label for="instrumentTypeIds">Instruments</label>
 		    	<select title="Hold Control or Command and click to select multiple"
-		    	id="instrumentTypeIds" name="langauges"
+		    	id="instrumentTypeIds" name="instrumentTypeIds"
 		    	[(ngModel)]="teacher.instrumentTypeIds"
 		    	(change)="ResetGrades()"
 		    	#instrumentTypeIds="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$"
 		    	[style.height]="instrumentTypes.length*20 + 5 + 'px'">
 			    	<option *ngFor="let instrument of instrumentTypes" value="{{instrument.id}}">{{instrument.name}}</option>
 		    	</select>
+		    	<p class="errorMessage" [hidden]="(instrumentTypeIds.valid || instrumentTypeIds.untouched) && isValid.instrumentTypeIds">
+		    		At least one instrument must be known.
+		    	</p>
         	</div>
         	<div class="col-sm-6">
         	 	<label>Grades</label>
@@ -69,7 +73,7 @@
 	            </div>
 	        </div>
 	    </div>
-	    <div class="row">
+	    <div class="row" *ngIf="languagesList.length != 0">
 	    	<div class="col-sm-12">
 		    	<label for="languages">Languages</label>
 		    	<select title="Hold Control or Command and click to select multiple"
@@ -79,6 +83,9 @@
 		    	#languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
 			    	<option *ngFor="let language of languagesList" value="{{language.id}}">{{language.name}}</option>
 		    	</select>
+		    	<p class="errorMessage" [hidden]="(languages.valid || languages.untouched) && isValid.languages">
+		    		At least one language must be known.
+		    	</p>
 	    	</div>
 	    </div>
     </fieldset>    

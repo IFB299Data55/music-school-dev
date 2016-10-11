@@ -30,27 +30,8 @@
             dbErrorMessage:     ''
           };
 
-          this.languagesList = [{
-            id: 1,
-            name: 'English'
-          }, {
-            id: 2,
-            name: 'Chinese'
-          }, {
-            id: 3,
-            name: 'Japanese'
-          }];
-
-          this.instrumentTypes = [{
-            id: 1,
-            name: 'Triangle'
-          }, {
-            id: 2,
-            name: 'Recorder'
-          }, {
-            id: 3,
-            name: 'Drums'
-          }];
+          this.languagesList = [];
+          this.instrumentTypes = [];
 
           this.ResetGrades = function() {
             this.teacher.instrumentTypeGrades = [];
@@ -80,10 +61,6 @@
             });
           }
 
-          this.test = function() {
-            console.log(this.teacher.languages);
-          }
-
           this.FormIsAvailable = function() {
             if(this.UserService.GetCurrentUser().type == 'manager') {
                 return true;
@@ -91,7 +68,25 @@
             
             return false;
           }
+
+          this.GetDatabaseValues = function() {
+              this.RegistrationService.GetDatabaseValues()
+              .then(response => {
+                if(response.valid) {
+                  this.languagesList = response.languagesList;
+                  this.instrumentTypes = response.instrumentTypes;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'A Database connection could not be established.';
+              });
+          }
 	      }
       ]
     });
+    app.RegisterFormComponent.prototype.ngOnInit = function() {
+      this.GetDatabaseValues();
+    };
 })(window.app || (window.app = {}));
