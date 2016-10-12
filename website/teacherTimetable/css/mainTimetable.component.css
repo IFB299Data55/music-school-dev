@@ -3,7 +3,8 @@
 ---------------*/
 .ui.cards > .card,
 .ui.card {
-  width: 170px;
+  width: 18%;
+  font-size: 1vw;
   
 }
 
@@ -15,8 +16,8 @@ Cards control the box
   flex-wrap: wrap;
   margin: -0.875em -0.5em;
   margin-left: 80px;
-  margin-bottom: -60px;  
- 
+  margin-bottom: -60px; 
+  width: 80%; 
 }
 
 

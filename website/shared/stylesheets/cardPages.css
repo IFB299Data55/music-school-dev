@@ -60,12 +60,20 @@
   border-top: 1px solid rgba(34, 36, 38, 0.1);
   background: none;
   margin: 0em;
-  padding: 1em 1em;
   box-shadow: none;
   font-size: 1em;
   border-radius: 0em;
 }
 
+.card .content .header {
+    border-bottom: 1px solid rgb(200,200,200);
+    background: rgb(240,240,240);
+    padding: 0.5em 0.5em;
+}
+
+.card .content .meta p {
+  margin: 5px 0px 5px 0px;
+}
 
 .card [class*="right floated"],
 .card [class*="right floated"] {
