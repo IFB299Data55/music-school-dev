@@ -36,8 +36,8 @@
               .catch(this.handleError);
           }
 
-          this.GetInstrumentTypes = function() {
-              var url = '/database/getInstrumentTypes';
+          this.GetDatabaseValues = function() {
+              var url = '/lessons/application/getDatabaseValues';
               return this.http.get(url, this.headers).toPromise()
               .then(response => {
                 var res = JSON.parse(response._body);
@@ -47,8 +47,20 @@
           }
 
           this.GetInstruments = function(id) {
-              if(id){
+              if(id) {
                 var url = '/database/getInstruments?id=' + id;
+                return this.http.get(url, this.headers).toPromise()
+                .then(response => {
+                  var res = JSON.parse(response._body);
+                  return Promise.resolve(res);
+                })
+                .catch(this.handleError);
+              }
+          }
+
+          this.getTeachers = function(instrumentType, language) {
+              if(instrumentType && language) {
+                var url = '/database/getTeachers?instId=' + instrumentType + '&langId=' + language;
                 return this.http.get(url, this.headers).toPromise()
                 .then(response => {
                   var res = JSON.parse(response._body);
