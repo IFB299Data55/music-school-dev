@@ -104,3 +104,80 @@ body, nav {
         padding-left: 0px;
     }
 }
+.contact{
+    margin: 0 auto;
+    background-color: #75B4AA !important;
+    color: #fff !important;
+}
+.heading{
+    padding-left: 30px;
+    font-weight: 700;
+}
+.map{
+    padding: 30px;
+}
+.address{
+    padding: 30px;
+    font-size: 22px;
+}
+.address .sub_detail{
+    margin-top: 130px;
+}
+.address .sub_detail p{
+    line-height: 18px;
+}
+.address .sub_detail .detail{
+    padding-left: 60px;
+    font-weight: 600;
+}
+.address .sub_detail .fax{
+    padding-left: 85px;
+}
+
+.about{
+    background-color: #F3F3F3 !important;
+    border-bottom: 1px solid #ccc;
+}
+.about_content{
+    padding: 50px;
+}
+.about_content .heading{
+    font-size: 52px;
+    color: #444;
+}
+.about_content .paragraph{
+    padding: 30px;
+    color: #787E8F;
+    font-size: 17px;
+    font-weight: 100;
+}
+.border{
+    border-bottom: 1px solid #ccc;
+    padding-top: 20px;
+    width: 950px;
+}
+
+/*team*/
+.team{
+    background-color: #F8F8F8;
+    padding: 50px;
+}
+.team_members ul li{
+    display: inline-block;
+    list-style: none;
+    width: 200px;
+    height:200px;
+    padding: 40px;
+}
+.team_members ul li .name{
+    font-size: 22px;
+    font-weight: 600;
+    color: #999;
+}
+.team_members ul li .designation{
+    color: #999;
+}
+.team_members ul li img{
+    border-radius: 100px;
+    border: 5px solid #ccc;
+}
