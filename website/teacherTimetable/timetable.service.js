@@ -3,8 +3,10 @@
   	ng.core.Class({
   		constructor: [
         ng.http.Http,
-        function(http) {
+        app.UserService,
+        function(http, UserService) {
           this.http = http;
+          this.UserService = UserService;
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           /*this.AttemptRegistration = function(student) {
@@ -20,8 +22,8 @@
             var url = "/teacher/timetable/getLessons/?id="+UserService.GetCurrentUser().id;
             return this.http.get(url, this.headers).toPromise()
             .then(response => {
-              var students = JSON.parse(response._body);
-              return Promise.resolve(students);
+              var lessons = JSON.parse(response._body);
+              return Promise.resolve(lessons);
             })
             .catch(this.handleError);
           }
