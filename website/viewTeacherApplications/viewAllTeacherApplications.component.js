@@ -27,7 +27,7 @@
                 if (!response.error) {
                   this.teacherApplications = response.teacherApplications;
                   for (var i = 0; i < this.teacherApplications.length; i++) {
-                    var dateOfBirth = this.teacherApplications[i].dob.split('-');
+                    /*var dateOfBirth = this.teacherApplications[i].dob.split('-');
                     var d = new Date();
                     var year = d.getFullYear();
                     var yearDifference = year - dateOfBirth[0];
@@ -43,7 +43,8 @@
                       this.teacherApplications[i].dob = (yearDifference - 1);
                     } else {
                       this.teacherApplications[i].dob = yearDifference;
-                    }
+                    }*/
+                    this.teacherApplications[i].dateapplied = this.teacherApplications[i].dateapplied.split("T")[0];
                   }
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';

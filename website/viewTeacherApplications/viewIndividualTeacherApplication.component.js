@@ -17,6 +17,9 @@
           this.ActivatedRoute = ActivatedRoute;
           this.error;
           this.teacherApplication = {};
+          this.instruments = [];
+          this.languages = [];
+          this.references = [];
 
           this.GoBack = function() {
             window.history.back();
@@ -56,8 +59,11 @@
       this.ViewTeacherApplicationsService.GetTeacherApplication(id).then(response => {
         if (!response.error) {
           this.teacherApplication = response.teacherApplication[0];
+          this.instruments = response.instruments;
+          this.references = response.references;
+          this.languages = response.languages;
 
-          var dateOfBirth = this.teacherApplication.dob.split('-');
+          /*var dateOfBirth = this.teacherApplication.dob.split('-');
           var d = new Date();
           var year = d.getFullYear();
           var yearDifference = year - dateOfBirth[0];
@@ -73,7 +79,7 @@
             this.teacherApplication.dob = (yearDifference - 1);
           } else {
             this.teacherApplication.dob = yearDifference;
-          }
+          }*/
 
         } else {
           this.error = 'An error has occured. Please contact administration for further assitance.';

@@ -18,7 +18,7 @@ exports.include = (app) => {
 		}
 
 
-		var getQuery = "SELECT id, first_name as firstname, last_name as lastname, "
+		var getQuery = "SELECT id, first_name as firstname, last_name as lastname, hours, "
 						//+"TO_CHAR(dob,'YYYY-MM-DD') as dob, "
 						+"date_applied as dateapplied "
 						+"FROM music_school.teacher_applicants "
@@ -43,16 +43,53 @@ exports.include = (app) => {
 
 		var teacherApplicationID = request.query.id;
 		var teacherApplication = [];
+		var languages = [];
+		var instruments = [];
+		var references = [];
 		var result = {
 			status: true,
-			teacherApplication: teacherApplication
+			teacherApplication: teacherApplication,
+			languages: languages,
+			instruments: instruments,
+			references: references
 		}
 
 		var getQuery = {
-			text: "SELECT first_name as firstname, last_name as lastname, email "
+			text: "SELECT first_name as firstname, last_name as lastname, email, cover_letter as coverletter, phone_no as phone "
+					//+",TO_CHAR(dob,'YYYY-MM-DD') as dob "
 					+"FROM music_school.teacher_applicants "
 					+"WHERE id = $1",
 			name: "get-individual-teacher-application",
+			values: [
+				teacherApplicationID
+			]
+		}
+
+		var languagesQuery = {
+			text: "SELECT language_id as id, language as name "
+					+"FROM music_school.teacher_applicant_languages tal LEFT JOIN music_school.languages l ON tal.language_id = l.id "
+					+"WHERE applicant_id = $1",
+			name: "get-teacher-applicant-languages",
+			values: [
+				teacherApplicationID
+			]
+		}
+
+		var referencesQuery = {
+			text: "SELECT name, phone_number as phone "
+					+"FROM music_school.teacher_applicant_references "
+					+"WHERE teacher_applicant_id = $1",
+			name: "get-teacher-applicant-references",
+			values: [
+				teacherApplicationID
+			]
+		}
+
+		var instrumentsQuery = {
+			text: "SELECT instrument, grade "
+					+"FROM music_school.teacher_applicant_experience "
+					+"WHERE teacher_applicant_id = $1",
+			name: "get-teacher-applicant-instruments",
 			values: [
 				teacherApplicationID
 			]
@@ -62,16 +99,47 @@ exports.include = (app) => {
 			teacherApplication.push(row);
 		})
 		.on('end', function() {
-			if (!response.headersSent) {
-				if (teacherApplication.length > 0) {
-					response.send(result);
-				} else {
+			app.client.query(languagesQuery).on('row', function(row) {
+				languages.push(row);
+			})
+			.on('error', function(err) {
+				console.log(err);
+				result.status = false;
+				response.send(result);
+			})
+			.on('end', function() {
+				app.client.query(referencesQuery).on('row', function(row) {
+					references.push(row);
+				})
+				.on('error', function(err) {
+					console.log(err);
 					result.status = false;
 					response.send(result);
-				}
-			}
+				})
+				.on('end', function() {
+					app.client.query(instrumentsQuery).on('row', function(row) {
+						instruments.push(row);
+					})
+					.on('error', function(err) {
+						console.log(err);
+						result.status = false;
+						response.send(result);
+					})
+					.on('end', function() {
+						if (!response.headersSent) {
+							if (teacherApplication.length > 0) {
+								response.send(result);
+							} else {
+								result.status = false;
+								response.send(result);
+							}
+						}
+					})
+				})
+			})
 		})
-		.on('error', function() {
+		.on('error', function(err) {
+			console.log(err);
 			result.status = false;
 			response.send(result);
 		});
