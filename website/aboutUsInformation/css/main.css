@@ -1,0 +1,9 @@
+#myTable {
+	width: 20%;
+	margin-left: 0px;
+	font-size: 0.9em;
+}
+
+#myTable tr {
+	cursor: auto;
+}
