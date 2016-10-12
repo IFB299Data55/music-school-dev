@@ -23,6 +23,7 @@
             phoneNumber:true,
             email:true,
             password:true,
+            gender:true,
             errorMessage:''
           };
 
@@ -45,6 +46,14 @@
                 this.submitted = false;
                 this.error = 'An error has occured. Please try again later';
             });
+          }
+          
+          this.UpdateGenderSelect = function() {
+            if (this.student.gender == 'Male' || this.student.gender == 'Female') {
+              this.isValid.gender = true;
+            } else {
+              this.isValid.gender = false;
+            }
           }
 	      }
       ]

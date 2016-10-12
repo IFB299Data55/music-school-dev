@@ -20,6 +20,7 @@
             firstName:true,
             middleName:true,
             lastName:true,
+            gender:true,
             birthday:true,
             address:true,
             phoneNumber:true,
@@ -58,6 +59,14 @@
             }
             
             return false;
+          }
+
+          this.UpdateGenderSelect = function() {
+            if(this.manager.gender == 'Male' || this.manager.gender == 'Female') {
+              this.isValid.gender = true;
+            } else {
+              this.isValid.gender = false;
+            }
           }
 	      }
       ]

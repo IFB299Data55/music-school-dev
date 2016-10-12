@@ -22,6 +22,7 @@ exports.include = (app) => {
 			phoneNumber:true,
 			email:true,
 			password:true,
+			gender:true,
 			errorMessage: ''
 		};
 
@@ -67,13 +68,13 @@ exports.include = (app) => {
 				]
 			};
 
-			var studentCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_dormant, date_registered"
+			var studentCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_dormant, date_registered, gender";
 			var newStudentQuery = {
 				text: "INSERT INTO music_school.students("+studentCols+") VALUES("
 						+"$1,$2,$3,"
 						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
-						+"(SELECT MAX(id) FROM music_school.passwords),$8,"
-						+"to_date($9, 'Dy Mon DD YYYY')"
+						+"(SELECT MAX(id) FROM music_school.passwords WHERE password = $8),$9,"
+						+"to_date($10, 'Dy Mon DD YYYY'),$11"
 					 +")",
 				name: "create-new-student",
 				values: [
@@ -84,8 +85,10 @@ exports.include = (app) => {
 					, student.address
 					, student.phoneNumber
 					, student.email
+					, hashedPassword
 					,"FALSE"
 					,d.toDateString()
+					, student.gender
 				]
 			};
 
@@ -190,7 +193,8 @@ function validateAll(student, isValid) {
 		validateAddress(student.address, isValid) &&
 		validatePhoneNumber(student.phoneNumber, isValid) &&
 		validateEmail(student.email, isValid) &&
-		validatePassword(student.password, isValid)) {
+		validatePassword(student.password, isValid) &&
+		validateGender(student.gender, isValid)) {
 		return true;
 	} else {
 		return false;
@@ -283,6 +287,14 @@ function validatePassword(password, isValid) {
 		return true;
 	}
 	isValid.password = false;
+	return false;
+}
+
+function validateGender(gender, isValid) {
+	if (gender == "Male" || gender == "Female") {
+		return true;
+	}
+	isValid.gender = false;
 	return false;
 }
 /* DATABASE STUFF
