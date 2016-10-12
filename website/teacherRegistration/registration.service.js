@@ -17,6 +17,16 @@
               .catch(this.handleError);
           }
 
+          this.GetDatabaseValues = function() {
+              var url = '/database/getInstrumentTypesAndLanguages';
+              return this.http.get(url, this.headers).toPromise()
+              .then(response => {
+                var res = JSON.parse(response._body);
+                return Promise.resolve(res);
+              })
+              .catch(this.handleError);
+          }
+
           this.handleError = function(error) {
             return Promise.reject(error.message || error);
           }

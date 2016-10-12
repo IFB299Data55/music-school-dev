@@ -46,7 +46,49 @@
 	    </div>
 	     
     </fieldset>
-        
+    <fieldset id="professionalinfo"
+    *ngIf="instrumentTypes.length + languagesList.length != 0">
+    	<legend><span>Professional Information</span></legend>
+    	<div class="row" *ngIf="instrumentTypes.length != 0">
+        	<div class="col-sm-6">
+        		<label for="instrumentTypeIds">Instruments</label>
+		    	<select title="Hold Control or Command and click to select multiple"
+		    	id="instrumentTypeIds" name="instrumentTypeIds"
+		    	[(ngModel)]="teacher.instrumentTypeIds"
+		    	(change)="ResetGrades()"
+		    	#instrumentTypeIds="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$"
+		    	[style.height]="instrumentTypes.length*20 + 5 + 'px'">
+			    	<option *ngFor="let instrument of instrumentTypes" value="{{instrument.id}}">{{instrument.name}}</option>
+		    	</select>
+		    	<p class="errorMessage" [hidden]="(instrumentTypeIds.valid || instrumentTypeIds.untouched) && isValid.instrumentTypeIds">
+		    		At least one instrument must be known.
+		    	</p>
+        	</div>
+        	<div class="col-sm-6">
+        	 	<label>Grades</label>
+	            <div *ngFor="let instrumentTypeId of teacher.instrumentTypeIds">
+	            	{{instrumentTypes[instrumentTypeId - 1].name}}: 
+	            	<input class="gradeInput" type="text" pattern="[4-7]" name="{{instrumentTypes[instrumentTypeId - 1].name}}Grade"
+	            	[(ngModel)]="teacher.instrumentTypeGrades[instrumentTypeId - 1]" required/>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="row" *ngIf="languagesList.length != 0">
+	    	<div class="col-sm-12">
+		    	<label for="languages">Languages</label>
+		    	<select title="Hold Control or Command and click to select multiple"
+		    	id="languages" name="langauges"
+		    	[(ngModel)]="teacher.languages"
+		    	[style.height]="languagesList.length*20 + 5 + 'px'"
+		    	#languages="ngModel" multiple required pattern="^([0-9]+,)*[0-9]+$">
+			    	<option *ngFor="let language of languagesList" value="{{language.id}}">{{language.name}}</option>
+		    	</select>
+		    	<p class="errorMessage" [hidden]="(languages.valid || languages.untouched) && isValid.languages">
+		    		At least one language must be known.
+		    	</p>
+	    	</div>
+	    </div>
+    </fieldset>    
     <fieldset id="locationinfo">
         <legend><span>Location Information</span></legend>
 	    <div class="row">
@@ -62,7 +104,7 @@
     <fieldset id="additionalinformation">
         <legend><span>Additional Information</span></legend>
         <div class="col-sm-12">
-	        <label for="feedback">Additional information to display to students about your experience and/or qualifications</label>
+	        <label for="feedback">Please list any instruments you are able to play that were not listed above.</label>
 	        <textarea id="feedback" name="feedback" rows="7" cols="55" [(ngModel)]="teacher.description" ></textarea>
         </div>
     </fieldset>
