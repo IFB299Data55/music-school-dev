@@ -106,19 +106,20 @@ body, nav {
 }
 .contact{
     margin: 0 auto;
-    background-color: #75B4AA !important;
+    background-color: #161354  !important;
     color: #fff !important;
 }
 .heading{
-    padding-left: 30px;
+    padding-left: 100px;
     font-weight: 700;
 }
 .map{
-    padding: 30px;
+    padding: 8px;
+	size:20px;
 }
 .address{
-    padding: 30px;
-    font-size: 22px;
+    padding: 100px;
+    font-size: 18px;
 }
 .address .sub_detail{
     margin-top: 130px;
