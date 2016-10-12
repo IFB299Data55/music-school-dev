@@ -23,6 +23,7 @@
           this.GetTeacherApplications = function() {
             this.ViewTeacherApplicationsService.GetTeacherApplications()
               .then(response => {
+                console.log(response);
                 if (!response.error) {
                   this.teacherApplications = response.teacherApplications;
                   for (var i = 0; i < this.teacherApplications.length; i++) {
@@ -47,7 +48,8 @@
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }
-              }).catch(() => {
+              }).catch(err => {
+                console.log(err);
                 this.error = 'An error has occured. Please try again later.';
               });
           }

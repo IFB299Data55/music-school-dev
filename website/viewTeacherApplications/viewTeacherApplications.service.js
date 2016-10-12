@@ -9,8 +9,8 @@
           this.UserService = UserService;
           this.shortlistResponseURL = '/management/teacherApplications/individual/shortlist/';
           this.rejectResponseURL = '/management/teacherApplications/individual/reject/';
-          this.requestURL = '/management/teacherApplications/getStudents/';
-          this.individualRequestURL = '/management/teacherApplications/getStudent/';
+          this.requestURL = '/management/teacherApplications/GetTeacherApplications/';
+          this.individualRequestURL = '/management/teacherApplications/GetTeacherApplication/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.ShortlistTeacherApplication = function(teacherApplicationID) {

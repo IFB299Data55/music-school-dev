@@ -1,4 +1,4 @@
-var acceptStudentsRouting = [
+var viewTeacherApplicationsRouting = [
 	{
 		path: 'all',
 		component: app.ViewAllTeacherApplicationsComponent

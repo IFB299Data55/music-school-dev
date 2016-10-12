@@ -19,9 +19,10 @@ exports.include = (app) => {
 
 
 		var getQuery = "SELECT id, first_name as firstname, last_name as lastname, "
-						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied "
+						//+"TO_CHAR(dob,'YYYY-MM-DD') as dob, "
+						+"date_applied as dateapplied "
 						+"FROM music_school.teacher_applicants "
-						+"WHERE status = 1 AND is_approved = FALSE"; // applied and not approved
+						+"WHERE "/*+"status = 1 AND "*/+"is_approved = FALSE"; // applied and not approved
 
 		app.client.query(getQuery).on('row', function(row) {
 			teacherApplicationsResult.push(row);
@@ -47,14 +48,15 @@ exports.include = (app) => {
 			teacherApplication: teacherApplication
 		}
 
-		var getQuery = "SELECT l.id as requestid, s.first_name as firstname, s.last_name as lastname, "
-						+"TO_CHAR(s.dob,'YYYY-MM-DD') as dob, it.name as instrument, se.grade as grade, "
-						+"l.lesson_start_time as starttime, l.lesson_end_time as endtime, l.lesson_year as year, "
-						+"l.lesson_term as term, l.lesson_fee as fee, l.lesson_notes as notes "
-						+"FROM music_school.lessons l, music_school.students s, "
-						+"music_school.instrument_types it, music_school.student_experience se "
-						+"WHERE l.student_id = s.id AND l.inst_type_id = it.id AND l.id = "+teacherApplicationID
-						+"AND s.id = se.student_id AND se.inst_type_id = l.inst_type_id";
+		var getQuery = {
+			text: "SELECT first_name as firstname, last_name as lastname, email "
+					+"FROM music_school.teacher_applicants "
+					+"WHERE id = $1",
+			name: "get-individual-teacher-application",
+			values: [
+				teacherApplicationID
+			]
+		}
 
 		app.client.query(getQuery).on('row', function(row) {
 			teacherApplication.push(row);
@@ -75,51 +77,58 @@ exports.include = (app) => {
 		});
 	});
 
-	app.post('/management/teacherApplications/individual/', function(request, response) {
+	app.post('/management/teacherApplications/individual/shortlist/', function(request,response) {
 		var applicationID = request.query.applicationID;
-		var shortlist = request.query.shortlist; // true or false
 		var result = {
 			status: true,
 		}
 
-		if (shortlist) {
-			var shortlistQuery = {
-				text: "UPDATE TABLE music_school.teacher_applicants SET is_shortlisted = TRUE WHERE id = $1",
-				name: "shortlist-application-query",
-				values: [
-					applicationID
-				]
-			}
-
-			app.client.query(shortlistQuery).on('error', function() {
-				result.status = false;
-				response.send(result);
-			})
-			.on('end', function() {
-				if (!response.headersSent) {
-					response.send(result);
-				}
-			})
-		} else {
-			var rejectQuery = {
-				text: "UPDATE TABLE music_school.teacher_applicants SET status = $1 WHERE id = $2",
-				name: "reject-application-query",
-				values: [
-					3
-					,applicationID
-				]
-			}
-
-			app.client.query(rejectQuery).on('error', function() {
-				result.status = false;
-				response.send(result);
-			})
-			.on('end', function() {
-				if (!response.headersSent) {
-					response.send(result);
-				}
-			})
+		var shortlistQuery = {
+			text: "UPDATE TABLE music_school.teacher_applicants SET is_shortlisted = $1, status = $2 WHERE id = $3",
+			name: "shortlist-application-query",
+			values: [
+				TRUE
+				,1
+				,applicationID
+			]
 		}
+
+		app.client.query(shortlistQuery).on('error', function() {
+			result.status = false;
+			response.send(result);
+		})
+		.on('end', function() {
+			if (!response.headersSent) {
+				response.send(result);
+			}
+		})
+	});
+
+	app.post('/management/teacherApplications/individual/reject/', function(request, response) {
+		var applicationID = request.query.applicationID;
+		var result = {
+			status: true,
+		}
+
+		var rejectQuery = {
+			text: "UPDATE TABLE music_school.teacher_applicants SET status = $1, is_shortlisted = $2 WHERE id = $3",
+			name: "reject-application-query",
+			values: [
+				3
+				,FALSE
+				,applicationID
+			]
+		}
+
+		app.client.query(rejectQuery).on('error', function() {
+			result.status = false;
+			response.send(result);
+		})
+		.on('end', function() {
+			if (!response.headersSent) {
+				response.send(result);
+			}
+		})
 	});
 
 	app.get('/management/teacherApplications/*', function(request, response) {
