@@ -1,26 +1,24 @@
 <div *ngIf="PageIsAvailable()">
-	<div class="card">
+	<div class="card bigCard">
 		<div class="content">
 			<div class="header">
-				Student Name: {{instrument.firstname}} {{instrument.lastname}}
+				{{instrument.firstname}} {{instrument.lastname}}
 			</div>
 			<div class="meta">
-				<p>Student Phone: {{instrument.phone}}</p>
-				<p>Student Email: {{instrument.email}}</p>
-				<p>Instrument Model: {{instrument.instrumentname}}</p>
-				<p>Instrument Type: {{instrument.instrumenttype}}</p>
-				<p>Due Date: {{instrument.duedate}}</p>
-				<p>Hire Date: {{instrument.hiredate}}</p>
-				<p>Serial Number: {{instrument.serialnumber}}</p>
-				<p>Condition: {{instrument.condition}}</p>
-				<p>Purchase Date: {{instrument.purchasedate}}</p>
-				<p>Purchase Price: ${{instrument.purchaseprice}}</p>
-				<p>Hire Fee: ${{instrument.hirefee}}</p>
-				<p>Notes: {{instrument.notes}}</p>
+				<div class="cardRowContainer"><div class="cardLeft">Student Phone:</div> <div class="cardRight">{{instrument.phone}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Student Email:</div> <div class="cardRight">{{instrument.email}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Instrument Model:</div> <div class="cardRight">{{instrument.instrumentname}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Instrument Type:</div> <div class="cardRight">{{instrument.instrumenttype}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Serial Number:</div> <div class="cardRight">{{instrument.serialnumber}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Condition:</div> <div class="cardRight">{{instrument.condition}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Date:</div> <div class="cardRight">{{instrument.purchasedate}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Price:</div> <div class="cardRight">{{instrument.purchaseprice}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Hire Fee:</div> <div class="cardRight">{{instrument.hirefee}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Notes:</div> <div class="cardRight">{{instrument.notes}}</div></div>
 			</div>
 			<div class="extra content">
 	    		<div class="ui two buttons">
-					<button class="button21 clickable" (click)="AcceptInstrumentHireRequest(instrument.hireid)">Accept Hire Request</button>
+					<button class="button21 clickable positive" (click)="AcceptInstrumentHireRequest(instrument.hireid)">Accept Hire Request</button>
 					<button class="button21 clickable" (click)="RejectInstrumentHireRequest(instrument.hireid)">Decline Hire Request</button>
 				    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
 				</div>

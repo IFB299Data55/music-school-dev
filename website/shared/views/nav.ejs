@@ -46,6 +46,9 @@
 		    	<li *ngIf="!loggedIn"><a href="/login/teacher/">
 					Login
 				</a></li>
+				<li *ngIf="user.type == 'teacher'"><a href="/teacher/timetable/">
+					View Timetable
+				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/register/teacher/">
 					Register
 				</a></li>

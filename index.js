@@ -42,6 +42,7 @@ require('./ReturnInstrumentsRouting.js').include(app);
 require('./AcceptStudentsRouting.js').include(app);
 require('./BorrowedInstrumentInfoRouting.js').include(app);
 require('./InstrumentHireRequestsRouting.js').include(app);
+require('./TeacherTimetablesRouting.js').include(app);
 
 /* Setup 404 page */
 app.use(function(request, response) {
