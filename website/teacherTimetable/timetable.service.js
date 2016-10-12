@@ -28,6 +28,16 @@
             .catch(this.handleError);
           }
 
+          this.GetLesson = function(lessonId) {
+            var url = "/teacher/timetable/getLesson/?teacherId="+UserService.GetCurrentUser().id +"&lessonId=" + lessonId;
+            return this.http.get(url, this.headers).toPromise()
+            .then(response => {
+              var lesson = JSON.parse(response._body);
+              return Promise.resolve(lesson);
+            })
+            .catch(this.handleError);
+          }
+
           this.handleError = function(error) {
             return Promise.reject(error.message || error);
           }

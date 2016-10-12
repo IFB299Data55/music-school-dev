@@ -26,7 +26,6 @@
           this.GetLessons = function() {
             this.TimetableService.GetLessons()
             .then(response => {
-              console.log(response);
               if (response.valid) {
                 this.lessons = response.lessons;
               } else {
@@ -36,6 +35,25 @@
               this.error = 'An error has occured. Please try again later';
             });
           };
+
+          this.GotoLesson = function(id) {
+            var link = ['/lesson', id];
+            this.Router.navigate(link);
+          }
+
+          this.ConvertToDisplayTime = function(time) {
+            var dms = time.split(":");
+
+            if(dms[0] > 12) {
+              var hours = dms[0] - 12;
+              return hours + ":" + dms[1] + "pm";
+            } else if(dms[0] == 12) {
+              return dms[0] + ":" + dms[1] + "pm";
+            } else {
+              var hours = parseInt(dms[0]);
+              return hours + ":" + dms[1] + "am";
+            }
+          }
 	      }
       ]
     });

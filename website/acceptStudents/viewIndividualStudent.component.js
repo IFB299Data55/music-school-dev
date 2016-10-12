@@ -8,15 +8,17 @@
     })
     .Class({
       constructor: [
-    	  app.AcceptStudentsService,
+        app.AcceptStudentsService,
+    	  app.UserService,
         ng.router.Router,
         ng.router.ActivatedRoute,
-        function(AcceptStudentsService, Router, ActivatedRoute) {
+        function(AcceptStudentsService, UserService, Router, ActivatedRoute) {
           this.AcceptStudentsService = AcceptStudentsService;
+          this.UserService = UserService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
           this.error;
-          this.student = {};
+          this.student = false;
 
           this.GoBack = function() {
             window.history.back();
@@ -44,6 +46,14 @@
                   this.error = 'There was an error';
                 }
               });
+          }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.GetCurrentUser().type == 'teacher') {
+                return true;
+            }
+            
+            return false;
           }
 	      }
       ]

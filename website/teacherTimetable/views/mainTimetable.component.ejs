@@ -1,16 +1,17 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
 <div *ngIf="FormIsAvailable()">
 	<li class="ui cards">
-		<div class="card" *ngFor="let lesson of lessons">
+		<div class="card"
+		*ngFor="let lesson of lessons"
+		(click)="GotoLesson(lesson.id)">
 			<div class="content">
 				<div class="header">
-					<b>Noah Fox</b>
+					<b>{{lesson.first_name}} {{lesson.last_name}}</b>
 				</div>
 				<div class="meta">
-					<p>Student ID: S988484</p>
-					<p>Instrument Type: piano</p>
-					<p>start date: 12/10/2016</p>
-					<p>End date: 12/10/2017</p>
+					<p>{{lesson.instrument_type}}</p>
+					<p>Grade {{lesson.student_grade}}</p>
+					<p>{{lesson.lesson_day}}: {{ConvertToDisplayTime(lesson.start_time)}} - {{ConvertToDisplayTime(lesson.end_time)}}</p>
 				</div>
 			</div>
 		</div>
