@@ -17,7 +17,7 @@
           this.ActivatedRoute = ActivatedRoute;
           this.UserService = UserService;
           this.error;
-          this.teacher = {};
+          this.teacher = false;
 
           this.GoBack = function() {
             window.history.back();
