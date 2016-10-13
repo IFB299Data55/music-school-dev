@@ -60,14 +60,6 @@
             
             return false;
           }
-
-          this.UpdateGenderSelect = function() {
-            if(this.manager.gender == 'Male' || this.manager.gender == 'Female') {
-              this.isValid.gender = true;
-            } else {
-              this.isValid.gender = false;
-            }
-          }
 	      }
       ]
     });

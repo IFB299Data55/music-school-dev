@@ -26,6 +26,7 @@
             email:              true,
             languages:          true,
             instrumentTypeIds:  true,
+            gender:             true,
             dbError:            false,
             dbErrorMessage:     ''
           };

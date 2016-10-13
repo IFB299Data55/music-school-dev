@@ -50,8 +50,8 @@
 	    <div class="row">
         	<div class="col-sm-6">
         		<label for="gender">Gender:</label>
-	            <select id="gender" name="gender" #gender="ngModel" [(ngModel)]="student.gender" 
-				(select)="UpdateGenderSelect()" required>
+	            <select id="gender" name="gender" #gender="ngModel" [(ngModel)]="student.gender" pattern="^Male$|^Female$" required>
+						<option value="" disabled selected>Select Gender</option>
 						<option value="Male">Male</option>
 						<option value="Female">Female</option>
 				</select>

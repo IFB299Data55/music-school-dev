@@ -205,8 +205,7 @@ function validateAll(manager, errArray) {
 		validateBirthday(manager.birthday, errArray) &&
 		validateAddress(manager.address, errArray) &&
 		validatePhoneNumber(manager.phoneNumber, errArray) &&
-		validateEmail(manager.email, errArray) &&
-		validateGender(manager.gender, errArray)) {
+		validateEmail(manager.email, errArray)) {
 		return true;
 	} else {
 		return false;
@@ -288,13 +287,5 @@ function validateEmail(email, errArray) {
 		return true;
 	}
 	errArray.email = false;
-	return false;
-}
-
-function validateGender(gender, errArray) {
-	if (gender == "Male" || gender == "Female") {
-		return true;
-	}
-	errArray.gender = false;
 	return false;
 }

@@ -193,8 +193,7 @@ function validateAll(student, isValid) {
 		validateAddress(student.address, isValid) &&
 		validatePhoneNumber(student.phoneNumber, isValid) &&
 		validateEmail(student.email, isValid) &&
-		validatePassword(student.password, isValid) &&
-		validateGender(student.gender, isValid)) {
+		validatePassword(student.password, isValid)) {
 		return true;
 	} else {
 		return false;
@@ -290,13 +289,6 @@ function validatePassword(password, isValid) {
 	return false;
 }
 
-function validateGender(gender, isValid) {
-	if (gender == "Male" || gender == "Female") {
-		return true;
-	}
-	isValid.gender = false;
-	return false;
-}
 /* DATABASE STUFF
 
 var query = client.query("SELECT * FROM junk");
