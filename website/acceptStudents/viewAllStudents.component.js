@@ -8,9 +8,11 @@
     .Class({
       constructor: [
         app.AcceptStudentsService,
+        app.UserService,
         ng.router.Router,
-	      function(AcceptStudentsService, Router) {
+	      function(AcceptStudentsService, UserService, Router) {
           this.AcceptStudentsService = AcceptStudentsService;
+          this.UserService = UserService;
           this.Router = Router;
           
           this.students = [];
@@ -20,8 +22,17 @@
             this.Router.navigate(link);
           }
 
+          this.FormIsAvailable = function() {
+          if(this.UserService.GetCurrentUser().type == 'teacher') {
+                return true;
+            }
+            
+            return false;
+          }
+
           this.GetStudents = function() {
-            this.AcceptStudentsService.GetStudents()
+            if(this.FormIsAvailable()) {
+              this.AcceptStudentsService.GetStudents()
               .then(response => {
                 if (!response.error) {
                   this.students = response.students;
@@ -45,11 +56,12 @@
                     }
                   }
                 } else {
-                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                  this.error = response.error;
                 }
               }).catch(() => {
                 this.error = 'An error has occured. Please try again later.';
               });
+            }
           }
 	      }
       ]

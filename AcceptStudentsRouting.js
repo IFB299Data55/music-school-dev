@@ -37,6 +37,7 @@ exports.include = (app) => {
 					response.send(result);
 				} else {
 					result.status = false;
+					result.error = 'You have no lesson requests from any students.';
 					response.send(result);
 				}
 			}

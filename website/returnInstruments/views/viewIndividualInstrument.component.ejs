@@ -1,23 +1,23 @@
 <div *ngIf="PageIsAvailable()">
 
-	<div class="card">
+	<div class="card bigCard">
 		<div class="content">
 			<div class="cardHeader">
-				<legend><span>Student Name: {{instrument.firstname}} {{instrument.lastname}}</span></legend>
+				{{instrument.firstname}} {{instrument.lastname}}
 			</div>
 			<div class="meta">
-				<div class="cardLeft">Student Phone:</div> <div class="cardRight">{{instrument.phone}}</div><br><br>
-				<div class="cardLeft">Student Email:</div> <div class="cardRight">{{instrument.email}}</div><br><br>
-				<div class="cardLeft">Instrument Model:</div> <div class="cardRight">{{instrument.instrumentname}}</div><br><br>
-				<div class="cardLeft">Instrument Type:</div> <div class="cardRight">{{instrument.instrumenttype}}</div><br><br>
-				<div class="cardLeft">Due Date:</div> <div class="cardRight">{{instrument.duedate}}</div><br><br>
-				<div class="cardLeft">Hire Date:</div> <div class="cardRight">{{instrument.hiredate}}</div><br><br>
-				<div class="cardLeft">Serial Number:</div> <div class="cardRight">{{instrument.serialnumber}}</div><br><br>
-				<div class="cardLeft">Condition:</div> <div class="cardRight">{{instrument.condition}}</div><br><br>
-				<div class="cardLeft">Purchase Date:</div> <div class="cardRight">{{instrument.purchasedate}}</div><br><br>
-				<div class="cardLeft">Purchase Price:</div> <div class="cardRight">${{instrument.purchaseprice}}</div><br><br>
-				<div class="cardLeft">Hire Fee:</div> <div class="cardRight">${{instrument.hirefee}}</div><br><br>
-				<div class="cardLeft">Notes:</div> <div class="cardRight">{{instrument.notes}}</div><br><br>
+				<div class="cardRowContainer"><div class="cardLeft">Student Phone:</div> <div class="cardRight">{{instrument.phone}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Student Email:</div> <div class="cardRight">{{instrument.email}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Instrument Model:</div> <div class="cardRight">{{instrument.instrumentname}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Instrument Type:</div> <div class="cardRight">{{instrument.instrumenttype}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Due Date:</div> <div class="cardRight">{{instrument.duedate}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Hire Date:</div> <div class="cardRight">{{instrument.hiredate}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Serial Number:</div> <div class="cardRight">{{instrument.serialnumber}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Condition:</div> <div class="cardRight">{{instrument.condition}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Date:</div> <div class="cardRight">{{instrument.purchasedate}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Price:</div> <div class="cardRight">${{instrument.purchaseprice}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Hire Fee:</div> <div class="cardRight">${{instrument.hirefee}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Notes:</div> <div class="cardRight">{{instrument.notes}}</div></div>
 			</div>
 			<div class="extra content">
 	    		<div class="ui two buttons">
