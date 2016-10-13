@@ -19,6 +19,7 @@ exports.include = (app) => {
 			lastName:true,
 			birthday:true,
 			phoneNumber:true,
+			gender:true,
 			coverLetter:true,
 			instruments:true,
 			languages:true,
@@ -53,26 +54,27 @@ exports.include = (app) => {
 
 			var instrumentDetails = [];
 			var instrumentDetailPairsArray = teacherApplication.instruments.split(";");
-			for (var i = 0; (i+2) < instrumentDetailPairsArray.length; i+=2) {
+			for (var i = 0; i < instrumentDetailPairsArray.length; i+=2) {
 				var name = instrumentDetailPairsArray[i].split(",")[0];
 				var grade = instrumentDetailPairsArray[i].split(",")[1];
 				instrumentDetails[i] = name;
 				instrumentDetails[i+1] = grade;
 			}
 
-			var teacherApplicantsCols = "first_name, last_name, dob ,phone_no, email, cover_letter, date_applied, status_id, is_shortlisted, is_approved, hours";
+			var teacherApplicantsCols = "first_name, last_name, dob, gender ,phone_no, email, cover_letter, date_applied, status_id, is_shortlisted, is_approved, hours";
 			var newTeacherApplicantQuery = {
 				text: "INSERT INTO music_school.teacher_applicants("+teacherApplicantsCols+") VALUES("
 						+"$1,$2"
-						+",to_date($3, 'DD MM YYYY')"
-						+",$4,$5,$6,now(),"
-						+"1,FALSE,FALSE,$7"
+						+",to_date($3, 'DD MM YYYY'), $4"
+						+",$5,$6,$7,now(),"
+						+"1,FALSE,FALSE,$8"
 					 +")",
 				name: "create-new-teacher-applicant",
 				values: [
 					  teacherApplication.firstName
 					, teacherApplication.lastName
 					, teacherApplication.birthday
+					, teacherApplication.gender
 					, teacherApplication.phoneNumber
 					, teacherApplication.email
 					, teacherApplication.coverLetter
@@ -111,8 +113,9 @@ exports.include = (app) => {
 			var experienceText = "INSERT INTO music_school.teacher_applicant_experience("+experienceColumns+") VALUES";
 			var experienceValues = [];
 			var counter = 1;
+			var instrumentInsert;
 			for(var i = 0; i < instrumentDetails.length; i+=2) {
-				var instrumentInsert = '';
+				instrumentInsert = '';
 				if(i != 0) {
 					instrumentInsert += ','; 
 				}
@@ -142,7 +145,7 @@ exports.include = (app) => {
 				if (!response.headersSent) {
 					valid.status = false;
 					isValid.dbError = true;
-					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					isValid.dbErrorMessage = 'Email already in use. If you believe this is incorrect and the issue persists, contact an administrator.';
 					response.send(valid);
 					console.log("Error occured in TeacherApplication: ", err);
 				}
@@ -266,6 +269,7 @@ function validateAll(teacherApplication, isValid) {
 		validateLanguages(teacherApplication.languages, isValid) &&
 		validateReferences(teacherApplication, isValid) &&
 		validateHours(teacherApplication.hours, isValid) &&
+		validateGender(teacherApplication.gender, isValid) &&
 		validateEmail(teacherApplication.email, isValid)) {
 		return true;
 	} else {
@@ -333,8 +337,17 @@ function validatePhoneNumber(phoneNumber, isValid) {
 	return false;
 }
 
+function validateGender(gender, isValid) {
+	var regexp = new RegExp("^[Mm]ale$|^[Ff]emale$");
+	if (regexp.test(gender)) {
+		return true;
+	}
+	isValid.gender = false;
+	return false;
+}
+
 function validateCoverLetter(coverLetter, isValid) {
-	var regexp = new RegExp("^[A-Za-z0-9 ._%+-]+$");
+	var regexp = new RegExp("^[A-Za-z]([A-Za-z0-9 '?,._%+-]|\n|\r)+$");
 	if (regexp.test(coverLetter)) {
 		return true;
 	}

@@ -1,5 +1,5 @@
 function TeacherApplication(firstName = '', middleName = '', lastName = '', 
-							birthday = '', phoneNumber = '', email = '', 
+							birthday = '', phoneNumber = '', email = '', gender = '',
 							coverLetter = '', reference1name = '', reference1number = '', 
 							reference2name = '', reference2number = '', reference3name = '', 
 							reference3number = '', instruments = '', hours = '', languages = []) {
@@ -8,6 +8,7 @@ function TeacherApplication(firstName = '', middleName = '', lastName = '',
   this.lastName = lastName;
   this.birthday = birthday;
   this.phoneNumber = phoneNumber;
+  this.gender = gender;
   this.email = email;
   this.reference1name = reference1name;
   this.reference1number = reference1number;

@@ -44,6 +44,17 @@
 				<p class="errorMessage" [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy or dd-mm-yyyy.</p>
 	        </div>
 	    </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender"
+                    [(ngModel)]="teacherApplication.gender" #gender="ngModel" required pattern="^[Mm]ale$|^[Ff]emale$">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <p class="errorMessage" [hidden]="(gender.valid || gender.untouched) && isValid.gender">Invalid input. Please reselect your choice</p>
+            </div>
+        </div>
     </fieldset>
 
     <fieldset id="instrumentsinformation">
@@ -71,7 +82,7 @@
         <legend><span>Cover Letter</span></legend>
         <div class="col-sm-12">
 	        <label for="coverletter">Cover Letter:</label>
-	        <textarea id="coverletter" name="coverletter" rows="7" cols="55" [(ngModel)]="teacherApplication.coverLetter" pattern="^[A-Za-z0-9 ._%+-]+$" required></textarea>
+	        <textarea id="coverletter" name="coverletter" rows="7" cols="55" [(ngModel)]="teacherApplication.coverLetter" pattern="^[A-Za-z]([A-Za-z0-9 '?,._%+-]|\n|\r)+$" required></textarea>
         </div>
     </fieldset>
 

@@ -23,6 +23,7 @@
             lastName:true,
             birthday:true,
             phoneNumber:true,
+            gender:true,
             instruments:true,
             languages:true,
             coverLetter:true,
