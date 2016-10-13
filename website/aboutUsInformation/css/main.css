@@ -36,13 +36,16 @@
 .about_content .paragraph{
     
     color: #787E8F;
-    font-size: 17px;
+    font-size: 18px;
     font-weight: 100;
+	text-align:left;
 }
+
 .border{
     border-bottom: 1px solid #ccc;
     padding-top: 20px;
     width: 950px;
+	
 }
 
 /*team*/
