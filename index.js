@@ -43,6 +43,8 @@ require('./AcceptStudentsRouting.js').include(app);
 require('./BorrowedInstrumentInfoRouting.js').include(app);
 require('./InstrumentHireRequestsRouting.js').include(app);
 require('./aboutUsInformation.js').include(app);
+require('./contactUsInformation.js').include(app);
+require('./ourPeopleInformation.js').include(app);
 
 /* Setup 404 page */
 app.use(function(request, response) {
