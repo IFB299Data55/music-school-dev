@@ -15,7 +15,7 @@
 
           this.ShortlistTeacherApplication = function(teacherApplicationID) {
             var params = {
-              request: teacherApplicationID
+              id: teacherApplicationID
             };
             return this.http.post(this.shortlistResponseURL, params, this.headers).toPromise()
             .then(response => {
@@ -27,7 +27,7 @@
 
           this.RejectTeacherApplication = function(teacherApplicationID) {
             var params = {
-              request: teacherApplicationID
+              id: teacherApplicationID
             };
             return this.http.post(this.rejectResponseURL, params, this.headers).toPromise()
             .then(response => {

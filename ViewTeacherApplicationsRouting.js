@@ -19,10 +19,10 @@ exports.include = (app) => {
 
 
 		var getQuery = "SELECT id, first_name as firstname, last_name as lastname, hours, "
-						//+"TO_CHAR(dob,'YYYY-MM-DD') as dob, "
+						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, "
 						+"date_applied as dateapplied "
 						+"FROM music_school.teacher_applicants "
-						+"WHERE "/*+"status = 1 AND "*/+"is_approved = FALSE"; // applied and not approved
+						+"WHERE status_id = 1 AND is_approved = FALSE"; // applied and not approved
 
 		app.client.query(getQuery).on('row', function(row) {
 			teacherApplicationsResult.push(row);
@@ -55,8 +55,8 @@ exports.include = (app) => {
 		}
 
 		var getQuery = {
-			text: "SELECT first_name as firstname, last_name as lastname, email, cover_letter as coverletter, phone_no as phone "
-					//+",TO_CHAR(dob,'YYYY-MM-DD') as dob "
+			text: "SELECT id, first_name as firstname, last_name as lastname, email, cover_letter as coverletter, phone_no as phone "
+					+",TO_CHAR(dob,'YYYY-MM-DD') as dob "
 					+"FROM music_school.teacher_applicants "
 					+"WHERE id = $1",
 			name: "get-individual-teacher-application",
@@ -146,22 +146,21 @@ exports.include = (app) => {
 	});
 
 	app.post('/management/teacherApplications/individual/shortlist/', function(request,response) {
-		var applicationID = request.query.applicationID;
+		var applicationID = request.body.id;
 		var result = {
 			status: true,
-		}
+		};
 
 		var shortlistQuery = {
-			text: "UPDATE TABLE music_school.teacher_applicants SET is_shortlisted = $1, status = $2 WHERE id = $3",
+			text: "UPDATE music_school.teacher_applicants SET is_shortlisted = TRUE, status_id = $1 WHERE id = $2",
 			name: "shortlist-application-query",
 			values: [
-				TRUE
-				,1
+				1
 				,applicationID
 			]
 		}
 
-		app.client.query(shortlistQuery).on('error', function() {
+		app.client.query(shortlistQuery).on('error', function(err) {
 			result.status = false;
 			response.send(result);
 		})
@@ -173,17 +172,16 @@ exports.include = (app) => {
 	});
 
 	app.post('/management/teacherApplications/individual/reject/', function(request, response) {
-		var applicationID = request.query.applicationID;
+		var applicationID = request.body.id;
 		var result = {
 			status: true,
 		}
 
 		var rejectQuery = {
-			text: "UPDATE TABLE music_school.teacher_applicants SET status = $1, is_shortlisted = $2 WHERE id = $3",
+			text: "UPDATE music_school.teacher_applicants SET status_id = $1, is_shortlisted = FALSE WHERE id = $2",
 			name: "reject-application-query",
 			values: [
 				3
-				,FALSE
 				,applicationID
 			]
 		}
