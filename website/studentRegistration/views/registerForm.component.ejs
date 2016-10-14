@@ -1,5 +1,5 @@
 <p *ngIf="error" class="errorMessage">{{error}}</p>
-<form [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
+<form id="myForm" [hidden]="submitted" (ngSubmit)="Register()" #registrationForm="ngForm" method="POST">
 	<fieldset id="accountinfo">
 	    <legend><span>Account Details</span></legend>
 	    <div class="row">
@@ -42,8 +42,8 @@
 			</div>
 			<div class="col-sm-6">
 				<label 	for="birthday">Date of Birth: </label>
-				<input 	title="dd/mm/yyyy or dd-mm-yyyy" type="text" id="birthday" placeholder= "dd/mm/yyyy" name="birthday" #birthday="ngModel"
-						[(ngModel)]="student.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" required/>
+				<input 	title="dd/mm/yyyy or dd-mm-yyyy" type="text" id="birthday" class="datepicker" (mousedown)="datePick()" placeholder= "dd/mm/yyyy" name="birthday" #birthday="ngModel"
+						[(ngModel)]="student.birthday" pattern="^(^[0-3][0-9]/[0-1][0-9]/[1|2][9|0][0-9][0-9]$|^[0-3][0-9]-[0-1][0-9]-[1|2][9|0][0-9][0-9]$)$" autocomplete="off" required/>
 				<p class="errorMessage" [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy or dd-mm-yyyy.</p>
 			</div>
 		</div>

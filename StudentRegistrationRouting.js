@@ -17,7 +17,7 @@ exports.include = (app) => {
 			firstName:true,
 			middleName:true,
 			lastName:true,
-			birthday:true,
+			birthday: true,
 			address:true,
 			phoneNumber:true,
 			email:true,
@@ -225,8 +225,8 @@ function validateLastName(lastName, isValid) {
 }
 
 function validateBirthday(birthday, isValid) {
-	var regexp1 = "^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$";
-	var regexp2 = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
+	var regexp1 = "^[0-3][0-9]/[0-1][0-9]/[1|2][9|0][0-9][0-9]$";
+	var regexp2 = "^[0-3][0-9]-[0-1][0-9]-[1|2][9|0][0-9][0-9]$";
 	var days, months, years;
 	//if (regexp1.test(birthday)) {
 	if (birthday.match(regexp1)) {
