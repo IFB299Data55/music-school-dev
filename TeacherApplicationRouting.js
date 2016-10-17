@@ -57,8 +57,10 @@ exports.include = (app) => {
 			for (var i = 0; i < instrumentDetailPairsArray.length; i+=2) {
 				var name = instrumentDetailPairsArray[i].split(",")[0];
 				var grade = instrumentDetailPairsArray[i].split(",")[1];
-				instrumentDetails[i] = name;
-				instrumentDetails[i+1] = grade;
+				if (name && name != ' ' && grade) {
+					instrumentDetails[i] = name;
+					instrumentDetails[i+1] = grade;
+				}
 			}
 
 			var teacherApplicantsCols = "first_name, last_name, dob, gender ,phone_no, email, cover_letter, date_applied, status_id, is_shortlisted, is_approved, hours";
