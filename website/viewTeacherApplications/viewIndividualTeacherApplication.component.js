@@ -38,7 +38,7 @@
           }
 
           this.RejectTeacherApplication = function(teacherApplicationID) {
-            this.ViewTeacherApplicationsService.RejectStudent(teacherApplicationID)
+            this.ViewTeacherApplicationsService.RejectTeacherApplication(teacherApplicationID)
               .then(response => {
                 if (response.status) {
                   var link = ['/all'];
