@@ -7,7 +7,8 @@
       , ng.http.HttpModule
       ],
       declarations: [ 
-          app.MyPortalContainerComponent
+          app.MyPortalContainerComponent,
+          app.MyPortalPersonalComponent
       ],
       providers: [ app.MyPortalService, app.UserService, app.CookieService ],
       bootstrap: [ app.MyPortalContainerComponent ]

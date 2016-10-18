@@ -2,8 +2,11 @@
 	{{title}}
 </div>
 
-<div class="mainBody">
-	<p *ngIf="error">{{error}}</p>
-	<h3>Personal Details</h3>
-	<p>Hello!</p>
+<div class="mainBody" *ngIf="FormIsAvailable()">
+	<p *ngIf="error" class="errorMessage">{{error}}</p>
+	<my-portal-personal></my-portal-personal>
+</div>
+
+<div class="mainBody" *ngIf="!FormIsAvailable()">
+	<p>You must be logged in to view this page.</p>
 </div>

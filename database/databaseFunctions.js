@@ -19,6 +19,58 @@ exports.include = (app) => {
 		else response.send('Available');
 	});
 
+	app.get('/database/getUserDetails', function(request, response){
+		var userId = request.query.id;
+		var type = request.query.type;
+		//setup response object
+		var res = {
+			valid: (validateGeneral(userId) && validateGeneral(type)),
+			user: {},
+			error: ''
+		};
+
+		if(res.valid) {
+			var getUserDetailsQuery = "SELECT u.first_name, "
+											+"u.middle_name, "
+											+"u.last_name, "
+											+"u.dob, "
+											+"u.address, "
+											+"u.phone_no, "
+											+"u.email, "
+											+"u.gender "
+									 +"FROM music_school." + type + "s u "
+									 +"WHERE id = $1";
+			var getUserDetailsValues = [userId];
+
+			app.client.query(getUserDetailsQuery, getUserDetailsValues)
+			.on('error', function(err) {
+				/* Error Handling */
+				if (!response.headersSent) {
+					res.valid = false;
+					res.error = 'An error has occured. Please try again later or contact an administrator';
+					console.log("Errors Happened within DatabaseFunctions getUserDetails:");
+					console.log("Params: userId = ", userId, " / type = ", type);
+					console.log("query: \n", getUserDetailsQuery);
+					console.log("\n",err);
+					response.send(res);
+				}
+			})
+			.on('row', function(row) {
+				//Add instruments to array
+				res.user = row;
+			})
+			.on('end', function() {
+				//return response
+				if (!response.headersSent) {
+					response.send(res);
+				}
+			});
+		} else {
+			res.error = 'Regex is broken or we are being hacked.'
+			response.send(res);
+		}
+	});
+
 	/* Gets all Instrument Types */
 	app.get('/database/getInstrumentTypes', function(request, response){
 		//setup response frame

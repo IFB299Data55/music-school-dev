@@ -1,0 +1,52 @@
+form .RowContainer {
+	clear: both;
+	float: none;
+}
+
+form .Left {
+	float: left;
+	text-align: right;
+	width: 10em;
+}
+
+form .Right {
+	float: left;
+	width: auto;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	padding-left: 10px;
+	border: 1px solid rgb(200,200,200);
+	background: rgb(254,254,254);
+	margin-bottom: -1px;
+}
+
+form .Right[required] {
+    box-shadow:none;
+}
+
+form .Right.ng-valid, form .Left.ng-valid {
+    border-left: 2px solid rgb(70,200,70);
+}
+
+form .Right.ng-invalid, form .Left.ng-invalid {
+    border-left: 2px solid rgb(225,0,0);
+}
+
+form .Right[readonly] {
+	background: none;
+	border: none;
+}
+
+legend button {
+	margin-left: 10px;
+	padding: 5px 10px;
+	box-shadow: 0px 0px 0px 1px #191970 inset !important;
+	color: #191970;
+	font-weight: 0;
+}
+
+legend button:hover {
+  background: #191970;
+  color: #FFF;
+}

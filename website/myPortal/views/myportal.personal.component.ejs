@@ -1,0 +1,88 @@
+<form class="col-sm-6" #personalinfo="ngForm" method="POST">
+	<fieldset id="personalinfo">
+		<legend><span>Personal Information</span>
+		<button 
+		(click)="toggleEdit()"
+		>{{editing ? 'Cancel':'Edit'}}</button></legend>
+		<div class="RowContainer col-sm-12" >
+			<div class="Left">First Name:</div>
+			<input class="Right"
+			[(ngModel)]="user.first_name"
+			name="firstname"
+			#firstname="ngModel"
+			[readonly]="!editing" 
+			pattern="^[A-Za-z ]+$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Middle Name:</div>
+			<input class="Right"
+			[(ngModel)]="user.middle_name"
+			name="middlename"
+			#middlename="ngModel"
+			[readonly]="!editing" 
+			pattern="^[A-Za-z ]*$"/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Last Name:</div>
+			<input class="Right"
+			[(ngModel)]="user.last_name"
+			name="lastname"
+			#lastname="ngModel"
+			[readonly]="!editing" 
+			pattern="^[A-Za-z ]+$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Email:</div>
+			<input class="Right"
+			[(ngModel)]="user.email"
+			name="email"
+			#email="ngModel"
+			[readonly]="!editing"
+			pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Date of Birth:</div>
+			<input class="Right"
+			[(ngModel)]="user.dob"
+			name="dob"
+			#dob="ngModel"
+			[readonly]="!editing"
+			pattern="^(\d){4}(\/|-)(\d){2}(\/|-)(\d){2}$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Address:</div>
+			<input class="Right"
+			[(ngModel)]="user.address"
+			name="address"
+			#address="ngModel"
+			[readonly]="!editing"
+			pattern="^(\d)+ [A-Za-z ]+ [A-Za-z ]+$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Phone Number:</div>
+			<input class="Right"
+			[(ngModel)]="user.phone_no"
+			name="phone"
+			#phone="ngModel"
+			[readonly]="!editing" 
+			pattern="^\d{8}$|^04\d{8}$"
+			required/>
+		</div>
+		<div class="RowContainer col-sm-12">
+			<div class="Left">Gender:</div>
+			<input class="Right"
+			[(ngModel)]="user.gender"
+			name="gender"
+			#gender="ngModel"
+			[readonly]="!editing" 
+			pattern="^Male$|^Female$"
+			required/>
+		</div>
+	</fieldset>
+</form>
+<div style="clear: both"></div>

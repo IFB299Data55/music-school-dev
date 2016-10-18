@@ -11,12 +11,20 @@
         app.UserService,
         function(MyPortalService, UserService) {
           this.MyPortalService = MyPortalService;
-          this.UserService = UserService;
-	    	  this.title = "My.Portal";
+	    	  this.UserService = UserService;
+          this.title = "My.Portal";
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.IsSomeoneLoggedIn()) {
+              return true;
+            }
+
+            return false;
+          }
         }
       ]
     });
     app.MyPortalContainerComponent.prototype.ngOnInit = function() {
-
+      
     };
 })(window.app || (window.app = {}));
