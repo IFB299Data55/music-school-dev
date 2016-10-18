@@ -16,6 +16,9 @@
           this.UserService = UserService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
+          this.inAction = false;
+          this.error = '';
+          this.lessonId = 0;
 
           this.lesson = false;
 
@@ -37,16 +40,17 @@
             return false;
           }
 
-          this.GetLesson = function(lessonId) {
+          this.GetLesson = function() {
             if(this.FormIsAvailable()) {
-              this.TimetableService.GetLesson(lessonId)
+              this.TimetableService.GetLesson(this.lessonId)
               .then(response => {
                 if (!response.error) {
                   this.lesson = response.lesson;
                 } else {
                   this.error = response.error;
                 }
-              }).catch(() => {
+              })
+              .catch(() => {
                 this.error = 'An error has occured. Please try again later.';
               });
             }
@@ -68,6 +72,26 @@
             }
           }
 
+          this.CancelLesson = function() {
+            if(!confirm("Are you sure you want to delete this lesson?")) {
+              return;
+            }
+
+            this.inAction = true;
+            this.TimetableService.CancelLesson(this.lessonId)
+            .then(response => {
+              this.inAction = false;
+              if(response.error) {
+                this.error = response.error;
+              } else {
+                this.GoBack();
+              }
+            })
+            .catch(() => {
+              this.error = 'Unable to cancel the lesson at this time.';
+            });
+          }
+
           this.GoBack = function() {
             window.history.back();
           }
@@ -79,6 +103,8 @@
       var urlParams = this.ActivatedRoute.params._value;
       var id = +urlParams.id;
 
-      this.GetLesson(id);
+      this.lessonId = id;
+
+      this.GetLesson();
     };
 })(window.app || (window.app = {}));

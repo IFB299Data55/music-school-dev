@@ -4,6 +4,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
 
+/* Any global variables should go here */
+app.weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 /* Connect to Database and Gmail*/
 require('./database.js').include(app);
 app.transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
