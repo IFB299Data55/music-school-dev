@@ -1,18 +1,38 @@
-<p *ngIf="error" class="errorMessage">{{error}}</p>
+<p *ngIf="error" class="tableErrorMessage">{{error}}</p>
 
-<div class="ui cards">
-  <div class="card" *ngFor="let teacherApplication of teacherApplications">
-    <div class="content clickable" (click)="SelectTeacherApplication(teacherApplication.id)">
-      <div class="cardHeader">
-          <legend>{{teacherApplication.firstname}} {{teacherApplication.lastname}}</legend>
-      </div>
-      <div class="meta">
-        <!--<div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div><br>
-        <div class="cardLeft">Languages:</div> <div class="cardRight">{{teacherApplication.languages}}</div><br>
-        <div class="cardLeft">Instruments:</div> <div class="cardRight">{{teacherApplication.instruments}}</div>-->
-        <div class="cardLeft">Hours:</div> <div class="cardRight">{{teacherApplication.hours}}</div>
-        <div class="cardLeft">Date Applied:</div> <div class="cardRight">{{teacherApplication.dateapplied}}</div>
+<div class="content" *ngIf="FormIsAvailable()">
+
+  <div class="flexsearch">
+    <div class="flexsearch--wrapper">
+      <div class="flexsearch--input-wrapper">
+       <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search by name, language or instrument." title="Type in a name, language or instrument">
+       <label for="myInput">Can search for a combination of criteria. For example: 'Violin, Piano, English' will match any application that has all 3</label>
       </div>
     </div>
   </div>
+      
+          
+    <table class="table-hover" data-role="table" data-mode=" columntoggle" id="myTable" data-filter="true" data-input="#filterTable-input">
+    
+      <thead>
+        <th class="left aligned">Name</th>
+        <th>Instruments</th>
+        <th>Languages</th>
+        <th>Hours</th>
+        <th>Date Applied</th>
+      </thead>
+        <tr *ngFor="let teacherApplication of filteredTeacherApplications" (click)="SelectTeacherApplication(teacherApplication.id)">
+          <td class="left aligned">{{teacherApplication.firstname}} {{teacherApplication.lastname}}</td>
+          <td>{{teacherApplication.instruments}}</td>
+          <td>{{teacherApplication.languages}}</td>
+          <td>{{teacherApplication.hours}}</td>
+          <td>{{teacherApplication.dateapplied}}</td>
+        </tr>
+    </table>
+
+    <button (click)="ShowDeletedApplicants()" *ngIf="!showingDeletedApplicants" type="button">Show Rejected Applicants</button>
+    <button (click)="HideDeletedApplicants()" *ngIf="showingDeletedApplicants" type="button">Hide Rejected Applicants</button>
+
 </div>
+
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>
