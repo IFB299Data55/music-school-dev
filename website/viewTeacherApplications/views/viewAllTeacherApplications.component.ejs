@@ -21,7 +21,7 @@
         <th>Hours</th>
         <th>Date Applied</th>
       </thead>
-        <tr *ngFor="let teacherApplication of filteredTeacherApplications" (click)="SelectTeacherApplication(teacherApplication.id)">
+        <tr *ngFor="let teacherApplication of filteredTeacherApplications" [ngClass]="{'rejected': teacherApplication.status == 3,'shortlisted': teacherApplication.shortlisted == true, 'applied': teacherApplication.status == 1}" (click)="SelectTeacherApplication(teacherApplication.id)">
           <td class="left aligned">{{teacherApplication.firstname}} {{teacherApplication.lastname}}</td>
           <td>{{teacherApplication.instruments}}</td>
           <td>{{teacherApplication.languages}}</td>

@@ -50,6 +50,18 @@
                       this.teacherApplications[i].dob = yearDifference;
                     }
                     this.teacherApplications[i].dateapplied = this.teacherApplications[i].dateapplied.split("T")[0];
+                    this.teacherApplications[i].class = '';
+
+                    if (this.teacherApplications[i].status == 3) {
+                      this.teacherApplications[i].class = 'rejected';
+                    } else if (this.teacherApplications[i].shortlisted == true) {
+                      this.teacherApplications[i].class = 'shortlisted';
+                    } else {
+                      this.teacherApplications[i].class = 'applied';
+                    }
+
+                    console.log(this.teacherApplications[i]);
+
                   }
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
