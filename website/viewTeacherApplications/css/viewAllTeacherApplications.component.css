@@ -31,3 +31,97 @@
 .applied:hover {
 	
 }
+
+.ui.buttons {
+  text-align: center;
+}
+
+.button21A{
+  margin: 0px 2% 0px 20%;
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 25px;
+  padding-left: 25px;
+  line-height: 1em;
+  font-size: 17px;
+  font-style: normal;
+  text-align: center;
+  font-weight: normal;
+  border-color: white;
+  box-shadow: 0px 0px 0px 1px #DB2828 inset !important;
+  color: #DB2828;
+  border-radius: 0.5rem;
+  background: white;
+  width: 24%;
+}
+
+.button21A:hover {
+  margin: 0px 2% 0px 20%;
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 25px;
+  padding-left: 25px;
+  line-height: 1em;
+  font-size: 17px;
+  font-style: normal;
+  text-align: center;
+  font-weight: normal;
+  border-color: white;
+  box-shadow: 0px 0px 0px 1px #DB2828 inset !important;
+  color: #DB2828;
+  border-radius: 0.5rem;
+  background: white;
+  width: 24%;
+}
+/*.button21AA {
+  box-shadow: 0px 0px 0px 1px #21BA45 inset !important;
+  color: #21BA45;
+}  */
+
+.button22A {
+  margin: 0px 2% 10px 2%;
+  border: none;
+  padding: 10px 25px 10px 25px;
+  line-height: 1em;
+  font-size: 17px;
+  font-style: normal;
+  text-align: center;
+  font-weight: normal;
+  border-color: white;
+  box-shadow: 0px 0px 0px 01px #21BA45 inset !important;
+  color: #21BA45;
+  border-radius: 0.5rem;
+  background: white;
+  width: 24%;
+}
+
+.button22A:hover {
+  margin: 0px 2% 10px 2%;
+  border: none;
+  padding: 10px 25px 10px 25px;
+  line-height: 1em;
+  font-size: 17px;
+  font-style: normal;
+  text-align: center;
+  font-weight: normal;
+  border-color: white;
+  box-shadow: 0px 0px 0px 01px #21BA45 inset !important;
+  color: #21BA45;
+  border-radius: 0.5rem;
+  background: white;
+  width: 24%;
+}
+.button21A:hover {
+  cursor: pointer;
+  background: #DB2828;
+  color: #FFF;
+}
+
+
+.button22A:hover {
+  cursor: pointer;
+  background: #21BA45;
+  color: #FFF;
+}

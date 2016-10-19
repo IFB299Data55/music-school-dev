@@ -1,5 +1,7 @@
 <p *ngIf="error" class="tableErrorMessage">{{error}}</p>
 
+
+
 <div class="content" *ngIf="FormIsAvailable()">
 
   <div class="flexsearch">
@@ -11,6 +13,14 @@
     </div>
   </div>
       
+	    <button class="button21A"(click)="ShowDeletedApplicants()" *ngIf="!showingDeletedApplicants" type="button">Show Rejected Applicants</button>
+    <button  class="button21A"(click)="HideDeletedApplicants()" *ngIf="showingDeletedApplicants" type="button">Hide Rejected Applicants</button>
+
+    <button  class="button22A"(click)="ShowShortlistedApplicants()" *ngIf="!showingShortlistedApplicants" type="button">Show Only Shortlisted Applicants</button>
+    <button  class="button22A"(click)="HideShortlistedApplicants()" *ngIf="showingShortlistedApplicants" type="button">Show All Applicants</button>
+	
+	<br>
+	
           
     <table class="table-hover" data-role="table" data-mode=" columntoggle" id="myTable" data-filter="true" data-input="#filterTable-input">
     
@@ -30,11 +40,7 @@
         </tr>
     </table>
 
-    <button (click)="ShowDeletedApplicants()" *ngIf="!showingDeletedApplicants" type="button">Show Rejected Applicants</button>
-    <button (click)="HideDeletedApplicants()" *ngIf="showingDeletedApplicants" type="button">Hide Rejected Applicants</button>
-
-    <button (click)="ShowShortlistedApplicants()" *ngIf="!showingShortlistedApplicants" type="button">Show Only Shortlisted Applicants</button>
-    <button (click)="HideShortlistedApplicants()" *ngIf="showingShortlistedApplicants" type="button">Show All Applicants</button>
+  
 
 </div>
 
