@@ -27,6 +27,7 @@
             hireType:       true,
             instrumentId:   true,
             day:            true,
+            duration:       true,
             startTime:      true,
             endTime:        true,
             language:       true,
