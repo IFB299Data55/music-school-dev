@@ -14,7 +14,7 @@ exports.include = (app) => {
 		}
 
 
-		var getQuery = "SELECT ta.id, first_name as firstname, last_name as lastname, hours, "
+		var getQuery = "SELECT is_shortlisted as shortlisted, status_id as status, ta.id, first_name as firstname, last_name as lastname, hours, "
 						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied, "
 						+"array_to_string(array_agg(DISTINCT instrument), ', ') as instruments, "
 						+"array_to_string(array_agg(DISTINCT l.language), ', ') as languages "
@@ -50,7 +50,7 @@ exports.include = (app) => {
 		}
 
 
-		var getQuery = "SELECT ta.id, first_name as firstname, last_name as lastname, hours, "
+		var getQuery = "SELECT is_shortlisted as shortlisted, status_id as status, ta.id, first_name as firstname, last_name as lastname, hours, "
 						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied, "
 						+"array_to_string(array_agg(DISTINCT instrument), ', ') as instruments, "
 						+"array_to_string(array_agg(DISTINCT l.language), ', ') as languages "
@@ -86,7 +86,7 @@ exports.include = (app) => {
 		}
 
 
-		var getQuery = "SELECT ta.id, first_name as firstname, last_name as lastname, hours, "
+		var getQuery = "SELECT is_shortlisted as shortlisted, status_id as status, ta.id, first_name as firstname, last_name as lastname, hours, "
 						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied, "
 						+"array_to_string(array_agg(DISTINCT instrument), ', ') as instruments, "
 						+"array_to_string(array_agg(DISTINCT l.language), ', ') as languages "
@@ -129,7 +129,7 @@ exports.include = (app) => {
 		}
 
 		var getQuery = {
-			text: "SELECT id, first_name as firstname, last_name as lastname, email, cover_letter as coverletter, phone_no as phone "
+			text: "SELECT is_shortlisted as shortlisted, status_id as status, id, first_name as firstname, last_name as lastname, email, cover_letter as coverletter, phone_no as phone "
 					+",TO_CHAR(dob,'YYYY-MM-DD') as dob "
 					+"FROM music_school.teacher_applicants "
 					+"WHERE id = $1",
