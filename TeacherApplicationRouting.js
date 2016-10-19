@@ -54,12 +54,14 @@ exports.include = (app) => {
 
 			var instrumentDetails = [];
 			var instrumentDetailPairsArray = teacherApplication.instruments.split(";");
-			for (var i = 0; i < instrumentDetailPairsArray.length; i+=2) {
+			var index = 0;
+			for (var i = 0; i < instrumentDetailPairsArray.length; i++) {
 				var name = instrumentDetailPairsArray[i].split(",")[0];
 				var grade = instrumentDetailPairsArray[i].split(",")[1];
 				if (name && name != ' ' && grade) {
-					instrumentDetails[i] = name;
-					instrumentDetails[i+1] = grade;
+					instrumentDetails[index] = name;
+					instrumentDetails[index + 1] = grade;
+					index += 2;
 				}
 			}
 
@@ -131,7 +133,7 @@ exports.include = (app) => {
 			var languageText = "INSERT INTO music_school.teacher_applicant_languages("+languageColumns+") VALUES";
 			var languageValues = [];
 			var counter = 1;
-			for(var i = 0; i < teacherApplication.languages.length; i+=2) {
+			for(var i = 0; i < teacherApplication.languages.length; i++) {
 				var languageInsert = '';
 				if(i != 0) {
 					languageInsert += ','; 
