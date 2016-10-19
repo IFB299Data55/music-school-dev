@@ -1,0 +1,29 @@
+<div *ngIf="FormIsAvailable()">
+
+	<div class="ui card bigCard"
+	*ngIf="instrument">
+		<div class="content">
+			<div class="cardHeader">
+				{{instrument.name}}
+			</div>
+			<div class="meta">
+				<div class="cardRowContainer"><div class="cardLeft">DOB:</div> <div class="cardRight">{{instrument.dob}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Address:</div> <div class="cardRight">{{instrument.address}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{instrument.phone}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{instrument.email}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Date Employed:</div> <div class="cardRight">{{instrument.dateemployed}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Description:</div> <div class="cardRight">{{instrument.description}}</div></div>
+			</div>
+		</div>
+		<div class="extra content">
+    		<div class="ui two buttons">
+			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
+				<button class="button21 clickable" (click)="EditInstrument(instrument.id)">Edit</button>
+			</div>
+    	</div>
+	</div>
+	<div *ngIf="!instrument">Loading...</div>
+
+</div>
+
+<p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>
