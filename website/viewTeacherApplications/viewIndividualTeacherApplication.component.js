@@ -82,6 +82,14 @@
           } else {
             this.teacherApplication.dob = yearDifference;
           }
+          
+          if (this.teacherApplication.status == 3) {
+            this.teacherApplication.uiStatus = "Rejected";
+          } else if (this.teacherApplication.shortlisted == true) {
+            this.teacherApplication.uiStatus = "Shortlisted";
+          } else {
+            this.teacherApplication.uiStatus = "Applied";
+          }
 
         } else {
           this.error = 'An error has occured. Please contact administration for further assitance.';
