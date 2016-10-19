@@ -11,7 +11,7 @@
         <div class="cardRowContainer"><div class="cardLeft">Cover Letter:</div> <div class="cardRight">{{teacherApplication.coverletter}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{teacherApplication.email}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{teacherApplication.phone}}</div></div>
-        <!--<div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>-->
+        <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>
         <div class="cardRowContainer" *ngIf="references.length"><div class="cardLeft">References:</div><div class="cardRight"></div></div>
         <div class="cardRowContainer" *ngFor="let reference of references"><div class="cardLeft">{{reference.name}}</div> <div class="cardRight">{{reference.phone}}</div></div>
         <div class="cardRowContainer" *ngIf="languages.length"><div class="cardLeft">Languages:</div><div class="cardRight"></div></div>
@@ -22,8 +22,8 @@
     </div>
     <div class="extra content">
       <div class="ui two buttons">
-         <button class="button21 positive" (click)="ShortlistTeacherApplication(teacherApplication.id)">Shortlist</button>
-         <button class="button21" (click)="RejectTeacherApplication(teacherApplication.id)">Reject</button>
+         <button class="button21 positive" (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
+         <button class="button21" (click)="RejectTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Reject</button>
       </div>
     </div>
   </div>

@@ -25,8 +25,9 @@
             window.history.back();
           }
 
-          this.ShortlistTeacherApplication = function(teacherApplicationID) {
-            this.ViewTeacherApplicationsService.ShortlistTeacherApplication(teacherApplicationID)
+          this.ShortlistTeacherApplication = function(teacherApplicationID, firstName, lastName, email) {
+            var name = firstName + " " + lastName;
+            this.ViewTeacherApplicationsService.ShortlistTeacherApplication(teacherApplicationID, name, email)
               .then(response => {
                 if (response.status) {
                   var link = ['/all'];
@@ -37,8 +38,9 @@
               });
           }
 
-          this.RejectTeacherApplication = function(teacherApplicationID) {
-            this.ViewTeacherApplicationsService.RejectTeacherApplication(teacherApplicationID)
+          this.RejectTeacherApplication = function(teacherApplicationID, firstName, lastName, email) {
+            var name = firstName + " " + lastName;
+            this.ViewTeacherApplicationsService.RejectTeacherApplication(teacherApplicationID, name, email)
               .then(response => {
                 if (response.status) {
                   var link = ['/all'];
@@ -63,7 +65,7 @@
           this.references = response.references;
           this.languages = response.languages;
 
-          /*var dateOfBirth = this.teacherApplication.dob.split('-');
+          var dateOfBirth = this.teacherApplication.dob.split('-');
           var d = new Date();
           var year = d.getFullYear();
           var yearDifference = year - dateOfBirth[0];
@@ -79,7 +81,7 @@
             this.teacherApplication.dob = (yearDifference - 1);
           } else {
             this.teacherApplication.dob = yearDifference;
-          }*/
+          }
 
         } else {
           this.error = 'An error has occured. Please contact administration for further assitance.';

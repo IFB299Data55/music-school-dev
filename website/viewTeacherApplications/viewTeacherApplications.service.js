@@ -15,9 +15,11 @@
           this.individualRequestURL = '/management/teacherApplications/GetTeacherApplication/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          this.ShortlistTeacherApplication = function(teacherApplicationID) {
+          this.ShortlistTeacherApplication = function(teacherApplicationID, teacherApplicantName, teacherApplicantEmail) {
             var params = {
-              id: teacherApplicationID
+              id: teacherApplicationID,
+              name: teacherApplicantName,
+              email: teacherApplicantEmail
             };
             return this.http.post(this.shortlistResponseURL, params, this.headers).toPromise()
             .then(response => {
@@ -27,9 +29,11 @@
             .catch(this.handleError);
           }
 
-          this.RejectTeacherApplication = function(teacherApplicationID) {
+          this.RejectTeacherApplication = function(teacherApplicationID, teacherApplicantName, teacherApplicantEmail) {
             var params = {
-              id: teacherApplicationID
+              id: teacherApplicationID,
+              name: teacherApplicantName,
+              email: teacherApplicantEmail
             };
             return this.http.post(this.rejectResponseURL, params, this.headers).toPromise()
             .then(response => {
