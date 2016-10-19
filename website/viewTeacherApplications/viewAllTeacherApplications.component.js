@@ -17,6 +17,7 @@
           
           this.teacherApplications = [];
           this.showingDeletedApplicants = false;
+          this.showingShortlistedApplicants = false;
 
           this.SelectTeacherApplication = function(teacherApplicationID) {
             var link = ['/individual', teacherApplicationID];
@@ -87,6 +88,45 @@
                     this.teacherApplications[i].dateapplied = this.teacherApplications[i].dateapplied.split("T")[0];
                   }
                   this.showingDeletedApplicants = true;
+                  this.showingShortlistedApplicants = false;
+                } else {
+                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                }
+              }).catch(err => {
+                console.log(err);
+                this.error = 'An error has occured. Please try again later.';
+              });
+          }
+
+          this.ShowShortlistedApplicants = function() {
+            this.ViewTeacherApplicationsService.GetShortlistedTeacherApplications()
+              .then(response => {
+                console.log(response);
+                if (!response.error) {
+                  this.teacherApplications = response.teacherApplications;
+                  this.filteredTeacherApplications = this.teacherApplications;
+                  for (var i = 0; i < this.teacherApplications.length; i++) {
+                    var dateOfBirth = this.teacherApplications[i].dob.split('-');
+                    var d = new Date();
+                    var year = d.getFullYear();
+                    var yearDifference = year - dateOfBirth[0];
+                    var month = d.getMonth();
+                    var day = d.getDay();
+                    var preBirthday = false;
+                    if (month < dateOfBirth[1]) {
+                      preBirthday = true;
+                    } else if (month = dateOfBirth[1] && day < dateOfBirth[2]) {
+                      preBirthday = true;
+                    }
+                    if (preBirthday) {
+                      this.teacherApplications[i].dob = (yearDifference - 1);
+                    } else {
+                      this.teacherApplications[i].dob = yearDifference;
+                    }
+                    this.teacherApplications[i].dateapplied = this.teacherApplications[i].dateapplied.split("T")[0];
+                  }
+                  this.showingShortlistedApplicants = true;
+                  this.showingDeletedApplicants = false;
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }
@@ -99,6 +139,13 @@
           this.HideDeletedApplicants = function() {
             this.GetTeacherApplications();
             this.showingDeletedApplicants = false;
+            this.showingShortlistedApplicants = false;
+          }
+
+          this.HideShortlistedApplicants = function() {
+            this.GetTeacherApplications();
+            this.showingDeletedApplicants = false;
+            this.showingShortlistedApplicants = false;
           }
 
           this.Filter = function() {

@@ -33,6 +33,9 @@
     <button (click)="ShowDeletedApplicants()" *ngIf="!showingDeletedApplicants" type="button">Show Rejected Applicants</button>
     <button (click)="HideDeletedApplicants()" *ngIf="showingDeletedApplicants" type="button">Hide Rejected Applicants</button>
 
+    <button (click)="ShowShortlistedApplicants()" *ngIf="!showingShortlistedApplicants" type="button">Show Only Shortlisted Applicants</button>
+    <button (click)="HideShortlistedApplicants()" *ngIf="showingShortlistedApplicants" type="button">Show All Applicants</button>
+
 </div>
 
 <p *ngIf="!FormIsAvailable()">You do not have access to this page.</p>

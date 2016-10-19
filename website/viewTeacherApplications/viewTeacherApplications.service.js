@@ -11,6 +11,7 @@
           this.rejectResponseURL = '/management/teacherApplications/individual/reject/';
           this.requestURL = '/management/teacherApplications/GetTeacherApplications/';
           this.requestAllURL = '/management/teacherApplications/GetTeacherApplications/all/';
+          this.requestShortlistedURL = '/management/teacherApplications/GetTeacherApplications/shortlisted/';
           this.individualRequestURL = '/management/teacherApplications/GetTeacherApplication/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
@@ -49,6 +50,15 @@
 
           this.GetAllTeacherApplications = function() {
             return this.http.get(this.requestAllURL, this.headers).toPromise()
+            .then(response => {
+              var teacherApplications = JSON.parse(response._body);
+              return Promise.resolve(teacherApplications);
+            })
+            .catch(this.handleError);
+          }
+
+          this.GetShortlistedTeacherApplications = function() {
+            return this.http.get(this.requestShortlistedURL, this.headers).toPromise()
             .then(response => {
               var teacherApplications = JSON.parse(response._body);
               return Promise.resolve(teacherApplications);

@@ -77,6 +77,42 @@ exports.include = (app) => {
 		});
 	});
 
+	app.get('/management/teacherApplications/getTeacherApplications/shortlisted/', function(request, response) {
+
+		var teacherApplicationsResult = [];
+		var result = {
+			status: true,
+			teacherApplications: teacherApplicationsResult,
+		}
+
+
+		var getQuery = "SELECT ta.id, first_name as firstname, last_name as lastname, hours, "
+						+"TO_CHAR(dob,'YYYY-MM-DD') as dob, date_applied as dateapplied, "
+						+"array_to_string(array_agg(DISTINCT instrument), ', ') as instruments, "
+						+"array_to_string(array_agg(DISTINCT l.language), ', ') as languages "
+						+"FROM music_school.teacher_applicants ta "
+						+"INNER JOIN music_school.teacher_applicant_experience tae ON ta.id = tae.teacher_applicant_id "
+						+"INNER JOIN music_school.teacher_applicant_languages tal ON ta.id = tal.applicant_id "
+						+"INNER JOIN music_school.languages l ON tal.language_id = l.id "
+						+"WHERE status_id = 1 AND is_shortlisted = TRUE "
+						+"GROUP BY ta.id "
+						+"ORDER BY date_applied DESC";
+
+		app.client.query(getQuery).on('row', function(row) {
+			teacherApplicationsResult.push(row);
+		})
+		.on('end', function() {
+			if (!response.headersSent) {
+				if (teacherApplicationsResult.length > 0) {
+					response.send(result);
+				} else {
+					result.status = false;
+					response.send(result);
+				}
+			}
+		});
+	});
+
 	app.get('/management/teacherApplications/getTeacherApplication/', function(request, response) {
 
 		var teacherApplicationID = request.query.id;
