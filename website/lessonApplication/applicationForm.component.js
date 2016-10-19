@@ -80,7 +80,11 @@
             , {short: "Thu", name:"Thursday"}
             , {short: "Fri", name:"Friday"}
           ];
-
+          
+          this.durationList = [
+              {short: "Half an hour", length:"30 Mins"}
+            , {short: "Hour", length:"1 Hour"}
+          ];
           this.ProcessStartTime = function() {
             var hours;
             if(this.givenStartTime.search(":") == -1) {
