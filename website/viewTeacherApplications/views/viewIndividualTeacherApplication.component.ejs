@@ -7,9 +7,9 @@
       <div class="cardHeader">
           <legend>{{teacherApplication.firstname}} {{teacherApplication.lastname}}</legend>
       </div>
+	  
       <div class="meta">
         <div class="cardRowContainer"><div class="cardLeft">Status:</div> <div class="cardRight">{{teacherApplication.uiStatus}}</div>
-        <div class="cardRowContainer"><div class="cardLeft">Cover Letter:</div> <div class="cardRight">{{teacherApplication.coverletter}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{teacherApplication.email}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{teacherApplication.phone}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>
@@ -19,8 +19,12 @@
         <div class="cardRowContainer" *ngFor="let language of languages"><div class="cardLeft"></div> <div class="cardRight">{{language.name}}</div></div>
         <div class="cardRowContainer" *ngIf="instruments.length"><div class="cardLeft">Instruments:</div><div class="cardRight"></div></div>
         <div class="cardRowContainer" *ngFor="let instrument of instruments"><div class="cardLeft">{{instrument.instrument}}</div> <div class="cardRight">{{instrument.grade}}</div></div>
+		<br>
+		<br>
+		 <div class="cardRowContainer"class="box"><div class="cardLeft" >Cover Letter:</div> <div class="cardRight" >{{teacherApplication.coverletter}}</div></div>
       </div>
     </div>
+	
     <div class="extra content">
       <div class="ui two buttons">
          <button class="button21 positive" (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
@@ -29,3 +33,32 @@
     </div>
   </div>
 </div>
+
+<!--
+
+<table class="table-hover" data-role="table" data-mode=" columntoggle" id="myTable1" data-filter="true" data-input="#filterTable-input">
+    
+      <thead>
+        <th class="left aligned">Status</th>
+		
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Age</th>
+        <th>References</th>
+		<th>Langauge</th>
+        <th>Instruments</th>
+        
+      </thead>
+        <tr *ngFor="let teacherApplication of filteredTeacherApplications" [ngClass]="{'rejected': teacherApplication.status == 3,'shortlisted': teacherApplication.shortlisted == true, 'applied': teacherApplication.status == 1}" (click)="SelectTeacherApplication(teacherApplication.id)">
+          <td class="left aligned">{{teacherApplication.uiStatus}} {{teacherApplication.email}}</td>
+          <td>{{teacherApplication.instruments}}</td>
+          <td>{{teacherApplication.languages}}</td>
+          <td>{{teacherApplication.hours}}</td>
+          <td>{{teacherApplication.dateapplied}}</td>
+        </tr>
+    </table>   
+	 -->
+	
+	
+	
+	
