@@ -221,6 +221,8 @@ exports.include = (app) => {
 
 	app.post('/management/teacherApplications/individual/shortlist/', function(request,response) {
 		var applicationID = request.body.id;
+		var name = request.body.name;
+		var email = request.body.email;
 		var result = {
 			status: true,
 		};
@@ -239,6 +241,33 @@ exports.include = (app) => {
 			response.send(result);
 		})
 		.on('end', function() {
+
+			var textMessage = "Dear " + name + ", "
+						 +"\n\nThank you for your application."
+						 +"\nYou have been shortlisted for a position at the School of Music."
+						 +"\nYou will be called if you are selected for an interview."
+						 +"\n\nRegards,"
+						 +"\nSchool of Music Team";
+
+			var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+										 .replace(new RegExp("$"), '</p>')
+										 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+										 .replace(new RegExp("\n","g"), '</p><p>');
+
+			var teacherShortlistConfirmation = {
+				from: '"School of Music Admin" <test@gmail.com>',
+				to: email,
+				subject: "Update on your Teacher Application",
+				text: textMessage,
+				html: htmlMessage
+			};
+
+			app.transporter.sendMail(teacherShortlistConfirmation, function(error, info) {
+				if(error) {
+					console.log(error);
+				}
+			});
+
 			if (!response.headersSent) {
 				response.send(result);
 			}
@@ -247,6 +276,8 @@ exports.include = (app) => {
 
 	app.post('/management/teacherApplications/individual/reject/', function(request, response) {
 		var applicationID = request.body.id;
+		var name = request.body.name;
+		var email = request.body.email;
 		var result = {
 			status: true,
 		}
@@ -265,6 +296,33 @@ exports.include = (app) => {
 			response.send(result);
 		})
 		.on('end', function() {
+
+			var textMessage = "Dear " + name + ", "
+						 +"\n\nUnfortunately you have not been selected at this time for a position at the School of Music."
+						 +"\nYour application will be kept in case a future position becomes available that you are suitable for."
+						 +"\nThank you for your interest."
+						 +"\n\nRegards,"
+						 +"\nSchool of Music Team";
+
+			var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+										 .replace(new RegExp("$"), '</p>')
+										 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+										 .replace(new RegExp("\n","g"), '</p><p>');
+
+			var teacherConfirmationEmail = {
+				from: '"School of Music Admin" <test@gmail.com>',
+				to: email,
+				subject: "Update on your Teacher Application",
+				text: textMessage,
+				html: htmlMessage
+			};
+
+			app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+				if(error) {
+					console.log(error);
+				}
+			});
+
 			if (!response.headersSent) {
 				response.send(result);
 			}
