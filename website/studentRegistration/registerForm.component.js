@@ -49,4 +49,17 @@
 	      }
       ]
     });
+    app.RegisterFormComponent.prototype.ngOnInit = function() {
+      $('.datepicker').datepicker({
+          dateFormat: 'dd/mm/yy',
+          changeMonth: true,
+          changeYear: true,
+          minDate: '01/01/1900',
+          maxDate: 0,
+          yearRange: "1900:-0",
+          monthRange: "Jan:Dec",
+          showAnim: "fadeIn",
+          onSelect: (date) => { this.student.birthday = date; }
+      }).attr('readonly', 'readonly');
+    };
 })(window.app || (window.app = {}));
