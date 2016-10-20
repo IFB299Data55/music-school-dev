@@ -1,15 +1,15 @@
 (function(app) {
-  app.DeactivateTeachersRouterComponent =
+  app.ViewInstrumentsRouterComponent =
     ng.core.Component({
-      selector: 'deactivate-teachers-app',
+      selector: 'view-instruments-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
-      templateUrl: localPath+'views/deactivateTeachers.component.ejs',
-      styleUrls: ["../.."+localPath+'css/deactivateTeachers.component.css']
+      templateUrl: localPath+'views/viewInstruments.component.ejs',
+      styleUrls: ["../.."+localPath+'css/viewInstruments.component.css']
     })
     .Class({
       constructor: [
 	      function() {
-	    	  this.title = 'View Teacher Accounts';
+	    	  this.title = 'View Instruments';
 	      }
       ]
     });

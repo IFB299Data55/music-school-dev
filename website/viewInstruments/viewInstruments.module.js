@@ -1,19 +1,19 @@
 (function(app) {
-  app.DeactivateTeachersModule =
+  app.ViewInstrumentsModule =
     ng.core.NgModule({
       imports: [ 
 	      ng.platformBrowser.BrowserModule
       , ng.forms.FormsModule
-      , ng.router.RouterModule.forRoot(deactivateTeachersRouting)
+      , ng.router.RouterModule.forRoot(viewInstrumentsRouting)
       , ng.http.HttpModule
       ],
       declarations: [ 
-          app.DeactivateTeachersRouterComponent
-        , app.ViewAllTeachersComponent
-        , app.ViewIndividualTeacherComponent
+          app.ViewInstrumentsRouterComponent
+        , app.ViewAllInstrumentsComponent
+        , app.ViewIndividualInstrumentComponent
       ],
-      providers: [ app.DeactivateTeachersService, app.UserService, app.CookieService ],
-      bootstrap: [ app.DeactivateTeachersRouterComponent ]
+      providers: [ app.ViewInstrumentsService, app.UserService, app.CookieService ],
+      bootstrap: [ app.ViewInstrumentsRouterComponent ]
     })
     .Class({
       constructor: function() {}

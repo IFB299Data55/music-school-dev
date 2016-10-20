@@ -2,28 +2,28 @@
   app.ViewAllInstrumentsComponent =
     ng.core.Component({
       selector: 'all-instruments' ,
-      templateUrl: localPath+'views/viewAllTeachers.component.ejs',
-      styleUrls: ['../..'+localPath+'css/viewAllTeachers.component.css']
+      templateUrl: localPath+'views/viewAllInstruments.component.ejs',
+      styleUrls: ['../..'+localPath+'css/viewAllInstruments.component.css']
     })
     .Class({
       constructor: [
-        app.DeactivateTeachersService,
+        app.ViewInstrumentsService,
         ng.router.Router,
         app.UserService,
-	      function(DeactivateTeachersService, Router, UserService) {
-          this.DeactivateTeachersService = DeactivateTeachersService;
+	      function(ViewInstrumentsService, Router, UserService) {
+          this.ViewInstrumentsService = ViewInstrumentsService;
           this.Router = Router;
           this.UserService = UserService;
           
           this.instruments = [];
-          this.filteredTeachers = [];
+          this.filteredInstruments = [];
 
-          this.GetTeachers = function() {
-            this.DeactivateTeachersService.GetTeachers()
+          this.GetInstruments = function() {
+            this.ViewInstrumentsService.GetInstruments()
               .then(response => {
                 if (!response.error) {
                   this.instruments = response.instruments;
-                  this.filteredTeachers = this.instruments;
+                  this.filteredInstruments = this.instruments;
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }
@@ -32,19 +32,18 @@
             });
           }
 
-          this.SelectTeacher = function(teacherID) {
-            var link = ['/individual', teacherID];
+          this.SelectInstrument = function(instrumentID) {
+            var link = ['/individual', instrumentID];
             this.Router.navigate(link);
           }
 
           this.Filter = function() {
-            this.filteredTeachers = [];
+            this.filteredInstruments = [];
             filterString = new RegExp(this.filterText, "gi");
-            for (var i = 0; i < this.teachers.length; i++) {
-              var teacher = this.teachers[i];
-              var name = teacher.firstname+" "+teacher.lastname;
-              if (name.match(filterString)) {
-                this.filteredTeachers.push(teacher);
+            for (var i = 0; i < this.instruments.length; i++) {
+              var instrument = this.instruments[i];
+              if (instrument.name.match(filterString)) {
+                this.filteredInstruments.push(instrument);
               }
             }
           }
@@ -60,7 +59,7 @@
 	      }
       ]
     });
-    app.ViewAllTeachersComponent.prototype.ngOnInit = function() {
-      this.GetTeachers();
+    app.ViewAllInstrumentsComponent.prototype.ngOnInit = function() {
+      this.GetInstruments();
     };
 })(window.app || (window.app = {}));

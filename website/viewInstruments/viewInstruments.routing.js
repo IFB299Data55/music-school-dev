@@ -1,15 +1,15 @@
-var deactivateTeachersRouting = [
+var viewInstrumentsRouting = [
 	{
 		path: 'all',
-		component: app.ViewAllTeachersComponent
+		component: app.ViewAllInstrumentsComponent
 	}
 	, {
 		path: 'individual/:id',
-		component: app.ViewIndividualTeacherComponent
+		component: app.ViewIndividualInstrumentComponent
 	}
 	, {
 		path: 'individual',
-		component: app.ViewIndividualTeacherComponent
+		component: app.ViewIndividualInstrumentComponent
 	}
 	, {
 		path: '',
