@@ -46,9 +46,11 @@
                 this.error = 'An error has occured. Please try again later';
             });
           };
-
-          this.datePick = function () {
-            $('.datepicker').datepicker({
+	      }
+      ]
+    });
+    app.RegisterFormComponent.prototype.ngOnInit = function() {
+      $('.datepicker').datepicker({
               dateFormat: 'dd/mm/yy',
               changeMonth: true,
               changeYear: true,
@@ -57,12 +59,7 @@
               yearRange: "1900:-0",
               monthRange: "Jan:Dec",
               showAnim: "fadeIn",
-              onSelect: function(dateText, inst) { $('#birthday').attr('value', dateText); $(this).change(); }
-              // onSelect: function(dateText, inst) { $('#birthday').attr('value', dateText); $('#birthday').attr('ng-reflect-model', dateText); $('#birthday').removeClass('ng-invalid'); $('#birthday').removeClass('ng-pristine'); $('#birthday').addClass('ng-valid'); $('#birthday').addClass('ng-dirty'); $('birthday').attr('ngModel', dateText); $('birthday').removeAttr('required'); }
-              // onSelect: function(dateText, inst) { $('#birthday').removeAttr('required'); $('#birthday').removeClass('ng-invalid'); $('#birthday').addClass('ng-valid'); $('#dobErrorMessage').attr('hidden', '!birthday.untouched'); }
-            });
-          }
-	      }
-      ]
-    });
+              onSelect: (date) => { this.student.birthday = date; }
+            }).attr('readonly', 'readonly');
+    };
 })(window.app || (window.app = {}));
