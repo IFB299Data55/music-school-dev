@@ -21,6 +21,9 @@
             email: '',
             gender: ''
           };
+
+          this.userbackup = this.user;
+        
           this.editing = false;
 
           this.toggleEdit = function() {
