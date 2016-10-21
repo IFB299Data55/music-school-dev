@@ -87,4 +87,17 @@
         this.error = "Unable to connect to the database. Please try again later."
       });
     };
+    app.NewInstrumentFormComponent.prototype.ngAfterViewInit = function() {
+      $('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        minDate: '01/01/1900',
+        maxDate: 0,
+        yearRange: "1900:-0",
+        monthRange: "Jan:Dec",
+        showAnim: "fadeIn",
+        onSelect: (date) => { this.instrument.purchaseDate = date; }
+      }).attr('readonly', 'readonly');
+    };
 })(window.app || (window.app = {}));
