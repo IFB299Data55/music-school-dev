@@ -4,7 +4,7 @@
       selector: 'teacher-timetable-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
       templateUrl: localPath+'views/timetable.component.ejs',
-      styleUrls: ['../..'+localPath+'views/timetable.component.css']
+      styleUrls: ['../..'+localPath+'css/timetable.component.css']
     })
     .Class({
       constructor: [

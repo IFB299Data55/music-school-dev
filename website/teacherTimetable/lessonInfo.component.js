@@ -22,15 +22,8 @@
 
           this.lesson = false;
 
-          this.dayConversion = {
-            Mon: "Monday",
-            Tue: "Tuesday",
-            Wed: "Wednesday",
-            Thu: "Thursday",
-            Fri: "Friday",
-            Sat: "Saturday",
-            Sun: "Sunday",
-          }
+          this.dayConversion = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
 
           this.FormIsAvailable = function() {
           if(this.UserService.GetCurrentUser().type == 'teacher') {
