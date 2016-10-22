@@ -37,7 +37,7 @@ body, nav {
 #firstHeader .navbar-header {
     height: 150px;
     padding: 10px;
-    margin-left: 30px;
+    margin-left: 10px;
 }
 
 #firstHeader .navbar-header img {
@@ -76,42 +76,20 @@ body, nav {
 
 }
 
-login-app form {
-    margin-top: 20px;
-    margin-right: 20px;
-}
-
-login-app p{
-    color: white;
-}
-
-login-app label {
-    color: white;
-    padding-right: 10px;
-    text-align: right;
-}
-
-login-app div {
-    clear: both;
-    margin: 5px;
-}
-
-login-app input {
-    float: right
-}
-
-login-app button {
-    background: none;
+#userDetails button {
+    margin: 10px;
+    /*background: rgb(212, 46, 10);*/
+    background: #191970;
+    color: #FFF;
+    box-shadow: 0px 0px 0px 1px #FFF inset !important;
     border: none;
-    float: right;
+    border-radius: 0.5rem;
+    padding: 5px;
 }
 
-login-app li a {
-    font-size: 18px;
-}
-
-logged-in-app {
-    padding-right: 20px;
+#userDetails button:hover {
+    background: #FFF;
+    color: #191970;
 }
 
 @media screen and (max-width: 767px) {

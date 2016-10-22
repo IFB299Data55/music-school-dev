@@ -4,26 +4,39 @@
 		<fieldset id="teacherinfo">
 		    <legend><span>Instrument Information</span></legend>
 		    <div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<label 	for="instrumentType">Instrument Type: </label>
 					<select id="instrumentType" name="instrumentType"
 							[(ngModel)]="lesson.instrumentType" #instrumentType="ngModel" 
-							(blur)="UpdateInstruments()" required>
-						<option *ngFor="let instrumentType of instrumentTypeList" value="{{instrumentType.id}}" required>{{instrumentType.name}}</option>
+							(change)="ResetDependents()"
+							(blur)="UpdateDependents()" required>
+						<option *ngFor="let instrumentType of instrumentTypeList"
+						value="{{instrumentType.id}}"
+						(click)="lesson.emailInfo.instrumentTypeDesc = instrumentType.name" required>{{instrumentType.name}}</option>
 					</select>
 					<p class="errorMessage" [hidden]="(instrumentType.valid || instrumentType.untouched) && isValid.instrumentType">A Value must be selected.</p>
 				</div>
-				<div [class.disabled]="lesson.instrumentType==''" class="col-sm-4">
+				<div [class.disabled]="lesson.instrumentType==''" class="col-sm-6">
 					<label 	for="hireType">BYO or Hire: </label>
 					<select id="hireType" name="hireType"
 							[(ngModel)]="lesson.hireType" #hireType="ngModel" 
 							[disabled]="lesson.instrumentType==''"
 							(change)="UpdateInstrumentSelect()"
 							required>
+						<option value=""></option>
 						<option value="BYO">Bring your Own</option>
 						<option value="Hire">Hire</option>
 					</select>
 					<p class="errorMessage" [hidden]="(hireType.valid || hireType.untouched) && isValid.hireType">A Value must be selected.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<label 	for="grade">Your Grade: </label>
+					<input type="text" id="grade" name="grade"
+							[(ngModel)]="lesson.grade" #grade="ngModel" 
+							pattern="^[0-7]$" required/>
+					<p class="errorMessage" [hidden]="(grade.valid || grade.untouched) && isValid.grade">Please enter your approximate grade.</p>
 				</div>
 			</div>
 		</fieldset>
@@ -31,36 +44,69 @@
 		*ngIf="lesson.hireType=='Hire'"
 		[disabled]="instrumentList.length == 0" id="instrumentInfo">
 			<legend><span>Instrument to Hire</span></legend>
-			<p *ngIf="instrumentList.length == 0" class="errorMessage">All instruments are booked. Please try again later</p>
 			<div class="row">
-				<table class="col-sm-10" [class.validTable]="instrumentId.valid" [class.invalidTable]="!instrumentId.valid">
-					<tr>
+				<table class="col-sm-12" id="myTable" 
+				[class.validTable]="instrumentId.valid" 
+				[class.invalidTable]="!instrumentId.valid">
+					<thead>
 						<th>Serial</th>
 						<th>Model</th>
 						<th>Hire Fee</th>
 						<th>Condition</th>
 						<th>Notes</th>
-					</tr>
+						<th>Hire</th>
+					</thead>
 					<tr class="tableError" *ngIf="instrumentList.length == 0">
 						<td colspan="6">No instruments to display</td>
 					</tr>
-					<tr *ngFor="let instrument of instrumentList" class="selectableRow" (click)="SelectInstrument(instrument.id)" [class.selectedInstrument]="instrument.id == lesson.instrumentId">
+					<tr *ngFor="let instrument of instrumentList" class="selectableRow" 
+					(click)="SelectInstrument(instrument)" 
+					[class.selectedRow]="instrument.id == lesson.instrumentId">
 						<td>{{instrument.serial_no}}</td>
 						<td>{{instrument.model}}</td>
 						<td>${{instrument.hire_fee}}</td>
 						<td>{{instrument.condition}}</td>
 						<td>{{instrument.inst_notes}}</td>
+						<td>Select</td>
 					</tr>
 				</table>
 				<input type="hidden" id="instrumentId" name="instrumentId"
 				[(ngModel)]="lesson.instrumentId" #instrumentId="ngModel" required value="" pattern="^[0-9]+$"/>
-				<p class="col-sm-4 errorMessage" [hidden]="instrumentId.valid  && isValid.instrumentId">Please select an instrument by clicking on a row above.</p>
+				<p class="col-sm-12 errorMessage" *ngIf="instrumentList.length == 0">All instruments are booked. Please try again later</p>
+				<p class="col-sm-12 errorMessage" [hidden]="(instrumentId.valid  && isValid.instrumentId) || instrumentList.length == 0">Please select an instrument by clicking on a row above.</p>
+			</div>
+		</fieldset>
+		<fieldset id="teacherinfo">
+			<legend><span>Language and Teacher</span></legend>
+			<div class="row">
+				<div class="col-sm-6">
+					<label 	for="language">Language: </label>
+					<select id="language" name="language"
+							[(ngModel)]="lesson.language" #language="ngModel"
+							(change)="ResetTeachers()"
+							(blur)="UpdateTeachers()" required>
+						<option *ngFor="let language of languages" value="{{language.id}}">{{language.language}}</option>
+					</select>
+					<p class="errorMessage" [hidden]="(language.valid || language.untouched) && isValid.language">Invalid Input.</p>
+				</div>
+				<div class="col-sm-6">
+					<label 	for="teacher">Teacher: </label>
+					<select id="teacher" name="teacher"
+							[(ngModel)]="lesson.teacher" #teacher="ngModel"
+							[disabled]="!lesson.instrumentType || !lesson.language" required>
+						<option value=""></option>
+						<option value="0">Any</option>
+						<option *ngFor="let teacher of teachers" value="{{teacher.id}}"
+						(click)="lesson.emailInfo.teacherName = teacher.first_name+' '+teacher.last_name">{{teacher.first_name}} {{teacher.last_name}} (Grade {{teacher.grade}})</option>
+					</select>
+					<p class="errorMessage" [hidden]="(teacher.valid || teacher.untouched) && isValid.teacher">Make sure you've selected a teacher</p>
+				</div>
 			</div>
 		</fieldset>
 		<fieldset id="timeinfo">
 			<legend><span>Date and Time</span></legend>
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<label 	for="day">Day: </label>
 					<select id="day" name="day"
 							[(ngModel)]="lesson.day" #day="ngModel" required>
@@ -70,12 +116,12 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<label 	for="startTime">Start Time: </label>
 					<input 	title="Between 6am and 6pm. To the nearest hour." type="text" id="startTime" name="startTime"
 							[(ngModel)]="givenStartTime" #startTime="ngModel" pattern="^([6-9]|1[0-1])(:(00))?am$|(12|[1-6])(:(00))?pm$|^((0[6-9])|(1[0-8])):(00)$" required/>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6">
 					<label>Finish Time:</label>
 					<p *ngIf="startTime.valid">{{DisplayEndTime()}}</p>
 					<p *ngIf="!startTime.valid" class="errorMessage">Start Time invalid</p>
@@ -83,88 +129,15 @@
 			</div>
 		</fieldset>
         
-        
-        <fieldset>
-    <legend><span>Request A Teacher:</span></legend>
-     
-    <table class="style-table">
-      <thead>
-        <tr class="background">
-            <th scope="col" colspan="2">Teacher Name</th>
-            <th scope="col">Grade</th>
-            <th scope="col">Unit Code</th>
-            <th scope="col">Send Request</th>
-       </tr>
-      </thead>
-        
-        <tr class="background1">
-          <td scope="col" colspan="2">Lucas Torres</td>
-          <td>6</td>
-          <td>KMB119</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-        <tr class="background2">
-          <td scope="col" colspan="2">Emma Cooper</td>
-          <td>7</td>
-          <td>KMB215</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-        <tr class="background1">
-          <td scope="col" colspan="2">Oliver Bell</td>
-          <td>7</td>
-          <td>KMB215</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-        <tr class="background2">
-          <td scope="col" colspan="2">Lily Hughes</td>
-          <td>5</td>
-          <td>KMB250</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-        <tr class="background1">
-          <td scope="col" colspan="2">Jack Morgan</td>
-          <td>6</td>
-          <td>KMB136</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-          <tr class="background2">
-          <td scope="col" colspan="2">Mathew Myers</td>
-          <td>7</td>
-          <td>KMB136</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-          <tr class="background1">
-          <td scope="col" colspan="2">Wyatt Perry</td>
-          <td>6</td>
-          <td>KMB237</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-          <tr class="background2">
-          <td scope="col" colspan="2">Ryan Kim</td>
-          <td>6</td>
-          <td>KMB237</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>
-          <tr class="background1">
-          <td scope="col" colspan="2">Davied Ford</td>
-          <td>6</td>
-          <td>KMB237</td>
-          <td><input type="submit" value="Send Request" class="red ui button"></td>
-        </tr>  
-    </table>
-        </fieldset>
-        
-           <hr class="style14">
-        
-		<div>
-			<button [disabled]="!lessonForm.form.valid" type="Submit">Submit</button>
+		<div class="buttonContainer">
+			<button [disabled]="!lessonForm.form.valid" type="Submit">Apply for Lesson</button>
 		</div>
 	</form>
 
 	<div [hidden]="!submitted">
-		<p>Attempting to Register your new account...</p>
+		<p>Attempting to Book your lesson!</p>
 	</div>
 </div>
 <div *ngIf="!FormIsAvailable()">
-	<p>You must be logged in to see this page. click <a (click)="FormIsAvailable()">Here</a> to refresh.</p>
+	<p>{{formUnavailableReason}}</p>
 </div>

@@ -8,26 +8,38 @@
     .Class({
       constructor: [
         app.RegistrationService,
+        app.UserService,
         ng.router.Router,
-	      function(RegistrationService, Router) {
+	      function(RegistrationService, UserService, Router) {
           this.RegistrationService = RegistrationService;
+          this.UserService = UserService;
           this.Router = Router;
 	        this.teacher = new Teacher();
           this.submitted = false;
           this.isValid = {
-            firstName:true,
-            middleName:true,
-            lastName:true,
-            birthday:true,
-            address:true,
-            phoneNumber:true,
-            email:true,
-            dbError:false,
-            dbErrorMessage:''
+            firstName:          true,
+            middleName:         true,
+            lastName:           true,
+            birthday:           true,
+            address:            true,
+            phoneNumber:        true,
+            email:              true,
+            languages:          true,
+            instrumentTypeIds:  true,
+            dbError:            false,
+            dbErrorMessage:     ''
           };
+
+          this.languagesList = [];
+          this.instrumentTypes = [];
+
+          this.ResetGrades = function() {
+            this.teacher.instrumentTypeGrades = [];
+          }
 
           this.Register = function() {
             this.submitted = true;
+            this.error = '';
             //Send to registration Service
             //then redirect
             this.RegistrationService.AttemptRegistration(this.teacher)
@@ -48,7 +60,33 @@
                 this.error = 'An error has occured. Please try again later';
             });
           }
+
+          this.FormIsAvailable = function() {
+            if(this.UserService.GetCurrentUser().type == 'manager') {
+                return true;
+            }
+            
+            return false;
+          }
+
+          this.GetDatabaseValues = function() {
+              this.RegistrationService.GetDatabaseValues()
+              .then(response => {
+                if(response.valid) {
+                  this.languagesList = response.languagesList;
+                  this.instrumentTypes = response.instrumentTypes;
+                } else {
+                  this.error = response.error;
+                }
+              })
+              .catch(() => {
+                this.error = 'A Database connection could not be established.';
+              });
+          }
 	      }
       ]
     });
+    app.RegisterFormComponent.prototype.ngOnInit = function() {
+      this.GetDatabaseValues();
+    };
 })(window.app || (window.app = {}));

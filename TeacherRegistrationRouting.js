@@ -1,31 +1,39 @@
+/* Routing for Teacher Registration */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/register/teacher/', function(request, response) {
 	  response.render('teacherRegistration/index');
 	});
 
+	/* Register Teacher */
 	app.post('/register/teacher/', function(request, response) {
-		// DATABASE CONNECTION
-		
+		// Get Post Data
 		var teacher = request.body;
 
+		//Set up error array
 		var isValid = {
-			firstName:true,
-			middleName:true,
-			lastName:true,
-			birthday:true,
-			address:true,
-			phoneNumber:true,
-			email:true,
-			dbError:false,
-			dbErrorMessage:''
+			firstName: 			true,
+			middleName: 		true,
+			lastName: 			true,
+			birthday: 			true,
+			address: 			true,
+			phoneNumber: 		true,
+			email: 				true,
+			languages:			true,
+			instrumentTypeIds: 	true,
+			dbError: 			false,
+			dbErrorMessage: 	''
 		};
+
+		//Set up response
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 		
+		//Run validation
 		if (validateAll(teacher, isValid)) {
 			valid.status = true;
 		} else {
@@ -35,13 +43,15 @@ exports.include = (app) => {
 		}
 
 		if(valid.status) {
+			//Hash password
 			var d = new Date();
 			var n = d.getTime();
 
-			teacher.password = "test";
-			var saltedPassword = teacher.password + n;
-			var hashedPassword = saltedPassword.hashCode();
+			teacher.password = Math.random().toString(36).substring(2,8); //Gen Here
+			var saltedPassword = teacher.password + 'teacher'.HashCode() + n;
+			var hashedPassword = saltedPassword.HashCode();
 
+			//setup Queries
 			var checkEmail = {
 				text: "SELECT 1 FROM music_school.teachers WHERE email = $1",
 				name: "check-teacher-email",
@@ -82,15 +92,57 @@ exports.include = (app) => {
 				]
 			};
 
-			app.client.query(checkEmail).on('row', function(row) {
+			var experienceColumns = "teacher_id, inst_type_id, grade"
+			var experienceText = "INSERT INTO music_school.teacher_experience("+experienceColumns+") VALUES";
+			var experienceValues = [];
+			var counter = 1;
+			for(var i = 0; i < teacher.instrumentTypeIds.length; i++) {
+				var instrumentInsert = '';
+				if(i != 0) {
+					instrumentInsert += ',';	
+				}
+				instrumentInsert += "((SELECT MAX(ID) FROM music_school.teachers), $"+ counter++ +", $"+ counter++ +")";
+				experienceValues.push(teacher.instrumentTypeIds[i]);
+				experienceValues.push(teacher.instrumentTypeGrades[i]);
+				experienceText += instrumentInsert;
+			}
+
+			var languageColumns = "teacher_id, language_id"
+			var languagesText = "INSERT INTO music_school.teacher_languages("+languageColumns+") VALUES";
+			var languageValues = [];
+			counter = 1;
+			for(var i = 0; i < teacher.languages.length; i++) {
+				var languageText = '';
+				if(i != 0) {
+					languageText += ',';	
+				}
+				languageText += "((SELECT MAX(ID) FROM music_school.teachers), $"+ counter++ +")";
+				languageValues.push(teacher.languages[i]);
+				languagesText += languageText;
+			}
+
+			//Run Queries
+			app.client.query(checkEmail)
+			.on('error', function(err) {
 				if (!response.headersSent) {
 					valid.status = false;
-					isValid.errorMessage = 'Email is already in use. Please enter a new email.';
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+					response.send(valid);
+					console.log("Error occured in TchrReg: ", err);
+				}
+			})
+			.on('row', function(row) {
+				if (!response.headersSent) {
+					valid.status = false;
+					isValid.dbError = true;
+					isValid.dbErrorMessage = 'Email is already in use. Please enter a new email.';
 					response.send(valid);
 				}
 			})
 			.on('end', function(){
-				app.client.query(newTeacherPasswordQuery).on('error', function(err) {
+				app.client.query(newTeacherPasswordQuery)
+				.on('error', function(err) {
 					if (!response.headersSent) {
 						valid.status = false;
 						isValid.dbError = true;
@@ -100,7 +152,8 @@ exports.include = (app) => {
 					}
 				})
 				.on('end', function(){
-					app.client.query(newTeacherQuery).on('error', function(err) {
+					app.client.query(newTeacherQuery)
+					.on('error', function(err) {
 						if (!response.headersSent) {
 							valid.status = false;
 							isValid.dbError = true;
@@ -110,9 +163,66 @@ exports.include = (app) => {
 						}
 					})
 					.on('end', function(){
-						if (!response.headersSent) {
-							response.send(valid);
-						}
+						app.client.query(experienceText, experienceValues)
+						.on('error', function(err) {
+							if (!response.headersSent) {
+								valid.status = false;
+								isValid.dbError = true;
+								isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+								response.send(valid);
+								console.log("Error occured in TchrReg : Register : ExperienceQuery");
+								console.log("\nQuery: \n", experienceText);
+								console.log("\nValues: \n", experienceValues);
+								console.log("\nError: \n", err);
+							}
+						})
+						.on('end', function() {
+							app.client.query(languagesText, languageValues)
+							.on('error', function(err) {
+								if (!response.headersSent) {
+									valid.status = false;
+									isValid.dbError = true;
+									isValid.dbErrorMessage = 'An error has occured. Please try again later or contact an administrator';
+									response.send(valid);
+									console.log("Error occured in TchrReg : Register : LanguagesQuery \n", err);
+									console.log("\nQuery: \n", languagesText);
+									console.log("\nValues: \n", languageValues);
+									console.log("\nError: \n", err);
+								}
+							})
+							.on('end', function() {
+								if (!response.headersSent) {
+									//Send Email
+									var textMessage = "Dear " + teacher.firstName + " " + teacher.lastName + ", "
+												 +"\n\nYou have been registered as a teacher for the School of Music."
+												 +"\nYour Temprary password is: '" + teacher.password +"'."
+												 +"\nWe hope you enjoy your employment with us."
+												 +"\n\nRegards,"
+												 +"\nSchool of Music Team";
+
+									var htmlMessage = textMessage.replace(new RegExp("^"), '<p>')
+																 .replace(new RegExp("$"), '</p>')
+																 .replace(new RegExp("\n\n","g"), '</p><br/><p>')
+																 .replace(new RegExp("\n","g"), '</p><p>');
+
+									var teacherConfirmationEmail = {
+										from: '"School of Music Admin" <test@gmail.com>',
+										to: teacher.email,
+										subject: "New Teacher Account",
+										text: textMessage,
+										html: htmlMessage
+									};
+
+									app.transporter.sendMail(teacherConfirmationEmail, function(error, info) {
+										if(error) {
+											console.log(error);
+										}
+									});
+
+									response.send(valid);
+								}
+							});
+						});
 					});
 				});
 			});
@@ -124,7 +234,7 @@ exports.include = (app) => {
 	});
 }
 
-String.prototype.hashCode = function() {
+String.prototype.HashCode = function() {
   var hash = 0, i, chr, len;
   if (this.length === 0) return hash;
   for (i = 0, len = this.length; i < len; i++) {
@@ -154,6 +264,9 @@ function validateAll(teacher, isValid) {
 		validateBirthday(teacher.birthday, isValid) &&
 		validateAddress(teacher.address, isValid) &&
 		validatePhoneNumber(teacher.phoneNumber, isValid) &&
+		validateLanguages(teacher.languages, isValid) &&
+		validateInstrumentTypes(teacher.instrumentTypeIds, isValid) &&
+		validateInstrumentGrades(teacher.instrumentTypeGrades, isValid) &&
 		validateEmail(teacher.email, isValid)) {
 		return true;
 	} else {
@@ -237,4 +350,39 @@ function validateEmail(email, isValid) {
 	}
 	isValid.email = false;
 	return false;
+}
+
+function validateLanguages(languages, isValid) {
+	var regexp = new RegExp("^[0-9]+$");
+	for(var i = 0; i < languages.length; i++) {
+		if (!regexp.test(languages[i])) {
+			isValid.languages = false;
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function validateInstrumentTypes(instrumentTypes, isValid) {
+	var regexp = new RegExp("^[0-9]+$");
+	for(var i = 0; i < instrumentTypes.length; i++) {
+		if (!regexp.test(instrumentTypes[i])) {
+			isValid.instrumentTypeIds = false;
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function validateInstrumentGrades(instrumentGrades, isValid) {
+	var regexp = new RegExp("^[0-9]+$");
+	for(var i = 0; i < instrumentGrades.length; i++) {
+		if (!regexp.test(instrumentGrades[i])) {
+			return false;
+		}
+	}
+
+	return true;
 }

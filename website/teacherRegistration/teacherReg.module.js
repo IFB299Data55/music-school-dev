@@ -12,7 +12,7 @@
         , app.RegisterFormComponent
         , app.RegisterConfirmationComponent
       ],
-      providers: [ app.RegistrationService ],
+      providers: [ app.RegistrationService, app.UserService, app.CookieService ],
       bootstrap: [ app.TeacherRegistrationRouterComponent ]
     })
     .Class({

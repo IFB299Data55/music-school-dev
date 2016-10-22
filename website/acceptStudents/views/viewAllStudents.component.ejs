@@ -1,0 +1,19 @@
+<p *ngIf="error" class="errorMessage">{{error}}</p>
+
+<div *ngIf="FormIsAvailable()" class="ui cards">
+  <div class="card" *ngFor="let student of students">
+    <div class="content clickable" (click)="SelectStudentRequest(student.requestid)">
+      <div class="cardHeader">
+          {{student.firstname}} {{student.lastname}}
+      </div>
+      <div class="meta">
+        <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{student.dob}}</div></div>
+        <div class="cardRowContainer"><div class="cardLeft">Instrument:</div> <div class="cardRight">{{student.instrument}}</div></div>
+        <div class="cardRowContainer"><div class="cardLeft">Grade:</div> <div class="cardRight">{{student.grade}}</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!FormIsAvailable()">
+  <p>You do not have access to this page.</p>
+</div>

@@ -1,16 +1,19 @@
+/* Routing for new instruments Page */
 exports.include = (app) => {
 	require('./database.js');
 
+	/* Display Page */
 	app.get('/management/instrument/new', function(request, response) {
 	  response.render('newInstrument/index');
 	});
 
+	/* Register Instrument */
 	app.post('/management/instrument/new', function(request, response) {
-		//DATABASE CONNECTION
 		var instrument = request.body;
-		console.log(instrument);
+		/* Setup error Array */
 		var isValid = {
 			type:true,
+			newInstType:true,
 			condition:true,
 			serialNumber:true,
 			model:true,
@@ -20,11 +23,14 @@ exports.include = (app) => {
 			description:true,
 			errorMessage: ''
 		};
+
+		/* Setup Response */
 		var valid = {
 			status:false,
 			errorArray:isValid
 		};
 
+		/* Run validation functions */
 		if (validateAll(instrument, isValid)) {
 			valid.status = true;
 		} else {
@@ -33,40 +39,116 @@ exports.include = (app) => {
 			response.send(valid);
 		}
 
+		/* If Valid */
 		if(valid.status) {
 			var instrumentColumns = "inst_type_id, serial_no, condition_id, model, purchase_date, purchase_price, inst_notes, hire_fee, is_sold_or_disposed";
-			var newInstrumentQuery = {
-				text: "INSERT INTO music_school.instruments("+instrumentColumns+") VALUES("
+			var newInstrumentQuery = "INSERT INTO music_school.instruments("+instrumentColumns+") VALUES("
 						+"$1,$2,$3,$4,"+
 						"to_date($5, 'DD MM YYYY'),$6,$7,$8,$9"
-					 +")",
-				name: "create-new-student",
-				values: [
-					  instrument.type
-					, instrument.serialNumber
-					, instrument.condition
-					, instrument.model
-					, instrument.purchaseDate
-					, instrument.purchasePrice.substring(1)
-					, instrument.description
-					, instrument.hireFee.substring(1)
-					,"FALSE"
-				]
-			};
+					 +")";
+			if(instrument.type == 0) {
+				var newInstrumentType = {
+					text: "INSERT INTO music_school.instrument_types(name, lesson_fee) VALUES("
+							+"$1,$2"
+						 +") RETURNING id",
+					name: "create-new-instrument-type",
+					values: [
+						  instrument.newInstType
+						, 30
+					]
+				}
 
-			app.client.query(newInstrumentQuery).on('error', function(err) {
-				if (!response.headersSent) {
-					valid.status = false;
-					isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
-					response.send(valid);
-					console.log('error in NewInstrumentRouting: ', err);
-				}
-			})
-			.on('end', function() {
-				if (!response.headersSent) {
-					response.send(valid);
-				}
-			});
+				var newTypeId;
+
+				app.client.query(newInstrumentType)
+				.on('error', function(err) {
+					/* Error Handling */
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+						response.send(valid);
+						console.log('error in NewInstrumentRouting: ', err);
+					}
+				})
+				.on('row', function(row) {
+					newTypeId = row.id;
+				})
+				.on('end', function() {
+					if(newTypeId) {
+						app.client.query(newInstrumentQuery, [
+								  newTypeId
+								, instrument.serialNumber
+								, instrument.condition
+								, instrument.model
+								, instrument.purchaseDate
+								, instrument.purchasePrice.substring(1)
+								, instrument.description
+								, instrument.hireFee.substring(1)
+								,"FALSE"
+							]
+						)
+						.on('error', function(err) {
+							/* Error Handling */
+							if (!response.headersSent) {
+								valid.status = false;
+								isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+								if(err.constraint == 'inst_serial_no_uq') {
+									isValid.serialNumber = false;
+									isValid.errorMessage = 'Serial Number Already Exists.';
+								}
+								response.send(valid);
+								console.log('error in NewInstrumentRouting: ', err);
+							}
+						})
+						.on('end', function() {
+							//Insert successful: send response
+							if (!response.headersSent) {
+								response.send(valid);
+							}
+						});
+					} else {
+						/* Error Handling */
+						if (!response.headersSent) {
+							valid.status = false;
+							isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+							response.send(valid);
+							console.log('error in NewInstrumentRouting: ', err);
+						}
+					}
+				});
+			} else {
+				app.client.query(newInstrumentQuery, [
+						  instrument.type
+						, instrument.serialNumber
+						, instrument.condition
+						, instrument.model
+						, instrument.purchaseDate
+						, instrument.purchasePrice.substring(1)
+						, instrument.description
+						, instrument.hireFee.substring(1)
+						,"FALSE"
+					]
+				)
+				.on('error', function(err) {
+					/* Error Handling */
+					if (!response.headersSent) {
+						valid.status = false;
+						isValid.errorMessage = 'An error has occured. Please try again later or contact an administrator';
+						if(err.constraint == 'inst_serial_no_uq') {
+							isValid.serialNumber = false;
+							isValid.errorMessage = 'Serial Number Already Exists.';
+						}
+						response.send(valid);
+						console.log('error in NewInstrumentRouting: ', err);
+					}
+				})
+				.on('end', function() {
+					//Insert successful: send response
+					if (!response.headersSent) {
+						response.send(valid);
+					}
+				});
+			}
 		}
 	});
 
@@ -75,6 +157,7 @@ exports.include = (app) => {
 	});
 }
 
+/* Validation Functions */
 function validateAll(instrument, isValid) {
 	if (validateType(instrument.type, isValid) &&
 		validateCondition(instrument.condition, isValid) &&
@@ -83,10 +166,16 @@ function validateAll(instrument, isValid) {
 		validateHireFee(instrument.hireFee, isValid) &&
 		validatePurchaseDate(instrument.purchaseDate, isValid) &&
 		validateDescription(instrument.description, isValid)) {
-		return true;
-	} else {
-		return false;
+		if(instrument.type == 0) {
+			if(validateNewInstType(instrument.newInstType, isValid)){
+				return true;
+			}
+		} else {
+			return true;
+		}
 	}
+
+	return false;
 }
 
 function validateType(type, isValid) {
@@ -95,6 +184,15 @@ function validateType(type, isValid) {
 		return true;
 	}
 	isValid.type = false;
+	return false;
+}
+
+function validateNewInstType(newInstType, isValid) {
+	var regexp = new RegExp("^[A-Za-z ]+$");
+	if (regexp.test(newInstType)) {
+		return true;
+	}
+	isValid.newInstType = false;
 	return false;
 }
 
