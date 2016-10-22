@@ -19,7 +19,7 @@ exports.include = (app) => {
 
 		if (!validateId(teacherID)) {
 			res.valid = false;
-			res.error = 'You are not logged in properly.';
+			res.error = '';
 			response.send(res);
 			return;
 		}
@@ -88,7 +88,7 @@ exports.include = (app) => {
 
 		if (!validateId(teacherId) || !validateId(lessonId)) {
 			res.valid = false;
-			res.error = 'You are not logged in properly.';
+			res.error = '';
 			response.send(res);
 			return;
 		}
@@ -259,7 +259,6 @@ exports.include = (app) => {
 }
 
 function generateStudentEmail(app, info) {
-	//NEED TO CHANGE THIS ONCE LESSON.DAY IS CHANGED
 	var textMessage = "Dear " + info.studentname + ", "
 					 +"\n\nYour teacher, " + info.teachername + ", has cancelled one of your lessons with them."
 					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."
@@ -278,7 +277,6 @@ function generateStudentEmail(app, info) {
 }
 
 function generateTeacherEmail(app, info) {
-	//NEED TO CHANGE THIS ONCE LESSON.DAY IS CHANGED
 	var textMessage = "Dear " + info.teachername + ", "
 					 +"\n\nYour lesson with " + info.studentname + " has successfully been cancelled."
 					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."

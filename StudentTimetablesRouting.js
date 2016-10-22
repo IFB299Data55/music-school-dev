@@ -19,7 +19,7 @@ exports.include = (app) => {
 
 		if (!validateId(studentID)) {
 			res.valid = false;
-			res.error = 'You are not logged in properly.';
+			res.error = '';
 			response.send(res);
 			return;
 		}
@@ -35,8 +35,7 @@ exports.include = (app) => {
 				 +"FROM music_school.lessons l, "
 				 	  +"music_school.teachers t,  "
 				 	  +"music_school.instrument_types it  "
-				 +"WHERE l.teacher = t.id "
-				   +"AND l.student_id = se.student_id "
+				 +"WHERE l.teacher_id = t.id "
 				   +"AND l.inst_type_id = it.id "
 				   +"AND l.student_id = $1 "
 				   +"AND l.request_status_id = 2 "
@@ -85,7 +84,7 @@ exports.include = (app) => {
 
 		if (!validateId(studentId) || !validateId(lessonId)) {
 			res.valid = false;
-			res.error = 'You are not logged in properly.';
+			res.error = '';
 			response.send(res);
 			return;
 		}
@@ -104,11 +103,11 @@ exports.include = (app) => {
 				 +"FROM music_school.lessons l, "
 				 	  +"music_school.teachers t,  "
 				 	  +"music_school.instrument_types it,  "
-				 	  +"music_school.languages lang,  "
-				 +"WHERE l.student_id = t.id "
+				 	  +"music_school.languages lang  "
+				 +"WHERE l.teacher_id = t.id "
 				   +"AND l.language_id = lang.id "
 				   +"AND l.inst_type_id = it.id "
-				   +"AND l.teacher_id = $1 "
+				   +"AND l.student_id = $1 "
 				   +"AND l.id = $2 "
 				   +"AND l.request_status_id = 2 "
 				 +"ORDER BY l.lesson_start_time ASC",
@@ -247,8 +246,8 @@ exports.include = (app) => {
 		});
 	}
 
-	app.get('/teacher/timetable/*', function(request, response) {
-	  response.render('teacherTimetable/index');
+	app.get('/student/timetable/*', function(request, response) {
+	  response.render('studentTimetable/index');
 	});
 }
 

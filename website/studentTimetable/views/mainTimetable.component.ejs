@@ -12,7 +12,6 @@
 				</div>
 				<div class="meta">
 					<p>{{lesson.instrument_type}}</p>
-					<p>Grade {{lesson.student_grade}}</p>
 					<p>{{dayConversion[lesson.lesson_day]}}: {{ConvertToDisplayTime(lesson.start_time)}} - {{ConvertToDisplayTime(lesson.end_time)}}</p>
 				</div>
 			</div>
@@ -20,5 +19,5 @@
 	</div>
 </div>
 <div *ngIf="!FormIsAvailable()">
-	<p>You must be a teacher of our school to view this page.</p>
+	<p>You must be a student of our school to view this page.</p>
 </div>
