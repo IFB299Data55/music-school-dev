@@ -1,30 +1,33 @@
 /*--------------
       Card
 ---------------*/
-.cards .card {
-  width: 18%;
-  font-size: 12px;
-  cursor: pointer;
+.form {
+  display: inline-block;
 }
 
-.cards .card:hover{
-  width: 18%;
+.day .card {
+  width: 100%;
   font-size: 12px;
   cursor: pointer;
+  margin-left: 0;
+}
+
+.day .card:hover{
   background: rgb(254,254,254);
 }
 
-.ui.cards { 
-  display: flex;
-  flex-wrap: wrap;
-  margin: -0.875em -0.5em;
-  margin-left: 80px;
-  margin-bottom: -60px; 
-  width: 80%; 
+.day { 
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 
 .card .content .header {
 	text-align: center;
 	font-size: 14px;
+}
+
+@media screen and (max-width: 767px) {
 }
