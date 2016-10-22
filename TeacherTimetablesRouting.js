@@ -262,7 +262,7 @@ function generateStudentEmail(app, info) {
 	//NEED TO CHANGE THIS ONCE LESSON.DAY IS CHANGED
 	var textMessage = "Dear " + info.studentname + ", "
 					 +"\n\nYour teacher, " + info.teachername + ", has cancelled one of your lessons with them."
-					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ info.day +" between "+ info.starttime +" and "+ info.endtime +"."
+					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."
 					 +"\nIf you think this was a mistake, please contact us."
 					 +"\nWe hoped you enjoyed this lesson, and hopefully we will see you again!"
 					 +"\n\nRegards,"
@@ -281,7 +281,7 @@ function generateTeacherEmail(app, info) {
 	//NEED TO CHANGE THIS ONCE LESSON.DAY IS CHANGED
 	var textMessage = "Dear " + info.teachername + ", "
 					 +"\n\nYour lesson with " + info.studentname + " has successfully been cancelled."
-					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ info.day +" between "+ info.starttime +" and "+ info.endtime +"."
+					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."
 					 +"\nIf you did not authorise this, please contact us."
 					 +"\n\nRegards,"
 					 +"\nSchool of Music Team";
