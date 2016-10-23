@@ -17,6 +17,7 @@
           
           this.teachers = [];
           this.filteredTeachers = [];
+          this.showingDeactivatedTeachers = false;
 
           this.GetTeachers = function() {
             this.DeactivateTeachersService.GetTeachers()
@@ -24,6 +25,22 @@
                 if (!response.error) {
                   this.teachers = response.teachers;
                   this.filteredTeachers = this.teachers;
+                  this.showingDeactivatedTeachers = false;
+                } else {
+                  this.error = 'An error has occured. Please contact administration for further assitance.';
+                }
+              }).catch(() => {
+                this.error = 'An error has occured. Please try again later';
+            });
+          }
+
+          this.GetDeactivatedTeachers = function() {
+            this.DeactivateTeachersService.GetDeactivatedTeachers()
+              .then(response => {
+                if (!response.error) {
+                  this.teachers = response.teachers;
+                  this.filteredTeachers = this.teachers;
+                  this.showingDeactivatedTeachers = true;
                 } else {
                   this.error = 'An error has occured. Please contact administration for further assitance.';
                 }

@@ -1,7 +1,7 @@
 (function(app) {
-  app.TeacherTimetableComponent =
+  app.StudentTimetableComponent =
     ng.core.Component({
-      selector: 'teacher-timetable' ,
+      selector: 'student-timetable' ,
       templateUrl: localPath+'views/mainTimetable.component.ejs',
       styleUrls: ['../..'+localPath+'css/mainTimetable.component.css']
     })
@@ -22,7 +22,7 @@
           this.dayConversion = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
 
           this.FormIsAvailable = function() {
-            if(this.UserService.GetCurrentUser().type == 'teacher') {
+            if(this.UserService.GetCurrentUser().type == 'student') {
                 return true;
             }
             
@@ -68,7 +68,7 @@
 	      }
       ]
     });
-    app.TeacherTimetableComponent.prototype.ngOnInit = function() {
+    app.StudentTimetableComponent.prototype.ngOnInit = function() {
       this.GetLessons();
     };
 })(window.app || (window.app = {}));

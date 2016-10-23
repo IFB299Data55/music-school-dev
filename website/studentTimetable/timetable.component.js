@@ -1,7 +1,7 @@
 (function(app) {
-  app.TeacherTimetableRouterComponent =
+  app.StudentTimetableRouterComponent =
     ng.core.Component({
-      selector: 'teacher-timetable-app',
+      selector: 'student-timetable-app',
       directives: [ng.router.ROUTER_DIRECTIVES],
       templateUrl: localPath+'views/timetable.component.ejs',
       styleUrls: ['../..'+localPath+'css/timetable.component.css']
