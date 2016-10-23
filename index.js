@@ -4,6 +4,8 @@ var app = express();
 var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
 
+/* Any global variables should go here */
+app.weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 /* Connect to Database and Gmail*/
 require('./database.js').include(app);
 app.transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
@@ -43,8 +45,10 @@ require('./ReturnInstrumentsRouting.js').include(app);
 require('./AcceptStudentsRouting.js').include(app);
 require('./BorrowedInstrumentInfoRouting.js').include(app);
 require('./InstrumentHireRequestsRouting.js').include(app);
+require('./ViewTeacherApplicationsRouting.js').include(app);
 require('./TeacherApplicationRouting.js').include(app);
 require('./TeacherTimetablesRouting.js').include(app);
+require('./StudentTimetablesRouting.js').include(app);
 
 /* Setup 404 page */
 app.use(function(request, response) {

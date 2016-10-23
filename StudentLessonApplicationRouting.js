@@ -110,7 +110,7 @@ exports.include = (app) => {
 					, databaseEndTimeString
 					, lesson.day
 					, 2016
-					, 1
+					, 4
 					, 30
 					, lesson.language
 				];

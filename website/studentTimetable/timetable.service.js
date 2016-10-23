@@ -10,7 +10,7 @@
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.GetLessons = function() {
-            var url = "/teacher/timetable/getLessons/?id="+UserService.GetCurrentUser().id;
+            var url = "/student/timetable/getLessons/?id="+UserService.GetCurrentUser().id;
             return this.http.get(url, this.headers).toPromise()
             .then(response => {
               var lessons = JSON.parse(response._body);
@@ -20,7 +20,7 @@
           }
 
           this.GetLesson = function(lessonId) {
-            var url = "/teacher/timetable/getLesson/?teacherId="+UserService.GetCurrentUser().id +"&lessonId=" + lessonId;
+            var url = "/student/timetable/getLesson/?studentId="+UserService.GetCurrentUser().id +"&lessonId=" + lessonId;
             return this.http.get(url, this.headers).toPromise()
             .then(response => {
               var lesson = JSON.parse(response._body);
@@ -32,10 +32,10 @@
           this.CancelLesson = function(lessonId) {
             var body = {
               lessonId: lessonId,
-              teacherId: this.UserService.GetCurrentUser().id
+              studentId: this.UserService.GetCurrentUser().id
             }
 
-            var url = '/teacher/timetable/cancelLesson';
+            var url = '/student/timetable/cancelLesson';
             return this.http.post(url, body, this.headers).toPromise()
             .then(response => {
               var response = JSON.parse(response._body);
