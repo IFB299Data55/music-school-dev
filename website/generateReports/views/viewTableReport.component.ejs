@@ -1,0 +1,10 @@
+<p *ngIf="error" class="cardErrorMessage">{{error}}</p>
+
+<div *ngIf="report && FormIsAvailable()">
+  <table>
+    <tr *ngFor="let row of reportRows"><td>{{row.rowHeading}}</td><td>{{report[row.dataKey]}}</td></tr>
+  </table>
+</div>
+<div *ngIf="!FormIsAvailable()">
+  You do not have access to view this page.
+</div>
