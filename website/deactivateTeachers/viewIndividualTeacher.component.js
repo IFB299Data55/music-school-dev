@@ -38,6 +38,21 @@
               });
           }
 
+          this.ReactivateTeacher = function(teacherID) {
+            this.DeactivateTeachersService.ReactivateTeacher(teacherID)
+              .then(response => {
+                if (response.status) {
+                  var link = ['/all'];
+                  this.Router.navigate(link);
+                } else {
+                  this.error = 'There was an error';
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+
           this.FormIsAvailable = function() {
             if(this.UserService.checkUserType('manager')) {
               return true;

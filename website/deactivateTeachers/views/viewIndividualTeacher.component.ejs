@@ -18,7 +18,8 @@
 		<div class="extra content">
     		<div class="ui two buttons">
 			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
-				<button class="button21 clickable" (click)="DeactivateTeacher(teacher.id)">Deactivate</button>
+				<button class="button21 clickable" (click)="DeactivateTeacher(teacher.id)" *ngIf="!teacher.deactived">Deactivate</button>
+				<button class="button21 clickable positive" (click)="ReactivateTeacher(teacher.id)" *ngIf="teacher.deactived">Reactivate</button>
 			</div>
     	</div>
 	</div>
