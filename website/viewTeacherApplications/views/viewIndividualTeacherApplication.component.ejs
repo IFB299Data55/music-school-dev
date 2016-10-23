@@ -1,10 +1,9 @@
 
 <p *ngIf="error" class="cardErrorMessage">{{error}}</p>
 <div class="button22 clickable" (click)="GoBack()"><div class="fa fa-arrow-left"></div> Back &nbsp;</div>
-<p *ngIf="error" class="cardErrorMessage">{{error}}</p>
   <div class="extra content">
       <div class="ui two buttons">
-         <button class="button22 " (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
+         <button class="button21 positive " (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
          <button class="button21 " (click)="RejectTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Reject</button>
       </div>
     </div>
@@ -13,12 +12,10 @@
   <div class="card" *ngIf="teacherApplication">
     <div class="content">
       <div class="cardHeader">
-          <legend>{{teacherApplication.firstname}} {{teacherApplication.lastname}}</legend>
+          {{teacherApplication.firstname}} {{teacherApplication.lastname}}
       </div>
-	 
-	  
       <div class="meta">
-        <div class="cardRowContainer" class="w3-container w3-green"><div class="cardLeft">Status:</div> <div class="cardRight">{{teacherApplication.uiStatus}}</div>
+        <div class="cardRowContainer"><div class="cardLeft">Status:</div> <div class="cardRight">{{teacherApplication.uiStatus}}</div>
         <div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{teacherApplication.email}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{teacherApplication.phone}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>
@@ -36,6 +33,7 @@
 	
    
   </div>
+</div>
 </div>
 
 
