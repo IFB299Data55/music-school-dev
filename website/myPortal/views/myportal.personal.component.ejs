@@ -1,13 +1,26 @@
 <form class="col-sm-9" #personalinfo="ngForm" method="POST">
 	<fieldset id="personalinfo">
-		<legend><span>Personal Information</span>
-		<button 
-		(click)="toggleEdit()"
-		>{{editing ? 'Cancel':'Edit'}}</button></legend>
+		<legend>
+			<span>Personal Information</span>
+			<button
+			*ngIf="!editing"
+			(click)="enterEditingMode()"
+			>Edit</button>
+			<button 
+			class="positive"
+			*ngIf="editing"
+			(click)="saveChanges()"
+			>Save</button>
+			<button 
+			class="negative"
+			*ngIf="editing"
+			(click)="cancelEditing()"
+			>Cancel</button>
+		</legend>
 		<div class="RowContainer col-sm-12" >
 			<div class="Left">First Name:</div>
 			<input class="Right"
-			[(ngModel)]="user.first_name"
+			[(ngModel)]="userForm.user.first_name"
 			name="firstname"
 			#firstname="ngModel"
 			[readonly]="!editing" 
@@ -17,7 +30,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Middle Name:</div>
 			<input class="Right"
-			[(ngModel)]="user.middle_name"
+			[(ngModel)]="userForm.user.middle_name"
 			name="middlename"
 			#middlename="ngModel"
 			[readonly]="!editing" 
@@ -26,7 +39,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Last Name:</div>
 			<input class="Right"
-			[(ngModel)]="user.last_name"
+			[(ngModel)]="userForm.user.last_name"
 			name="lastname"
 			#lastname="ngModel"
 			[readonly]="!editing" 
@@ -36,7 +49,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Email:</div>
 			<input class="Right"
-			[(ngModel)]="user.email"
+			[(ngModel)]="userForm.user.email"
 			name="email"
 			#email="ngModel"
 			[readonly]="!editing"
@@ -46,7 +59,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Date of Birth:</div>
 			<input class="Right"
-			[(ngModel)]="user.dob"
+			[(ngModel)]="userForm.user.dob"
 			name="dob"
 			#dob="ngModel"
 			[readonly]="!editing"
@@ -56,7 +69,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Address:</div>
 			<input class="Right"
-			[(ngModel)]="user.address"
+			[(ngModel)]="userForm.user.address"
 			name="address"
 			#address="ngModel"
 			[readonly]="!editing"
@@ -66,7 +79,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Phone Number:</div>
 			<input class="Right"
-			[(ngModel)]="user.phone_no"
+			[(ngModel)]="userForm.user.phone_no"
 			name="phone"
 			#phone="ngModel"
 			[readonly]="!editing" 
@@ -76,7 +89,7 @@
 		<div class="RowContainer col-sm-12">
 			<div class="Left">Gender:</div>
 			<select class="Right"
-			[(ngModel)]="user.gender"
+			[(ngModel)]="userForm.user.gender"
 			name="gender"
 			#gender="ngModel"
 			[disabled]="!editing" 

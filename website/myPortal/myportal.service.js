@@ -21,6 +21,16 @@
                    .catch(this.handleError);
           }
 
+          this.SavePersonalData = function(user) {
+            this.url = '/myportal/SavePersonalData/';
+            return this.http.post(url, user, this.headers).toPromise()
+                   .then(response => {
+                     var res = JSON.parse(response._body);
+                     return Promise.resolve(res);
+                   })
+                   .catch(this.handleError);
+          }
+
           this.handleError = function(error) {
             return Promise.reject(error.message || error);
           }

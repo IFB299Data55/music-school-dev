@@ -31,6 +31,7 @@ app.get('/dev', function(request, response) {
 });
 
 /* Link to Feature Routing */
+require('./validationFunctions.js').include(app);
 require('./database/databaseFunctions.js').include(app);
 require('./loginRouting.js').include(app);
 require('./myPortalRouting.js').include(app);
