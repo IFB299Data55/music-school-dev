@@ -8,7 +8,8 @@
       ],
       declarations: [ 
           app.MyPortalContainerComponent,
-          app.MyPortalPersonalComponent
+          app.MyPortalPersonalComponent,
+          app.MyPortalPasswordComponent
       ],
       providers: [ app.MyPortalService, app.UserService, app.CookieService ],
       bootstrap: [ app.MyPortalContainerComponent ]

@@ -79,4 +79,12 @@ exports.include = (app) => {
 		}
 		return false;
 	}
+
+	app.validatePassword = function(password) {
+		var regexp = new RegExp("^.{6,}$");
+		if (regexp.test(password)) {
+			return true;
+		}
+		return false;
+	}
 }

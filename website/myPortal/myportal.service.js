@@ -33,6 +33,18 @@
                    .catch(this.handleError);
           }
 
+          this.SavePasswordData = function(password) {
+            var url = '/myportal/SavePasswordData/';
+            password.id = this.UserService.GetCurrentUser().id;
+            password.type = this.UserService.GetCurrentUser().type;
+            return this.http.post(url, password, this.headers).toPromise()
+                   .then(response => {
+                     var res = JSON.parse(response._body);
+                     return Promise.resolve(res);
+                   })
+                   .catch(this.handleError);
+          }
+
           this.handleError = function(error) {
             return Promise.reject(error.message || error);
           }

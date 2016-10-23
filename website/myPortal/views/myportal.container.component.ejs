@@ -5,6 +5,7 @@
 <div class="mainBody" *ngIf="FormIsAvailable()">
 	<p *ngIf="error" class="errorMessage">{{error}}</p>
 	<my-portal-personal></my-portal-personal>
+	<my-portal-password></my-portal-password>
 </div>
 
 <div class="mainBody" *ngIf="!FormIsAvailable()">
