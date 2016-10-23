@@ -3,13 +3,13 @@ exports.include = (app) => {
 	require('./database.js');
 
 	/* Display Page */
-	app.get('/teacher/timetable/', function(request, response) {
-		response.render('teacherTimetable/index');
+	app.get('/student/timetable/', function(request, response) {
+		response.render('studentTimetable/index');
 	});
 
-	app.get('/teacher/timetable/getLessons/', function(request, response) {
+	app.get('/student/timetable/getLessons/', function(request, response) {
 
-		var teacherID = request.query.id;
+		var studentID = request.query.id;
 
 		var res = {
 			valid: true,
@@ -17,7 +17,7 @@ exports.include = (app) => {
 			lessons: []
 		}
 
-		if (!validateId(teacherID)) {
+		if (!validateId(studentID)) {
 			res.valid = false;
 			res.error = '';
 			response.send(res);
@@ -26,27 +26,23 @@ exports.include = (app) => {
 
 		var getLessonsQuery = {
 			text: "SELECT l.id, "
-					    +"s.first_name, "
-					    +"s.last_name, "
+					    +"t.first_name, "
+					    +"t.last_name, "
 					    +"it.name as instrument_type, "
-					    +"se.grade as student_grade, "
 					    +"l.lesson_day, "
 					    +"l.lesson_start_time as start_time, "
 					    +"l.lesson_end_time as end_time "
 				 +"FROM music_school.lessons l, "
-				 	  +"music_school.students s,  "
-				 	  +"music_school.instrument_types it,  "
-				 	  +"music_school.student_experience se "
-				 +"WHERE l.student_id = s.id "
-				   +"AND l.student_id = se.student_id "
-				   +"AND l.inst_type_id = se.inst_type_id "
+				 	  +"music_school.teachers t,  "
+				 	  +"music_school.instrument_types it  "
+				 +"WHERE l.teacher_id = t.id "
 				   +"AND l.inst_type_id = it.id "
-				   +"AND l.teacher_id = $1 "
+				   +"AND l.student_id = $1 "
 				   +"AND l.request_status_id = 2 "
 				 +"ORDER BY l.lesson_start_time ASC",
-			name: "get-teacher-lessons",
+			name: "get-student-lessons",
 			values: [
-				teacherID
+				studentID
 			]
 		}
 
@@ -55,7 +51,7 @@ exports.include = (app) => {
 			res.valid = false;
 			res.error = 'An error has occured. Please contact an administrator.';
 			response.send(res);
-			console.log('Error in TeacherTimetablesRouting : getLessons : getLessonsQuery');
+			console.log('Error in StudentTimetablesRouting : getLessons : getLessonsQuery');
 			console.log(getLessonsQuery);
 			console.log(err);
 		})
@@ -75,9 +71,9 @@ exports.include = (app) => {
 		});
 	});
 
-	app.get('/teacher/timetable/getLesson/', function(request, response) {
+	app.get('/student/timetable/getLesson/', function(request, response) {
 
-		var teacherId = request.query.teacherId;
+		var studentId = request.query.studentId;
 		var lessonId = request.query.lessonId;
 
 		var res = {
@@ -86,7 +82,7 @@ exports.include = (app) => {
 			lesson: ''
 		}
 
-		if (!validateId(teacherId) || !validateId(lessonId)) {
+		if (!validateId(studentId) || !validateId(lessonId)) {
 			res.valid = false;
 			res.error = '';
 			response.send(res);
@@ -95,10 +91,9 @@ exports.include = (app) => {
 
 		var getLessonQuery = {
 			text: "SELECT l.id, "
-					    +"s.first_name, "
-					    +"s.last_name, "
+					    +"t.first_name, "
+					    +"t.last_name, "
 					    +"it.name as instrument_type, "
-					    +"se.grade as student_grade, "
 					    +"lang.language, "
 					    +"l.lesson_day, "
 					    +"l.lesson_start_time as start_time, "
@@ -106,21 +101,19 @@ exports.include = (app) => {
 					    +"l.lesson_year as year, "
 					    +"l.lesson_term as term "
 				 +"FROM music_school.lessons l, "
-				 	  +"music_school.students s,  "
+				 	  +"music_school.teachers t,  "
 				 	  +"music_school.instrument_types it,  "
-				 	  +"music_school.languages lang,  "
-				 	  +"music_school.student_experience se "
-				 +"WHERE l.student_id = s.id "
+				 	  +"music_school.languages lang  "
+				 +"WHERE l.teacher_id = t.id "
 				   +"AND l.language_id = lang.id "
-				   +"AND l.student_id = se.student_id "
 				   +"AND l.inst_type_id = it.id "
-				   +"AND l.teacher_id = $1 "
+				   +"AND l.student_id = $1 "
 				   +"AND l.id = $2 "
 				   +"AND l.request_status_id = 2 "
 				 +"ORDER BY l.lesson_start_time ASC",
-			name: "get-teacher-lesson",
+			name: "get-student-lesson",
 			values: [
-				teacherId,
+				studentId,
 				lessonId
 			]
 		}
@@ -130,7 +123,7 @@ exports.include = (app) => {
 			res.valid = false;
 			res.error = 'An error has occured. Please contact an administrator.';
 			response.send(res);
-			console.log('Error in TeacherTimetablesRouting : getLesson : getLessonQuery');
+			console.log('Error in StudentTimetablesRouting : getLesson : getLessonQuery');
 			console.log(getLessonQuery);
 			console.log(err);
 		})
@@ -150,7 +143,7 @@ exports.include = (app) => {
 		});
 	});
 
-	app.post('/teacher/timetable/cancelLesson',function(request, response) {
+	app.post('/student/timetable/cancelLesson',function(request, response) {
 	  var cancelDetails = request.body;
 
 	  var res = {
@@ -158,7 +151,7 @@ exports.include = (app) => {
 	  	error: ''
 	  }
 
-	  if(!validateId(cancelDetails.lessonId) || !validateId(cancelDetails.teacherId)) {
+	  if(!validateId(cancelDetails.lessonId) || !validateId(cancelDetails.studentId)) {
 	  	//Invalid Ids
 	  	res.valid = false;
 	  	res.error = 'An invalid ID has been given.'
@@ -169,11 +162,11 @@ exports.include = (app) => {
 			text: "UPDATE music_school.lessons "
 			  	 +"SET request_status_id = 7 "
 			  	 +"WHERE id = $1 "
-			  	   +"AND teacher_id = $2",
-			name: "finish-lesson",
+			  	   +"AND student_id = $2",
+			name: "finish-lesson-student",
 			values: [
 				cancelDetails.lessonId,
-				cancelDetails.teacherId
+				cancelDetails.studentId
 			]
 		};
 
@@ -182,7 +175,7 @@ exports.include = (app) => {
 			res.valid = false;
 			res.error = 'An error has occured. Please contact an administrator.';
 			response.send(res);
-			console.log('Error in TeacherTimetablesRouting : cancelLesson : finishLessonQuery');
+			console.log('Error in studentTimetablesRouting : cancelLesson : finishLessonQuery');
 			console.log(finishLessonQuery);
 			console.log(err);
 		})
@@ -221,7 +214,7 @@ exports.include = (app) => {
 
 		app.client.query(getInfoQuery)
 		.on('error', function(err) {
-			console.log('Error in TeacherTimetablesRouting : sendCancelEmail : getInfoQuery');
+			console.log('Error in StudentTimetablesRouting : sendCancelEmail : getInfoQuery');
 			console.log(getInfoQuery);
 			console.log(err);
 		})
@@ -233,7 +226,7 @@ exports.include = (app) => {
 				var studentEmail = generateStudentEmail(app, info);
 				app.transporter.sendMail(studentEmail, function(error, info) {
 					if(error) {
-						console.log('Error in TeacherTimetablesRouting : sendCancelEmail : sendStudentEmail');
+						console.log('Error in StudentTimetablesRouting : sendCancelEmail : sendStudentEmail');
 						console.log(studentEmail);
 						console.log(error);
 					}
@@ -253,14 +246,14 @@ exports.include = (app) => {
 		});
 	}
 
-	app.get('/teacher/timetable/*', function(request, response) {
-	  response.render('teacherTimetable/index');
+	app.get('/student/timetable/*', function(request, response) {
+	  response.render('studentTimetable/index');
 	});
 }
 
 function generateStudentEmail(app, info) {
 	var textMessage = "Dear " + info.studentname + ", "
-					 +"\n\nYour teacher, " + info.teachername + ", has cancelled one of your lessons with them."
+					 +"\n\nYou have successfully cancelled your lesson with " + info.teachername + "."
 					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."
 					 +"\nIf you think this was a mistake, please contact us."
 					 +"\nWe hoped you enjoyed this lesson, and hopefully we will see you again!"
@@ -280,7 +273,7 @@ function generateTeacherEmail(app, info) {
 	var textMessage = "Dear " + info.teachername + ", "
 					 +"\n\nYour lesson with " + info.studentname + " has successfully been cancelled."
 					 +"\nThe specific lesson was for the " + info.instrument + ", and normally occured on "+ app.weekdays[info.day] +" between "+ info.starttime +" and "+ info.endtime +"."
-					 +"\nIf you did not authorise this, please contact us."
+					 +"\nIf you think this is a mistake, please contact us."
 					 +"\n\nRegards,"
 					 +"\nSchool of Music Team";
 

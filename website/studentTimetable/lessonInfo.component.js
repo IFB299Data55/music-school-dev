@@ -26,7 +26,7 @@
 
 
           this.FormIsAvailable = function() {
-          if(this.UserService.GetCurrentUser().type == 'teacher') {
+          if(this.UserService.GetCurrentUser().type == 'student') {
                 return true;
             }
             

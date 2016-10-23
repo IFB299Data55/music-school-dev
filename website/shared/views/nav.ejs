@@ -33,6 +33,9 @@
 				<li *ngIf="user.type == 'student'"><a href="/lessons/application/">
 					Apply For Lessons
 				</a></li>
+				<li *ngIf="user.type == 'student'"><a href="/student/timetable/">
+					View Timetable
+				</a></li>
 				<li *ngIf="user.type == 'student'"><a href="/student/instruments/borrowed/">
 					View Borrowed Instruments
 				</a></li>
@@ -82,6 +85,9 @@
 				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/teachers/">
 		        	View Teacher Accounts
+		        </a></li>
+		        <li *ngIf="user.type == 'manager'"><a href="/management/teacherApplications/">
+		        	View Teacher Applications
 		        </a></li>
 			</ul>
 		</li>
