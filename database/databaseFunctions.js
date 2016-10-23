@@ -112,7 +112,7 @@ exports.include = (app) => {
 				text: "SELECT i.id, i.serial_no, i.model, i.hire_fee, c.condition, i.inst_notes"
 					 +" FROM music_school.instruments i, music_school.conditions c "
 					 +"WHERE i.condition_id = c.id AND inst_type_id = $1 AND i.id NOT IN (SELECT instrument_id FROM music_school.instrument_hire "
-					 	+"WHERE hire_status_id NOT IN (6))" + conditionRestriction,
+					 	+"WHERE is_sold_or_disposed = FALSE AND hire_status_id NOT IN (6))" + conditionRestriction,
 				name: "get-instruments-of-type",
 				values: [instrumentTypeId]
 			};

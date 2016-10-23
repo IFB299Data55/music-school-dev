@@ -48,6 +48,28 @@
             }
           }
 
+          this.Filter = function() {
+            this.filteredInstruments = [];
+            var filterTextArray = this.filterText.split(',');
+            for (var i = 0; i < this.instruments.length; i++) {
+              var instrument = this.instruments[i];
+              var model = instrument.model;
+              var condition = instrument.condition;
+              var instrumentType = instrument.insttype;
+              var hireFee = instrument.hirefee;
+              var matchedCounter = 0;
+              for (var j = 0; j < filterTextArray.length; j++) {
+                filterString = new RegExp(filterTextArray[j].trim(), "gi");
+                if (model.match(filterString) || condition.match(filterString) || instrumentType.match(filterString) || hireFee.match(filterString)) {
+                  matchedCounter++;
+                }
+              }
+              if (matchedCounter == filterTextArray.length) {
+                this.filteredInstruments.push(instrument);
+              }
+            }
+          }
+
           this.FormIsAvailable = function() {
             if(this.UserService.checkUserType('manager')) {
               return true;

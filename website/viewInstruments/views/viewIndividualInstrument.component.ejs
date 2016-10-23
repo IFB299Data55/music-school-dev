@@ -4,21 +4,23 @@
 	*ngIf="instrument">
 		<div class="content">
 			<div class="cardHeader">
-				{{instrument.name}}
+				{{instrument.model}}
 			</div>
 			<div class="meta">
-				<div class="cardRowContainer"><div class="cardLeft">DOB:</div> <div class="cardRight">{{instrument.dob}}</div></div>
-				<div class="cardRowContainer"><div class="cardLeft">Address:</div> <div class="cardRight">{{instrument.address}}</div></div>
-				<div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{instrument.phone}}</div></div>
-				<div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{instrument.email}}</div></div>
-				<div class="cardRowContainer"><div class="cardLeft">Date Employed:</div> <div class="cardRight">{{instrument.dateemployed}}</div></div>
-				<div class="cardRowContainer"><div class="cardLeft">Description:</div> <div class="cardRight">{{instrument.description}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Instrument Type:</div> <div class="cardRight">{{instrument.insttype}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Date:</div> <div class="cardRight">{{instrument.purchasedate}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Purchase Price:</div> <div class="cardRight">${{instrument.price}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Condition:</div> <div class="cardRight">{{instrument.condition}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Hire Fee:</div> <div class="cardRight">${{instrument.hirefee}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Serial Number:</div> <div class="cardRight">{{instrument.serialnumber}}</div></div>
+				<div class="cardRowContainer"><div class="cardLeft">Notes:</div> <div class="cardRight">{{instrument.notes}}</div></div>
 			</div>
 		</div>
 		<div class="extra content">
     		<div class="ui two buttons">
 			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
-				<button class="button21 clickable" (click)="EditInstrument(instrument.id)">Edit</button>
+				<button class="button22 clickable" (click)="EditInstrument(instrument.id)">Edit</button>
+				<button class="button21 clickable" (click)="DeleteInstrument(instrument.id)">Mark as Sold or Disposed</button>
 			</div>
     	</div>
 	</div>

@@ -25,6 +25,18 @@
 
           // add editing stuff
 
+          this.DeleteInstrument = function(instrumentID) {
+            this.ViewInstrumentsService.DeleteInstrument(instrumentID)
+              .then(response => {
+                if (response.status) {
+                  var link = ['/all'];
+                  this.Router.navigate(link);
+                } else {
+                  this.error = 'There was an error';
+                }
+              });
+          }
+
           this.FormIsAvailable = function() {
             if(this.UserService.checkUserType('manager')) {
               return true;

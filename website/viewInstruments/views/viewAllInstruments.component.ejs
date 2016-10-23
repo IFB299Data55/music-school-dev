@@ -3,27 +3,28 @@
 <div class="content" *ngIf="FormIsAvailable()">
 
   <div class="flexsearch">
-		<div class="flexsearch--wrapper">
-			<div class="flexsearch--input-wrapper">
-			 <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search for names.." title="Type in a name">
-			</div>
-		</div>
+    <div class="flexsearch--wrapper">
+      <div class="flexsearch--input-wrapper">
+       <input name="search" type="text" id="myInput" [(ngModel)]="filterText" (keyup)="Filter()" placeholder="Search by instrument type, model, condition or hire fee." title="Type in a name, language or instrument">
+       <label for="myInput">Can search for a combination of criteria. For example: 'Guitar, 100, New' (no $) will match any application that has all 3</label>
+      </div>
+    </div>
   </div>
       
           
     <table class="table-hover" data-role="table" data-mode=" columntoggle" id="myTable" data-filter="true" data-input="#filterTable-input">
     
       <thead>
-        <th class="left aligned">Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Date Employed</th>
+        <th class="left aligned">Instrument Type</th>
+        <th>Model</th>
+        <th>Condition</th>
+        <th>Hire Fee</th>
       </thead>
         <tr *ngFor="let instrument of filteredInstruments" (click)="SelectInstrument(instrument.id)">
-          <td class="left aligned">{{instrument.name}}</td>
-          <td>{{instrument.phone}}</td>
-          <td>{{instrument.email}}</td>
-          <td>{{instrument.dateemployed}}</td>
+          <td class="left aligned">{{instrument.insttype}}</td>
+          <td>{{instrument.model}}</td>
+          <td>{{instrument.condition}}</td>
+          <td>{{instrument.hirefee}}</td>
         </tr>
     </table>
 
