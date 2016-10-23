@@ -429,7 +429,7 @@ function validateTeacher(teacherId, isValid) {
 }
 
 function validateDay(day, isValid) {
-	var regexp = new RegExp("^Mon$|^Tue$|^Wed$|^Thu$|^Fri$");
+	var regexp = new RegExp("^[1-5]$");
 	if (regexp.test(day)) {
 		return true;
 	}
