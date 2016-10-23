@@ -28,7 +28,7 @@
           this.saveChanges = function() {
             this.MyPortalService.SavePersonalData(this.userForm.user)
             .then(response => {
-              if (!response.error) {
+              if (response.valid) {
                 this.userForm.save();
                 this.editing = false;
               } else {
@@ -64,6 +64,8 @@
 
 function UserForm() {
   this.user = {
+              id: 0,
+              type: '',
               first_name: '',
               middle_name: '',
               last_name: '',

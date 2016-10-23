@@ -33,7 +33,7 @@ exports.include = (app) => {
 			var getUserDetailsQuery = "SELECT u.first_name, "
 											+"u.middle_name, "
 											+"u.last_name, "
-											+"u.dob, "
+											+"to_char(u.dob,'DD/MM/YYYY') as dob, "
 											+"u.address, "
 											+"u.phone_no, "
 											+"u.email, "

@@ -22,7 +22,9 @@
           }
 
           this.SavePersonalData = function(user) {
-            this.url = '/myportal/SavePersonalData/';
+            var url = '/myportal/SavePersonalData/';
+            user.id = this.UserService.GetCurrentUser().id;
+            user.type = this.UserService.GetCurrentUser().type;
             return this.http.post(url, user, this.headers).toPromise()
                    .then(response => {
                      var res = JSON.parse(response._body);
