@@ -10,7 +10,8 @@
       declarations: [ 
           app.GenerateReportsRouterComponent
         , app.ViewAllReportsComponent
-        , app.ViewIndividualReportComponent
+        , app.InstrumentSummaryReportComponent
+        , app.LessonSummaryReportComponent
       ],
       providers: [
           app.GenerateReportsService

@@ -6,7 +6,7 @@
         <th class="left aligned">Name</th>
       </thead>
         <tr *ngFor="let report of reports" (click)="SelectReport(report.name)">
-          <td class="left aligned">{{report.name}}</td>
+          <td class="left aligned">{{report.displayname}}</td>
         </tr>
     </table>
 </div>

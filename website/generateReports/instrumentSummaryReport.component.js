@@ -1,7 +1,7 @@
 (function(app) {
-  app.PopularInstrumentsReportComponent =
+  app.InstrumentSummaryReportComponent =
     ng.core.Component({
-      selector: 'popular-instruments-report' ,
+      selector: 'instrument-summary-report' ,
       inputs: ['report'],
       templateUrl: localPath+'views/viewTableReport.component.ejs',
       styleUrls: ["../.."+localPath+'css/viewTableReport.component.css']
@@ -18,8 +18,18 @@
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
           this.error;
+
+          this.reportDisplayName = "Instrument Summary";
+          this.reportName = "instrument-summary-report";
           this.report = false;
-          this.reportRows = [];
+          this.reportRows = [
+            {rowHeading: 'Number of Instrument Hires', dataKey: 'instrumenthires'}
+            ,{rowHeading: 'Number of Instrument Hire Requests', dataKey: 'hirerequests'}
+            ,{rowHeading: 'Number of Instrument Hire Requests Rejected', dataKey: 'rejectedrequests'}
+            ,{rowHeading: 'Most Popular Instrument Hired', dataKey: 'mostpopular'}
+            ,{rowHeading: 'Least Popular Instrument Hired', dataKey: 'leastpopular'}
+            ,{rowHeading: 'Total Income from Instrument Hires (to date)', dataKey: 'totalincome'}
+          ];
 
           this.GoBack = function() {
             window.history.back();
@@ -34,17 +44,11 @@
 	      }
       ]
     });
-    app.ViewIndividualReportComponent.prototype.ngOnInit = function() {
+    app.InstrumentSummaryReportComponent.prototype.ngOnInit = function() {
 
-      var urlParams = this.ActivatedRoute.params._value;
-      var id = +urlParams.id;
-
-      this.GenerateReportsService.GetReport(id).then(response => {
+      this.GenerateReportsService.GetReport(this.reportName).then(response => {
         if (!response.error) {
           this.report = response.report[0];
-          for (var i = 0; i < this.report.length; i++) {
-
-          }
         } else {
           this.error = 'An error has occured. Please contact administration for further assitance.';
         }

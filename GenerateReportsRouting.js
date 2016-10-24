@@ -13,7 +13,7 @@ exports.include = (app) => {
 		}
 
 		var getQuery = {
-			text: "SELECT id, name FROM music_school.reports",
+			text: "SELECT id, name, display_name as displayname FROM music_school.reports",
 			name: "get-report-names",
 			values: []
 		}
@@ -34,42 +34,145 @@ exports.include = (app) => {
 		});
 	});
 
-	app.get('/management/generateReports/getReport/', function(request, response) {
-		var reportID = request.query.id;
-		var studentsResult = [];
+	app.get('/management/generateReports/getIndividualReport/', function(request, response) {
+		var reportName = request.query.name;
+		var reportResult = [];
 		var result = {
 			status: true,
-			students: studentsResult
+			report: reportResult
 		}
 
-		if (!teacherID) {
-			teacherID = 1;
+		var query = {
+			text: '',
+			name: 'get-specific-report',
+			values: []
+		};
+
+		switch (reportName) {
+			case 'instrument-summary-report':
+				query.text = 'SELECT '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.instrument_hire '
+									+'WHERE hire_status_id IN (2,6)'
+								+') AS instrumenthires, '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.instrument_hire '
+									+'WHERE hire_status_id IN (1,2,6)'
+								+') AS hirerequests, '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.instrument_hire '
+									+'WHERE hire_status_id IN (3)'
+								+') AS rejectedrequests, '
+								+'('
+									+'SELECT it.name '
+									+'FROM music_school.instrument_hire ih '
+									+'LEFT JOIN music_school.instruments i '
+										+'ON i.id = ih.instrument_id '
+									+'LEFT JOIN music_school.instrument_types it '
+										+'ON it.id = i.id '
+									+'WHERE ih.hire_status_id IN (2, 6) '
+									+'GROUP BY it.name '
+									+'ORDER BY count(*) DESC '
+									+'LIMIT 1 '
+								+') AS mostpopular, '
+								+'('
+									+'SELECT it.name '
+									+'FROM music_school.instrument_hire ih '
+									+'LEFT JOIN music_school.instruments i '
+										+'ON i.id = ih.instrument_id '
+									+'LEFT JOIN music_school.instrument_types it '
+										+'ON it.id = i.id '
+									+'WHERE ih.hire_status_id IN (2, 6) '
+									+'GROUP BY it.name '
+									+'ORDER BY count(*) ASC '
+									+'LIMIT 1 '
+								+') AS leastpopular, '
+								+'('
+									+'SELECT \'$\'||sum(i.hire_fee) '
+									+'FROM music_school.instrument_hire ih '
+									+'LEFT JOIN music_school.instruments i '
+										+'ON i.id = ih.instrument_id '
+									+'WHERE ih.hire_status_id IN (2, 6) '
+								+') AS totalincome '
+							+'FROM music_school.instrument_hire';
+				break;
+			case 'lesson-summary-report':
+				query.text = 'SELECT '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.lessons '
+									+'WHERE request_status_id IN (2,7)'
+								+') AS booked, '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.cancelled_lessons '
+								+') AS cancelled, '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.lessons '
+									+'WHERE request_status_id IN (3) '
+										+'AND teacher_id IS NOT NULL'
+								+') AS specificrejected, '
+								+'('
+									+'SELECT count(*) '
+									+'FROM music_school.lessons '
+									+'WHERE request_status_id IN (3) '
+										+'AND teacher_id IS NULL'
+								+') AS allrejected, '
+								+'('
+									+'SELECT it.name '
+									+'FROM music_school.lessons l '
+									+'LEFT JOIN music_school.instrument_types it '
+										+'ON it.id = l.inst_type_id '
+									+'WHERE l.request_status_id IN (2, 6) '
+									+'GROUP BY it.name '
+									+'ORDER BY count(*) DESC '
+									+'LIMIT 1 '
+								+') AS popularinstrument, '
+								+'('
+									+'SELECT lesson_day '
+									+'FROM music_school.lessons '
+									+'WHERE request_status_id IN (2, 6) '
+									+'GROUP BY lesson_day '
+									+'ORDER BY count(*) DESC '
+									+'LIMIT 1 '
+								+') AS popularday, '
+								+'('
+									+'SELECT round(avg(accept_date::date - request_date::date),2) '
+									+'FROM music_school.lessons '
+									+'WHERE accept_date IS NOT NULL '
+								+') AS averagedays '
+							+'FROM music_school.lessons';
+				break;
 		}
 
-		var getQuery = "SELECT l.id as requestid, s.first_name as firstname, s.last_name as lastname, "
-						+"TO_CHAR(s.dob,'YYYY-MM-DD') as dob, it.name as instrument, se.grade as grade "
-						+"FROM music_school.lessons l, music_school.students s, "
-						+"music_school.instrument_types it, music_school.student_experience se "
-						+"WHERE l.student_id = s.id AND l.inst_type_id = it.id "
-						+"AND (l.teacher_id = "+teacherID+" OR l.teacher_id IS NULL) "
-						+"AND (l.request_status_id IS NULL OR l.request_status_id = 1) "
-						+"AND l.id NOT IN (SELECT lesson_id FROM music_school.lesson_rejections WHERE teacher_id="+teacherID+") "
-						+"AND s.id = se.student_id AND se.inst_type_id = l.inst_type_id;";
-
-		app.client.query(getQuery).on('row', function(row) {
-			studentsResult.push(row);
-		})
-		.on('end', function() {
-			if (!response.headersSent) {
-				if (studentsResult.length > 0) {
-					response.send(result);
-				} else {
-					result.status = false;
-					result.error = 'You have no lesson requests from any students.';
-					response.send(result);
+		if (query.text && query.text != '') {
+			app.client.query(query).on('row', function(row) {
+				if (row.popularday) {
+					row.popularday = app.weekdays[row.popularday];
 				}
-			}
-		});
+				reportResult.push(row);
+			})
+			.on('end', function() {
+				if (!response.headersSent) {
+					if (reportResult.length > 0) {
+						response.send(result);
+					} else {
+						result.status = false;
+						result.error = 'Report requested did not return any data';
+						response.send(result);
+					}
+				}
+			});
+		} else {
+			result.status = false;
+			result.error = 'Invalid report type selected';
+			response.send(result);
+		}
+
 	});
 
 	app.get('/management/reports/*', function(request, response) {

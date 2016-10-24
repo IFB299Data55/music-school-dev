@@ -4,12 +4,12 @@ var generateReportsRouting = [
 		component: app.ViewAllReportsComponent
 	}
 	, {
-		path: 'individual/:id',
-		component: app.ViewIndividualReportComponent
+		path: 'individual/instrument-summary-report',
+		component: app.InstrumentSummaryReportComponent
 	}
 	, {
-		path: 'individual/popular-instruments-report',
-		component: app.PopularInstrumentsReportComponent
+		path: 'individual/lesson-summary-report',
+		component: app.LessonSummaryReportComponent
 	}
 	, {
 		path: '',
