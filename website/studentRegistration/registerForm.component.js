@@ -23,6 +23,7 @@
             phoneNumber:true,
             email:true,
             password:true,
+            gender:true,
             errorMessage:''
           };
 

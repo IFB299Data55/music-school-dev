@@ -20,6 +20,7 @@
             firstName:true,
             middleName:true,
             lastName:true,
+            gender:true,
             birthday:true,
             address:true,
             phoneNumber:true,
