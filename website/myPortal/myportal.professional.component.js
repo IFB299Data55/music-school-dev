@@ -1,9 +1,9 @@
 (function(app) {
-  app.MyPortalPersonalComponent =
+  app.MyPortalProfessionalComponent =
     ng.core.Component({
-      selector: 'my-portal-personal',
-      templateUrl: localPath+'views/myportal.personal.component.ejs',
-      styleUrls: ['..'+localPath+'css/myportal.personal.component.css']
+      selector: 'my-portal-professional',
+      templateUrl: localPath+'views/myportal.professional.component.ejs',
+      styleUrls: ['..'+localPath+'css/myportal.professional.component.css']
     })
     .Class({
       constructor: [
@@ -11,28 +11,35 @@
         app.UserService,
         function(MyPortalService, UserService) {
           this.MyPortalService = MyPortalService;
-          this.userForm = new UserForm();
+          this.skillsForm = new skillsForm();
+
+          this.allLanguages = [];
+          this.allInstruments = [];
         
           this.editing = false;
+          this.loading = true;
+          this.saving = false;
 
           this.enterEditingMode = function() {
             this.editing = true;
-            this.userForm.save();
+            this.skillsForm.save();
           }
 
           this.cancelEditing = function() {
             this.editing = false;
-            this.userForm.revert();
+            this.skillsForm.revert();
           }
 
           this.saveChanges = function() {
-            this.MyPortalService.SavePersonalData(this.userForm.user)
+            this.saving = true;
+            this.MyPortalService.SaveProfessionalData(this.skillsForm.skills)
             .then(response => {
+              this.saving = false;
               if (response.valid) {
-                this.userForm.save();
+                this.GetSkills();
                 this.editing = false;
               } else {
-                this.userForm.revert();
+                this.skillsForm.revert();
                 this.editing = false;
               }
             }).catch(() => {
@@ -40,13 +47,18 @@
             });
           }
 
-          this.GetUser = function() {
-            this.MyPortalService.GetUserDetails()
+          this.GetSkills = function() {
+            this.MyPortalService.GetTeacherSkills()
             .then(response => {
-              if (!response.error) {
-                this.userForm.user = response.user;
-                this.userForm.user.dob = this.userForm.user.dob.split('T')[0];
-                this.userForm.save();
+              if (response.valid) {
+                console.log(response);
+                this.loading = false;
+                this.skillsForm.skills.languages = response.languages;
+                this.skillsForm.skills.instruments = response.instruments;
+                this.skillsForm.skills.grades = response.grades;
+                this.skillsForm.save();
+                this.allLanguages = response.allLanguages;
+                this.allInstruments = response.allInstruments;
               } else {
                 this.error = response.error;
               }
@@ -54,42 +66,63 @@
               this.error = 'An error has occured. Please try again later.';
             });
           }
+
+          this.instIdIsSelected = function(instId) {
+            for(var i = 0; i < this.skillsForm.skills.instruments.length; i++) {
+              if(instId==this.skillsForm.skills.instruments[i]) return true;
+            }
+            return false;
+          }
+          this.langIdIsSelected = function(langId) {
+            for(var i = 0; i < this.skillsForm.skills.languages.length; i++) {
+              if(langId==this.skillsForm.skills.languages[i]) return true;
+            }
+            return false;
+          }
         }
       ]
     });
-    app.MyPortalPersonalComponent.prototype.ngOnInit = function() {
-      this.GetUser();
+    app.MyPortalProfessionalComponent.prototype.ngOnInit = function() {
+      this.GetSkills();
     };
 })(window.app || (window.app = {}));
 
-function UserForm() {
-  this.user = {
+function skillsForm() {
+  this.skills = {
               id: 0,
-              type: '',
-              first_name: '',
-              middle_name: '',
-              last_name: '',
-              dob: '',
-              address: '',
-              phone_no: '',
-              email: '',
-              gender: ''
+              languages: [],
+              instruments: [],
+              grades: []
             };
 
-  this.backup = {};
+  this.backup = {
+              id: 0,
+              languages: [],
+              instruments: [],
+              grades: []
+            };
 
   this.save = function() {
-    for(var attr in this.user) {
+    for(var attr in this.skills) {
       try {
-        this.backup[attr] = this.user[attr];
+        for(var val in this.skills[attr]) {
+          try {
+            this.backup[attr][val] = this.skills[attr][val];
+          } catch (e) {}
+        }
       } catch (e) {}
     }
+    this.revert();
   };
 
   this.revert = function() {
     for(var attr in this.backup) {
       try {
-        this.user[attr] = this.backup[attr];
+        for(var val in this.backup[attr]) {
+          try {
+            this.skills[attr][val] = this.backup[attr][val];
+          } catch (e) {}
+        }
       } catch (e) {}
     }
   }

@@ -20,6 +20,18 @@
                    })
                    .catch(this.handleError);
           }
+          this.GetTeacherSkills = function() {
+            if(this.UserService.GetCurrentUser().type == 'teacher') {
+              var userId = this.UserService.GetCurrentUser().id;
+              var url = '/database/getTeacherSkills?id='+userId;
+              return this.http.get(url, this.headers).toPromise()
+                     .then(response => {
+                       var user = JSON.parse(response._body);
+                       return Promise.resolve(user);
+                     })
+                     .catch(this.handleError);
+            }
+          }
 
           this.SavePersonalData = function(user) {
             var url = '/myportal/SavePersonalData/';
@@ -43,6 +55,19 @@
                      return Promise.resolve(res);
                    })
                    .catch(this.handleError);
+          }
+
+          this.SaveProfessionalData = function(skills) {
+            var url = '/myportal/SaveProfessionalData/';
+            if(this.UserService.GetCurrentUser().type == 'teacher') {
+              skills.id = this.UserService.GetCurrentUser().id;
+              return this.http.post(url, skills, this.headers).toPromise()
+                   .then(response => {
+                     var res = JSON.parse(response._body);
+                     return Promise.resolve(res);
+                   })
+                   .catch(this.handleError);
+            }
           }
 
           this.handleError = function(error) {

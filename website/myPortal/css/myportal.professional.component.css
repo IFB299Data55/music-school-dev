@@ -50,6 +50,11 @@ select[disabled] {
     text-overflow: '';
 }
 
+select option[ng-reflect-selected="true"] {
+	background: rgb(50,150,255);
+	color: white;
+}
+
 legend button {
 	margin: 0;
 	margin-right: 10px;

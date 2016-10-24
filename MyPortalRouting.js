@@ -132,6 +132,96 @@ exports.include = (app) => {
 		}
 	});
 
+		app.post('/myportal/SaveProfessionalData', function(request, response) {
+		var skills = request.body;
+
+		var res = {
+			valid: true,
+			error: ''
+		};
+
+		if(skillsAreValid(app, skills)) {
+			var experienceColumns = "teacher_id, inst_type_id, grade";
+			var experienceText = "INSERT INTO music_school.teacher_experience("+experienceColumns+") VALUES";
+			var experienceValues = [skills.id];
+			var counter = 2;
+			for(var i = 0; i < skills.instruments.length; i++) {
+				var instrumentInsert = '';
+				if(i != 0) {
+					instrumentInsert += ',';	
+				}
+				instrumentInsert += "($1, $"+ counter++ +", $"+ counter++ +")";
+				var id = skills.instruments[i]
+				experienceValues.push(id);
+				experienceValues.push(skills.grades[id - 1]);
+				experienceText += instrumentInsert;
+			}
+
+			experienceText += " ON CONFLICT (teacher_id, inst_type_id) DO UPDATE SET grade = EXCLUDED.grade";
+
+			var languageColumns = "teacher_id, language_id";
+			var languageText = "INSERT INTO music_school.teacher_languages("+languageColumns+") VALUES";
+			var languageValues = [skills.id];
+			var counter = 2;
+			for(var i = 0; i < skills.languages.length; i++) {
+				var languageInsert = '';
+				if(i != 0) {
+					languageInsert += ',';	
+				}
+				languageInsert += "($1, $"+ counter++ +")";
+				languageValues.push(skills.languages[i]);
+				languageText += languageInsert;
+			}
+
+			languageText += " ON CONFLICT (teacher_id, language_id) DO NOTHING";
+
+			app.client.query(experienceText, experienceValues)
+			.on('error', function(err) {
+				/* Error Handling */
+				if (!response.headersSent) {
+					res.valid = false;
+					res.error = 'An error has occured. Please try again later or contact an administrator';
+					console.log("Errors Happened within MyPortalRouting : SaveProfessionalData : ExperienceUpdate");
+					console.log("Params: skills = ", skills);
+					console.log("query: \n", experienceText,"\n\n");
+					console.log("values: \n", experienceValues,"\n\n");
+					console.log("error: \n", err,"\n\n");
+					response.send(res);
+				}
+			})
+			.on('end', function() {
+				//return response
+				if (!response.headersSent) {
+					app.client.query(languageText, languageValues)
+					.on('error', function(err) {
+						/* Error Handling */
+						if (!response.headersSent) {
+							res.valid = false;
+							res.error = 'An error has occured. Please try again later or contact an administrator';
+							console.log("Errors Happened within MyPortalRouting : SaveProfessionalData : LanguageUpdate");
+							console.log("Params: skills = ", skills);
+							console.log("query: \n", languageText,"\n\n");
+							console.log("values: \n", languageValues,"\n\n");
+							console.log("error: \n", err,"\n\n");
+							response.send(res);
+						}
+					})
+					.on('end', function() {
+						//return response
+						if (!response.headersSent) {
+							response.send(res);
+						}
+					});
+				}
+			});
+
+		} else {
+			res.valid = 'false';
+			res.error = 'Invalid input values';
+			response.send(res);
+		}
+	});
+
 	app.get('/myportal/*', function(request, response) {
 	  response.render('myPortal/index');
 	});
@@ -163,4 +253,20 @@ function passwordIsValid(app, password) {
 	}
 
 	return false;
+}
+
+function skillsAreValid(app, skills) {
+	if(!app.validateId(skills.id)) return false;
+	for(index in skills.languages) {
+		if(!app.validateId(skills.languages[index])) return false;
+	}
+
+	for(index in skills.instruments) {
+		var id = skills.instruments[index];
+		if(!app.validateId(id)) return false;
+		if(!app.validateGrade(skills.grades[id - 1])) return false;
+	}
+
+	return true;
+
 }

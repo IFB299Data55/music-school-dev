@@ -87,4 +87,12 @@ exports.include = (app) => {
 		}
 		return false;
 	}
+
+	app.validateGrade = function(grade) {
+		var regexp = new RegExp("^[1-7]$");
+		if (regexp.test(grade)) {
+			return true;
+		}
+		return false;
+	}
 }
