@@ -6,6 +6,19 @@ var nodemailer = require('nodemailer');
 
 /* Any global variables should go here */
 app.weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/* Global Function used to Hash Strings */
+String.prototype.HashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
 /* Connect to Database and Gmail*/
 require('./database.js').include(app);
 app.transporter = nodemailer.createTransport('smtps://ifb299data55%40gmail.com:IFB299d55@smtp.gmail.com');
@@ -31,8 +44,10 @@ app.get('/dev', function(request, response) {
 });
 
 /* Link to Feature Routing */
+require('./validationFunctions.js').include(app);
 require('./database/databaseFunctions.js').include(app);
 require('./loginRouting.js').include(app);
+require('./myPortalRouting.js').include(app);
 require('./lessonInformation.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
