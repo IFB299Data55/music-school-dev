@@ -14,23 +14,6 @@
             email: ''
           };
 
-          /*this.Login = function() {
-            this.loggingIn = true;
-
-            this.LoginService.AttemptLogin(this.user)
-            .then(response => {
-              if(response.valid != 'invalid') {
-                this.loggedIn = true;
-                this.loggingIn = false;
-                this.LoginService.Login(response);
-              } else {
-                this.loggingIn = false;
-                this.error = response.error;
-              }
-            })
-            .catch(()=>{});
-          }*/
-
           this.CheckLoggedIn = function() {
             if(this.UserService.IsSomeoneLoggedIn()) {
               this.loggedIn = true;

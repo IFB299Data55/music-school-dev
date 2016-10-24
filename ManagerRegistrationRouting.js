@@ -21,6 +21,7 @@ exports.include = (app) => {
 			address:true,
 			phoneNumber:true,
 			email:true,
+			gender:true,
 			dbError:false,
 			dbErrorMessage:''
 		};
@@ -68,14 +69,14 @@ exports.include = (app) => {
 				]
 			};
 
-			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description"
+			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description, gender"
 			var newTeacherQuery = {
 				text: "INSERT INTO music_school.managers("+teacherCols+") VALUES("
 						+"$1,$2,$3,"
 						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
 						+"(SELECT MAX(id) FROM music_school.passwords),"
 						+"FALSE,"
-						+"now(),$8"
+						+"now(),$8,$9"
 					 +")",
 				name: "create-new-manager",
 				values: [
@@ -87,6 +88,7 @@ exports.include = (app) => {
 					, manager.phoneNumber
 					, manager.email
 					, manager.description.escapeHtml()
+					, manager.gender
 				]
 			};
 
@@ -136,7 +138,7 @@ exports.include = (app) => {
 							//Send Email
 							var textMessage = "Dear " + manager.firstName + " " + manager.lastName + ", "
 										 +"\n\nYou have been registered as a manager for the School of Music."
-										 +"\nYour Temprary password is: '" + manager.password +"'."
+										 +"\nYour Temporary password is: '" + manager.password +"'."
 										 +"\nWe hope you enjoy your employment with us."
 										 +"\n\nRegards,"
 										 +"\nSchool of Music Team";

@@ -23,6 +23,7 @@ exports.include = (app) => {
 			email: 				true,
 			languages:			true,
 			instrumentTypeIds: 	true,
+			gender:				true,
 			dbError: 			false,
 			dbErrorMessage: 	''
 		};
@@ -70,14 +71,14 @@ exports.include = (app) => {
 				]
 			};
 
-			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description"
+			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description, gender"
 			var newTeacherQuery = {
 				text: "INSERT INTO music_school.teachers("+teacherCols+") VALUES("
 						+"$1,$2,$3,"
 						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
 						+"(SELECT MAX(id) FROM music_school.passwords),"
 						+"FALSE,"
-						+"now(),$8"
+						+"now(),$8,$9"
 					 +")",
 				name: "create-new-teacher",
 				values: [
@@ -89,6 +90,7 @@ exports.include = (app) => {
 					, teacher.phoneNumber
 					, teacher.email
 					, teacher.description.escapeHtml()
+					, teacher.gender
 				]
 			};
 
