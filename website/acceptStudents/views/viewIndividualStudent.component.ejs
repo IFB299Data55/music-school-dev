@@ -9,12 +9,13 @@
       <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{student.dob}}</div></div>
       <div class="cardRowContainer"><div class="cardLeft">Instrument:</div> <div class="cardRight">{{student.instrument}}</div></div>
       <div class="cardRowContainer"><div class="cardLeft">Grade:</div> <div class="cardRight">{{student.grade}}</div></div>
+      <div class="cardRowContainer"><div class="cardLeft">Year:</div> <div class="cardRight">{{student.year}}</div></div>
+      <div class="cardRowContainer"><div class="cardLeft">Term:</div> <div class="cardRight">{{student.term}}</div></div>
       <div class="cardRowContainer"><div class="cardLeft">Start Time:</div> <div class="cardRight">{{student.starttime}}</div></div>
       <div class="cardRowContainer"><div class="cardLeft">End Time:</div> <div class="cardRight">{{student.endtime}}</div></div>
-      <div class="cardRowContainer"><div class="cardLeft">Term:</div> <div class="cardRight">{{student.term}}</div></div>
-      <div class="cardRowContainer"><div class="cardLeft">Year:</div> <div class="cardRight">{{student.year}}</div></div>
       <div class="cardRowContainer"><div class="cardLeft">Fee:</div> <div class="cardRight">${{student.fee}}</div></div>
-      <div class="cardRowContainer"><div class="cardLeft">Notes:</div> <div class="cardRight">{{student.notes}}</div></div>
+      <div class="cardRowContainer"><div class="cardLeft">Notes:</div> <div *ngIf="student.notes != null" class="cardRight">{{student.notes}}</div>
+                                                                      <div *ngIf="student.notes == null" class="cardRight">N/A</div></div>
     </div>
   </div>
   <div class="extra content">
