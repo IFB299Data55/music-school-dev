@@ -24,7 +24,11 @@ exports.include = (app) => {
 					} else {
 						updateUserQuery += ", "
 					}
-					updateUserQuery += key+"=$"+ counter++ +" ";
+					if(key == 'dob') {
+						updateUserQuery += key+"=to_date($"+ counter++ +",'DD/MM/YYYY') ";
+					} else {
+						updateUserQuery += key+"=$"+ counter++ +" ";
+					}
 					updateUserValues.push(user[key]);
 				}
 			});
@@ -41,6 +45,7 @@ exports.include = (app) => {
 					console.log("Params: user = ", user);
 					console.log("query: \n", updateUserQuery,"\n\n");
 					console.log("values: \n", updateUserValues,"\n\n");
+					console.log("error: \n", err,"\n\n");
 					response.send(res);
 				}
 			})
