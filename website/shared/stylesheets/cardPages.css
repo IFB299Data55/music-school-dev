@@ -196,6 +196,49 @@ html {
   /*padding-bottom: 5px;*/
 }
 
+input.cardRight, select.cardRight {
+  float: right;
+  width: calc(100% - 10em);
+  text-align: right;
+  margin: 0;
+  padding: 0;
+  padding-right: 10px;
+  border: 1px solid rgb(200,200,200);
+  border-radius: 10px;
+  background: rgb(254,254,254);
+  margin-bottom: -1px;
+}
+
+input.cardRight[required] {
+    box-shadow:none;
+}
+
+input.cardRight.ng-valid {
+    border-left: 2px solid rgb(70,200,70);
+}
+
+input.cardRight.ng-invalid {
+    border-left: 2px solid rgb(225,0,0);
+}
+
+input.cardRight[readonly] {
+  background: none;
+  border: none;
+}
+
+input.cardRight[disabled] {
+  background: none;
+  border: none;
+}
+select.cardRight[disabled] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    background: none;
+    border: none;
+}
+
 .cardRowContainer {
   clear: both;
   padding: 5px 0px 5px 0px;
