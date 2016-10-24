@@ -17,11 +17,14 @@
 
           this.enterEditingMode = function() {
             this.editing = true;
+            this.success = false;
             this.passwordForm = new PasswordForm();
           }
 
           this.cancelEditing = function() {
             this.editing = false;
+            this.error = false;
+            this.success = false;
           }
 
           this.saveChanges = function() {

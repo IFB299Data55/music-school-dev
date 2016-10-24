@@ -126,7 +126,7 @@ exports.include = (app) => {
 				}
 			})
 		} else {
-			res.valid = 'false';
+			res.valid = false;
 			res.error = 'Invalid input values';
 			response.send(res);
 		}
