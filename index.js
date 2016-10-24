@@ -47,7 +47,7 @@ app.get('/dev', function(request, response) {
 require('./validationFunctions.js').include(app);
 require('./database/databaseFunctions.js').include(app);
 require('./loginRouting.js').include(app);
-require('./myPortalRouting.js').include(app);
+require('./MyPortalRouting.js').include(app);
 require('./lessonInformation.js').include(app);
 require('./StudentRegistrationRouting.js').include(app);
 require('./TeacherRegistrationRouting.js').include(app);
