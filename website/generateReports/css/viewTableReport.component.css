@@ -3,39 +3,37 @@
   box-sizing: border-box;
 }
 
-#myInput {
-  background-image: url('/css/searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
+.header {
+  font-size: 18px;
 }
 
 #myTable {
   border-collapse: collapse;
   width: 80%;
   border: 1px solid #ddd;
-  font-size: 18px;
+  margin-top: 15px;
 }
 
-#myTable th, #myTable td {
+#myTable td {
   text-align: left;
   padding: 12px;
+  cursor: auto !important;
+}
+
+#myTable th {
+  text-align: middle;
+  padding: 12px;
+  cursor: auto !important;
 }
 
 #myTable tr {
   border-bottom: 1px solid #ddd;
 }
 
-#myTable tr.header, #myTable tr:hover {
+#myTable tr.header {
   background-color: #f1f1f1;
 }
 
-.button22{
-    padding: 10px;
-    margin: 4px 110px;
+.special {
+  width: 200px;
 }
-
