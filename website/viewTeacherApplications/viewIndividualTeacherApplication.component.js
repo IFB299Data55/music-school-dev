@@ -11,10 +11,12 @@
     	  app.ViewTeacherApplicationsService,
         ng.router.Router,
         ng.router.ActivatedRoute,
-        function(ViewTeacherApplicationsService, Router, ActivatedRoute) {
+        app.UserService,
+        function(ViewTeacherApplicationsService, Router, ActivatedRoute, UserService) {
           this.ViewTeacherApplicationsService = ViewTeacherApplicationsService;
           this.Router = Router;
           this.ActivatedRoute = ActivatedRoute;
+          this.UserService = UserService;
           this.error;
           this.teacherApplication = {};
           this.instruments = [];
@@ -50,6 +52,15 @@
                 }
               });
           }
+
+          this.PageIsAvailable = function() {
+            if (this.UserService.GetCurrentUser().type == 'manager') {
+              return true;
+            } else {
+              return false;
+            }
+          }
+
 	      }
       ]
     });
