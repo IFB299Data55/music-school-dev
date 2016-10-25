@@ -7,9 +7,10 @@
           {{student.firstname}} {{student.lastname}}
       </div>
       <div class="meta">
-        <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{student.dob}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Instrument:</div> <div class="cardRight">{{student.instrument}}</div></div>
         <div class="cardRowContainer"><div class="cardLeft">Grade:</div> <div class="cardRight">{{student.grade}}</div></div>
+        <div class="cardRowContainer"><div class="cardLeft">Start-End Time:</div> <div class="cardRight">{{student.starttime + ' - ' + student.endtime}}</div></div>
+        <div class="cardRowContainer"><div class="cardLeft" id="redText" *ngIf="student.teacher != null">Specific request for you</div></div>
       </div>
     </div>
   </div>

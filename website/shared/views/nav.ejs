@@ -3,7 +3,7 @@
 		<a href="/"><img src="/shared/img/logo.png" alt="SCHOOL OF MUSIC"/></a>
 	</div>
 		<div id="userDetails" class='nav navbar-nav navbar-right' *ngIf="loggedIn">
-			<li><a href="#"><span class="glyphicon glyphicon-user"></span> My.Portal</a></li>
+			<li><a href="/myportal/"><span class="glyphicon glyphicon-user"></span> My.Portal</a></li>
 			<li><a href="#">Hello {{user.displayName}}</a></li>
 			<li><button (click)="LogOut()">Log out</button></li>
 		</div>
@@ -91,6 +91,9 @@
 		        </a></li>
 		        <li *ngIf="user.type == 'manager'"><a href="/management/teacherApplications/">
 		        	View Teacher Applications
+		        </a></li>
+		        <li *ngIf="user.type == 'manager'"><a href="/management/reports/">
+		        	Reporting
 		        </a></li>
 			</ul>
 		</li>

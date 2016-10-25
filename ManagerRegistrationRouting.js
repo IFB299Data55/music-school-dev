@@ -21,6 +21,7 @@ exports.include = (app) => {
 			address:true,
 			phoneNumber:true,
 			email:true,
+			gender:true,
 			dbError:false,
 			dbErrorMessage:''
 		};
@@ -68,14 +69,14 @@ exports.include = (app) => {
 				]
 			};
 
-			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description"
+			var teacherCols = "first_name, middle_name, last_name, dob, address, phone_no, email, password_id, is_terminated, date_employed, staff_description, gender"
 			var newTeacherQuery = {
 				text: "INSERT INTO music_school.managers("+teacherCols+") VALUES("
 						+"$1,$2,$3,"
 						+"to_date($4, 'DD MM YYYY'),$5,$6,$7,"
 						+"(SELECT MAX(id) FROM music_school.passwords),"
 						+"FALSE,"
-						+"now(),$8"
+						+"now(),$8,$9"
 					 +")",
 				name: "create-new-manager",
 				values: [
@@ -87,6 +88,7 @@ exports.include = (app) => {
 					, manager.phoneNumber
 					, manager.email
 					, manager.description.escapeHtml()
+					, manager.gender
 				]
 			};
 
@@ -136,7 +138,7 @@ exports.include = (app) => {
 							//Send Email
 							var textMessage = "Dear " + manager.firstName + " " + manager.lastName + ", "
 										 +"\n\nYou have been registered as a manager for the School of Music."
-										 +"\nYour Temprary password is: '" + manager.password +"'."
+										 +"\nYour Temporary password is: '" + manager.password +"'."
 										 +"\nWe hope you enjoy your employment with us."
 										 +"\n\nRegards,"
 										 +"\nSchool of Music Team";
@@ -237,29 +239,28 @@ function validateLastName(lastName, errArray) {
 	return false;
 }
 
-function validateBirthday(birthday, errArray) {
-	var regexp1 = new RegExp("^([0-9]){2}\/([0-9]){2}\/([0-9]){4}$");
-	var regexp2 = new RegExp("^([0-9]]){2}-([0-9]){2}-([0-9]){4}$");
+function validateBirthday(birthday, isValid) {
+	var regexp1 = "^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|\
+		(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|\
+		^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|\
+		(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|\
+		(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$";
 	var days, months, years;
-	if (regexp1.test(birthday)) {
-		days = parseInt(birthday.split('/')[0]);
-		months = parseInt(birthday.split('/')[1]);
-		years = parseInt(birthday.split('/')[2]);
-	} else if (regexp2.test(birthday)) {
-		days = parseInt(birthday.split('-')[0]);
-		months = parseInt(birthday.split('-')[1]);
-		years = parseInt(birthday.split('-')[2]);
-	}
-	if (days && months && years) {
-		if (days > 0 && days < 32 &&
-			months > 0 && months < 13 &&
-			years > 1900 && years < 2016) {
-			return true;
+	if (birthday.match(regexp1)) {
+		var days = parseInt(birthday.split('/')[0]);
+		var months = parseInt(birthday.split('/')[1]);
+		var years = parseInt(birthday.split('/')[2]);
+		if (days && months && years) {
+			if (days > 0 && days < 32 &&
+				months > 0 && months < 13 &&
+				years > 1900 && years < 2020) {
+				return true;
+			}
 		}
-	}
-	errArray.birthday = false;
+	isValid.birthday = false;
 	return false;
-}
+	}
+}	
 
 function validateAddress(address, errArray) {
 	var regexp = new RegExp("^[A-Za-z0-9\-,/. ]+$");

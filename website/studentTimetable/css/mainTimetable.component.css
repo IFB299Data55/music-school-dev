@@ -3,6 +3,7 @@
 ---------------*/
 .form {
   display: inline-block;
+  width: 100%;
 }
 
 .day .card {
@@ -13,14 +14,14 @@
 }
 
 .day .card:hover{
-  background: rgb(254,254,254);
+  background: rgb(250,250,250);
 }
 
 .day { 
   float: left;
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: 20%;
 }
 
 
@@ -30,4 +31,9 @@
 }
 
 @media screen and (max-width: 767px) {
+  .day {
+    float: none;
+    clear: both;
+    width: 100%;
+  }
 }
