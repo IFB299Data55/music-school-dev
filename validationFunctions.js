@@ -65,7 +65,7 @@ exports.include = (app) => {
 	}
 
 	app.validateText = function(text) {
-		var regexp = new RegExp("^[A-Za-z0-9, ]+$");
+		var regexp = new RegExp("^[A-Za-z0-9,\. ]+$");
 		if (regexp.test(text)) {
 			return true;
 		}
@@ -91,6 +91,14 @@ exports.include = (app) => {
 	app.validateGrade = function(grade) {
 		var regexp = new RegExp("^[1-7]$");
 		if (regexp.test(grade)) {
+			return true;
+		}
+		return false;
+	}
+
+	app.validatePrice = function(price) {
+		var regexp = new RegExp("^[1-9][0-9]*(\.[0-9]{1,2})?$");
+		if (regexp.test(price)) {
 			return true;
 		}
 		return false;

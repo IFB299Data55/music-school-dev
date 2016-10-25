@@ -50,7 +50,6 @@
       this.GenerateReportsService.GetReport(this.reportName).then(response => {
         if (!response.error) {
           this.report = response.report[0];
-          console.log(this.report);
         } else {
           this.error = 'An error has occured. Please contact administration for further assitance.';
         }
