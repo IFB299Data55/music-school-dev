@@ -1,39 +1,41 @@
 
 <p *ngIf="error" class="cardErrorMessage">{{error}}</p>
-<div class="button22 clickable" (click)="GoBack()"><div class="fa fa-arrow-left"></div> Back &nbsp;</div>
-  <div class="extra content">
-      <div class="ui two buttons">
-         <button class="button21 positive " (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
-         <button class="button21 " (click)="RejectTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Reject</button>
-      </div>
-    </div>
 
-<div class="ui cards">
-  <div class="card" *ngIf="teacherApplication">
-    <div class="content">
-      <div class="cardHeader">
-          {{teacherApplication.firstname}} {{teacherApplication.lastname}}
+<div *ngIf="PageIsAvailable()">
+  <div class="ui cards">
+    <div class="card" *ngIf="teacherApplication">
+      <div class="content">
+        <div class="cardHeader">
+            {{teacherApplication.firstname}} {{teacherApplication.lastname}}
+        </div>
+        <div class="meta">
+          <div class="cardRowContainer"><div class="cardLeft heading">Status:</div> <div class="cardRight">{{teacherApplication.uiStatus}}</div>
+          <div class="cardRowContainer"><div class="cardLeft heading">Email:</div> <div class="cardRight">{{teacherApplication.email}}</div></div>
+          <div class="cardRowContainer"><div class="cardLeft heading">Phone:</div> <div class="cardRight">{{teacherApplication.phone}}</div></div>
+          <div class="cardRowContainer"><div class="cardLeft heading">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>
+          <div class="cardRowContainer" *ngIf="references.length"><div class="cardLeft heading">References:</div><div class="cardRight"></div></div>
+          <div class="cardRowContainer" *ngFor="let reference of references"><div class="cardLeft">{{reference.name}}</div> <div class="cardRight">{{reference.phone}}</div></div>
+          <div class="cardRowContainer" *ngIf="languages.length"><div class="cardLeft heading">Languages:</div><div class="cardRight"></div></div>
+          <div class="cardRowContainer" *ngFor="let language of languages"><div class="cardLeft"></div> <div class="cardRight">{{language.name}}</div></div>
+          <div class="cardRowContainer" *ngIf="instruments.length"><div class="cardLeft heading">Instruments:</div><div class="cardRight"></div></div>
+          <div class="cardRowContainer" *ngFor="let instrument of instruments"><div class="cardLeft">{{instrument.instrument}}</div> <div class="cardRight">{{instrument.grade}}</div></div>
+    		 <div class="cardRowContainer"><div class="cardLeft heading" >Cover Letter:</div></div>
+         <div class="cardRowContainer"><div class="cardLeft" >{{teacherApplication.coverletter}}</div></div>
+          </div>
       </div>
-      <div class="meta">
-        <div class="cardRowContainer"><div class="cardLeft">Status:</div> <div class="cardRight">{{teacherApplication.uiStatus}}</div>
-        <div class="cardRowContainer"><div class="cardLeft">Email:</div> <div class="cardRight">{{teacherApplication.email}}</div></div>
-        <div class="cardRowContainer"><div class="cardLeft">Phone:</div> <div class="cardRight">{{teacherApplication.phone}}</div></div>
-        <div class="cardRowContainer"><div class="cardLeft">Age:</div> <div class="cardRight">{{teacherApplication.dob}}</div></div>
-        <div class="cardRowContainer" *ngIf="references.length"><div class="cardLeft">References:</div><div class="cardRight"></div></div>
-        <div class="cardRowContainer" *ngFor="let reference of references"><div class="cardLeft">{{reference.name}}</div> <div class="cardRight">{{reference.phone}}</div></div>
-        <div class="cardRowContainer" *ngIf="languages.length"><div class="cardLeft">Languages:</div><div class="cardRight"></div></div>
-        <div class="cardRowContainer" *ngFor="let language of languages"><div class="cardLeft"></div> <div class="cardRight">{{language.name}}</div></div>
-        <div class="cardRowContainer" *ngIf="instruments.length"><div class="cardLeft">Instruments:</div><div class="cardRight"></div></div>
-        <div class="cardRowContainer" *ngFor="let instrument of instruments"><div class="cardLeft">{{instrument.instrument}}</div> <div class="cardRight">{{instrument.grade}}</div></div>
-		<br>
-		<br>
-		 <div class="cardRowContainer"class="box"><div class="cardLeft" >Cover Letter:</div> <div class="cardRight" >{{teacherApplication.coverletter}}</div></div>
+
+      <div class="extra content">
+        <div class="ui two buttons">
+           <button class="button21 positive " (click)="ShortlistTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Shortlist</button>
+           <button class="button21 " (click)="RejectTeacherApplication(teacherApplication.id, teacherApplication.firstname, teacherApplication.lastname, teacherApplication.email)">Reject</button>
+           <button class="button22 clickable" (click)="GoBack()">Go Back</button>
+        </div>
       </div>
+  	
+     
     </div>
-	
-   
   </div>
-</div>
+  </div>
 </div>
 
 
