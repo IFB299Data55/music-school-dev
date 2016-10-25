@@ -28,15 +28,19 @@
           };
 
           this.Register = function() {
+            console.log('Trying to Register');
+            console.log(this.student);
             this.submitted = true;
             this.error = '';
             //Send to registration Service
             //then redirect
             this.RegistrationService.AttemptRegistration(this.student)
               .then(response => {
+                console.log(response);
                 if (response.status) {
                   var link = ['/Confirmation'];
                   this.Router.navigate(link);
+
                 } else {
                   this.isValid = response.errorArray;
                   this.submitted = false;
@@ -51,7 +55,8 @@
       ]
     });
     app.RegisterFormComponent.prototype.ngOnInit = function() {
-      $('.datepicker').datepicker({
+      $('.datepicker')
+      .datepicker({
           dateFormat: 'dd/mm/yy',
           changeMonth: true,
           changeYear: true,

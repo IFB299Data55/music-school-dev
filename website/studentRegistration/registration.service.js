@@ -11,6 +11,7 @@
           this.AttemptRegistration = function(student) {
               return this.http.post(this.registerUrl, student, this.headers).toPromise()
               .then(response => {
+                console.log(response);
                 var valid = JSON.parse(response._body);
                 return valid;
               })

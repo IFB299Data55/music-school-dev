@@ -35,9 +35,9 @@ exports.include = (app) => {
 		fmt = fmt || 'dmy';
 		var regexp;
 		if(fmt == 'dmy') {
-			regexp = new RegExp("^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$");
+			regexp = new RegExp("^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)[0-9]{2})$");
 		} else if (fmt == 'ymd') {
-			regexp = new RegExp("^[0-9]{4}\/[0-9]{2}\/[0-9]{2}$");
+			regexp = new RegExp("^((19|20)[0-9]{2})\/(0[1-9]|1[0-2])\/([0-2][0-9]|3[0-1])$");
 		} else {
 			return false;
 		}
