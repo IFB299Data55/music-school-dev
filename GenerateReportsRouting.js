@@ -44,7 +44,7 @@ exports.include = (app) => {
 
 		var query = {
 			text: '',
-			name: 'get-specific-report',
+			name: 'get-'+reportName,
 			values: []
 		};
 
