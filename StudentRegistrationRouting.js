@@ -38,8 +38,6 @@ exports.include = (app) => {
 			valid.status = false;
 			valid.errorArray = isValid;
 			response.send(valid);
-			console.log("input: \n", student);
-			console.log("res: \n", valid);
 		}
 
 		if(valid.status) {
