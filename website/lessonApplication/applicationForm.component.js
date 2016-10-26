@@ -27,7 +27,6 @@
             hireType:       true,
             instrumentId:   true,
             day:            true,
-            duration:       true,
             startTime:      true,
             endTime:        true,
             language:       true,
@@ -41,8 +40,13 @@
 
           this.CalcEndTimeInHours = function() {
             this.ProcessStartTime();
-            var d = new Date(1,1,1,this.lesson.startTime + 1);
-            this.lesson.endTime = d.getHours();
+            var d;
+            if (this.lesson.duration == 30) {
+              d = new Date(1,1,1,this.lesson.startTime,30);
+            } else {
+              d = new Date(1,1,1,this.lesson.startTime + 1);
+            }
+            this.lesson.endTime = d.getHours() + d.getMinutes()/60;
           }
 
           this.DisplayEndTime = function() {
@@ -50,20 +54,22 @@
 
             var format = '';
             if(this.givenStartTime.search(":") != -1) format = ':00';
+            if(this.lesson.endTime % 1 != 0) format = ':30';
 
+            var timeHours = Math.floor(this.lesson.endTime);
             if(this.givenStartTime.search("am") != -1 || this.givenStartTime.search("pm") != -1) {
-              if(this.lesson.endTime > 12){
-                return ((this.lesson.endTime - 12) + format + 'pm');
-              } else if (this.lesson.endTime == 12) {
-                return (this.lesson.endTime + format + 'pm');
+              if(timeHours > 12){
+                return ((timeHours - 12) + format + 'pm');
+              } else if (timeHours == 12) {
+                return (timeHours + format + 'pm');
               } else {
-                return (this.lesson.endTime + format + 'am');
+                return (timeHours + format + 'am');
               }
             } else {
-              if(this.lesson.endTime > 10)
-                return (this.lesson.endTime + format);
+              if(timeHours > 10)
+                return (timeHours + format);
               else 
-                return (0 + this.lesson.endTime.toString() + format);
+                return (0 + timeHours.toString() + format);
             }
           }
 
@@ -83,13 +89,13 @@
           ];
           
           this.durationList = [
-              {short: "Half an hour", length:"30 Mins"}
-            , {short: "Hour", length:"1 Hour"}
+              {short: "30", length:"30 Mins"}
+            , {short: "60", length:"1 Hour"}
           ];
           this.ProcessStartTime = function() {
             var hours;
             if(this.givenStartTime.search(":") == -1) {
-              if(this.givenStartTime.search("pm") == -1) {
+              if(this.givenStartTime.search("pm") == -1 || parseInt(this.givenStartTime) == 12) {
                 hours = parseInt(this.givenStartTime);
               } else {
                 hours = parseInt(this.givenStartTime) + 12;

@@ -122,7 +122,7 @@
 							[(ngModel)]="lesson.duration" #duration="ngModel" required>
 						<option *ngFor="let duration of durationList" value="{{duration.short}}" required>{{duration.length}}</option>
 					</select>
-					 <p class="errorMessage" [hidden]="(duration.valid || duration.untouched) && isValid.duration">Invalid input. Choose a valid lesson duration.</p> 
+					 <p class="errorMessage" [hidden]="(duration.valid || duration.untouched)">Invalid input. Choose a valid lesson duration.</p> 
 				</div>
 			</div>
 			<div class="row">
