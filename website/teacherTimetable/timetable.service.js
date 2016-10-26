@@ -9,15 +9,6 @@
           this.UserService = UserService;
           this.headers = new Headers({'Content-Type': 'application/json'});
 
-          /*this.AttemptRegistration = function(student) {
-              return this.http.post(this.registerUrl, student, this.headers).toPromise()
-              .then(response => {
-                var valid = JSON.parse(response._body);
-                return valid;
-              })
-              .catch(this.handleError);
-          }*/
-
           this.GetLessons = function() {
             var url = "/teacher/timetable/getLessons/?id="+UserService.GetCurrentUser().id;
             return this.http.get(url, this.headers).toPromise()
@@ -34,6 +25,21 @@
             .then(response => {
               var lesson = JSON.parse(response._body);
               return Promise.resolve(lesson);
+            })
+            .catch(this.handleError);
+          }
+
+          this.CancelLesson = function(lessonId) {
+            var body = {
+              lessonId: lessonId,
+              teacherId: this.UserService.GetCurrentUser().id
+            }
+
+            var url = '/teacher/timetable/cancelLesson';
+            return this.http.post(url, body, this.headers).toPromise()
+            .then(response => {
+              var response = JSON.parse(response._body);
+              return Promise.resolve(response);
             })
             .catch(this.handleError);
           }

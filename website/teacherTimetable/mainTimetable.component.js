@@ -14,6 +14,12 @@
           this.TimetableService = TimetableService;
           this.UserService = UserService;
           this.Router = Router;
+          this.dayLessons = [];
+          for(var i = 0; i < 7; i++) {
+            this.dayLessons[i] = [];
+          }
+
+          this.dayConversion = ["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
 
           this.FormIsAvailable = function() {
             if(this.UserService.GetCurrentUser().type == 'teacher') {
@@ -27,7 +33,12 @@
             this.TimetableService.GetLessons()
             .then(response => {
               if (response.valid) {
-                this.lessons = response.lessons;
+                console.log(response.lessons);
+                response.lessons.forEach((lsn) => {
+                  var lsnDay = lsn.lesson_day;
+                  this.dayLessons[lsnDay].push(lsn);
+                });
+                console.log(this.dayLessons);
               } else {
                 this.error = response.error;
               }

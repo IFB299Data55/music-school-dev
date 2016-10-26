@@ -3,7 +3,7 @@
 		<a href="/"><img src="/shared/img/logo.png" alt="SCHOOL OF MUSIC"/></a>
 	</div>
 		<div id="userDetails" class='nav navbar-nav navbar-right' *ngIf="loggedIn">
-			<li><a href="#"><span class="glyphicon glyphicon-user"></span> My.Portal</a></li>
+			<li><a href="/myportal/"><span class="glyphicon glyphicon-user"></span> My.Portal</a></li>
 			<li><a href="#">Hello {{user.displayName}}</a></li>
 			<li><button (click)="LogOut()">Log out</button></li>
 		</div>
@@ -32,6 +32,9 @@
 				</a></li>
 				<li *ngIf="user.type == 'student'"><a href="/lessons/application/">
 					Apply For Lessons
+				</a></li>
+				<li *ngIf="user.type == 'student'"><a href="/student/timetable/">
+					View Timetable
 				</a></li>
 				<li *ngIf="user.type == 'student'"><a href="/student/instruments/borrowed/">
 					View Borrowed Instruments
@@ -71,6 +74,9 @@
 				<li *ngIf="user.type == 'manager'"><a href="/register/manager/">
 					Register
 				</a></li>
+				<li *ngIf="user.type == 'manager'"><a href="/management/instruments/">
+					View Instruments
+				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/instrument/new/">
 					Add New Instrument
 				</a></li>
@@ -82,6 +88,12 @@
 				</a></li>
 				<li *ngIf="user.type == 'manager'"><a href="/management/teachers/">
 		        	View Teacher Accounts
+		        </a></li>
+		        <li *ngIf="user.type == 'manager'"><a href="/management/teacherApplications/">
+		        	View Teacher Applications
+		        </a></li>
+		        <li *ngIf="user.type == 'manager'"><a href="/management/reports/">
+		        	Reporting
 		        </a></li>
 			</ul>
 		</li>

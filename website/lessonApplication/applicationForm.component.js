@@ -75,11 +75,11 @@
           }
 
           this.dayList = [
-              {short: "Mon", name:"Monday"}
-            , {short: "Tue", name:"Tuesday"}
-            , {short: "Wed", name:"Wednesday"}
-            , {short: "Thu", name:"Thursday"}
-            , {short: "Fri", name:"Friday"}
+              {short: "1", name:"Monday"}
+            , {short: "2", name:"Tuesday"}
+            , {short: "3", name:"Wednesday"}
+            , {short: "4", name:"Thursday"}
+            , {short: "5", name:"Friday"}
           ];
           
           this.durationList = [

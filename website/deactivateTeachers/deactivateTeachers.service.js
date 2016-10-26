@@ -6,8 +6,10 @@
         function(http) {
           this.http = http;
           this.deactivateURL = '/management/teachers/individual/deactivate/';
+          this.reactivateURL = '/management/teachers/individual/reactivate/';
           this.individualRequestURL = '/management/teachers/getIndividualTeacher/';
-          this.requestURL = '/management/teachers/getAllTeachers/';
+          this.requestAllURL = '/management/teachers/getAllTeachers/';
+          this.requestDeactivatedURL = '/management/teachers/getAllTeachers/deactivated/';
           this.headers = new Headers({'Content-Type': 'application/json'});
 
           this.DeactivateTeacher = function(teacherID) {
@@ -22,8 +24,29 @@
             .catch(this.handleError);
           }
 
+          this.ReactivateTeacher = function(teacherID) {
+            var params = {
+              id: teacherID
+            };
+            return this.http.post(this.reactivateURL, params, this.headers).toPromise()
+            .then(response => {
+              var valid = JSON.parse(response._body);
+              return Promise.resolve(valid);
+            })
+            .catch(this.handleError);
+          }
+
           this.GetTeachers = function() {
-            return this.http.get(this.requestURL, this.headers).toPromise()
+            return this.http.get(this.requestAllURL, this.headers).toPromise()
+            .then(response => {
+              var teachers = JSON.parse(response._body);
+              return Promise.resolve(teachers);
+            })
+            .catch(this.handleError);
+          }
+
+          this.GetDeactivatedTeachers = function() {
+            return this.http.get(this.requestDeactivatedURL, this.headers).toPromise()
             .then(response => {
               var teachers = JSON.parse(response._body);
               return Promise.resolve(teachers);

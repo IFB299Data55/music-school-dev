@@ -9,3 +9,7 @@
   cursor: pointer;
   background: rgb(250,250,250) !important;
 }
+
+#redText {
+  color: rgb(200,0,0);
+}

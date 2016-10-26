@@ -15,8 +15,12 @@
 	  </div>
 	  <div class="extra content">
     		<div class="ui two buttons">
+    			<button class="button21" (click)="CancelLesson()">Cancel Lesson</button>
 			    <button class="button22 clickable" (click)="GoBack()">Go Back</button>
 			</div>
     	</div>
 	</div>
+</div>
+<div *ngIf="!FormIsAvailable()">
+	<p>You must be a teacher of our school to view this page.</p>
 </div>

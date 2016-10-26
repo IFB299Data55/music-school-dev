@@ -19,6 +19,171 @@ exports.include = (app) => {
 		else response.send('Available');
 	});
 
+	app.get('/database/getUserDetails', function(request, response){
+		var userId = request.query.id;
+		var type = request.query.type;
+		//setup response object
+		var res = {
+			valid: (validateGeneral(userId) && validateGeneral(type)),
+			user: {},
+			error: ''
+		};
+
+		if(res.valid) {
+			var getUserDetailsQuery = "SELECT u.first_name, "
+											+"u.middle_name, "
+											+"u.last_name, "
+											+"to_char(u.dob,'DD/MM/YYYY') as dob, "
+											+"u.address, "
+											+"u.phone_no, "
+											+"u.email, "
+											+"u.gender "
+									 +"FROM music_school." + type + "s u "
+									 +"WHERE id = $1";
+			var getUserDetailsValues = [userId];
+
+			app.client.query(getUserDetailsQuery, getUserDetailsValues)
+			.on('error', function(err) {
+				/* Error Handling */
+				if (!response.headersSent) {
+					res.valid = false;
+					res.error = 'An error has occured. Please try again later or contact an administrator';
+					console.log("Errors Happened within DatabaseFunctions getUserDetails:");
+					console.log("Params: userId = ", userId, " / type = ", type);
+					console.log("query: \n", getUserDetailsQuery);
+					console.log("\n",err);
+					response.send(res);
+				}
+			})
+			.on('row', function(row) {
+				//Add instruments to array
+				res.user = row;
+			})
+			.on('end', function() {
+				//return response
+				if (!response.headersSent) {
+					response.send(res);
+				}
+			});
+		} else {
+			res.error = 'Regex is broken or we are being hacked.'
+			response.send(res);
+		}
+	});
+
+	app.get('/database/getTeacherSkills', function(request, response){
+		var userId = request.query.id;
+		//setup response object
+		var res = {
+			valid: validateGeneral(userId),
+			instruments: [],
+			grades: [],
+			allInstruments: [],
+			languages: [],
+			allLanguages: [],
+			error: ''
+		};
+
+		if(res.valid) {
+			var getAllInstrumentsQuery = {
+				text: "SELECT it.*"
+					 +"FROM music_school.instrument_types it",
+				name: "get-all-instruments",
+				values: []
+			};
+
+			var getAllLanguagesQuery = {
+				text: "SELECT l.*"
+					 +"FROM music_school.languages l",
+				name: "get-all-languages",
+				values: []
+			};
+
+			app.client.query(getAllInstrumentsQuery)
+			.on('error', function(err){})
+			.on('row', function(row) {res.allInstruments.push(row)});
+
+			app.client.query(getAllLanguagesQuery)
+			.on('error', function(err){})
+			.on('row', function(row) {res.allLanguages.push(row)});
+
+			
+			var getTeacherInstrumentsQuery = {
+				text: "SELECT it.id, it.name, te.grade "
+					 +"FROM music_school.teachers t, "
+					 	  +"music_school.teacher_experience te, "
+					 	  +"music_school.instrument_types it "
+					 +"WHERE t.id = te.teacher_id "
+					   +"AND te.inst_type_id = it.id "
+					   +"AND t.id = $1",
+				name: "get-teacher-instruments",
+				values: [userId]
+			};
+
+			var getTeacherLanguagesQuery = {
+				text: "SELECT l.id, l.language "
+					 +"FROM music_school.teachers t, "
+					 	  +"music_school.teacher_languages tl, "
+					 	  +"music_school.languages l "
+					 +"WHERE t.id = tl.teacher_id "
+					   +"AND tl.language_id = l.id "
+					   +"AND t.id = $1",
+				name: "get-teacher-languages",
+				values: [userId]
+			};
+
+			app.client.query(getTeacherInstrumentsQuery)
+			.on('error', function(err) {
+				/* Error Handling */
+				if (!response.headersSent) {
+					res.valid = false;
+					res.error = 'An error has occured. Please try again later or contact an administrator';
+					console.log("Errors Happened within DatabaseFunctions getTeacherSkills : getTeacherInstrumentsQuery");
+					console.log("Params: userId = ", userId);
+					console.log("query: \n", getTeacherInstrumentsQuery);
+					console.log("\n",err);
+					response.send(res);
+				}
+			})
+			.on('row', function(row) {
+				//Add instruments to array
+				res.instruments.push(row.id);
+				res.grades[row.id - 1] = row.grade;
+			})
+			.on('end', function() {
+				//return response
+				if (!response.headersSent) {
+					app.client.query(getTeacherLanguagesQuery)
+					.on('error', function(err) {
+						/* Error Handling */
+						if (!response.headersSent) {
+							res.valid = false;
+							res.error = 'An error has occured. Please try again later or contact an administrator';
+							console.log("Errors Happened within DatabaseFunctions getTeacherSkills : getTeacherLanguagesQuery");
+							console.log("Params: userId = ", userId);
+							console.log("query: \n", getTeacherLanguagesQuery);
+							console.log("\n",err);
+							response.send(res);
+						}
+					})
+					.on('row', function(row) {
+						//Add instruments to array
+						res.languages.push(row.id);
+					})
+					.on('end', function() {
+						//return response
+						if (!response.headersSent) {
+							response.send(res);
+						}
+					});
+				}
+			});
+		} else {
+			res.error = 'Regex is broken or we are being hacked.'
+			response.send(res);
+		}
+	});
+
 	/* Gets all Instrument Types */
 	app.get('/database/getInstrumentTypes', function(request, response){
 		//setup response frame
@@ -112,7 +277,7 @@ exports.include = (app) => {
 				text: "SELECT i.id, i.serial_no, i.model, i.hire_fee, c.condition, i.inst_notes"
 					 +" FROM music_school.instruments i, music_school.conditions c "
 					 +"WHERE i.condition_id = c.id AND inst_type_id = $1 AND i.id NOT IN (SELECT instrument_id FROM music_school.instrument_hire "
-					 	+"WHERE hire_status_id NOT IN (6))" + conditionRestriction,
+					 	+"WHERE is_sold_or_disposed = FALSE AND hire_status_id NOT IN (6))" + conditionRestriction,
 				name: "get-instruments-of-type",
 				values: [instrumentTypeId]
 			};
