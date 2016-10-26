@@ -17,7 +17,7 @@
           this.ActivatedRoute = ActivatedRoute;
           this.UserService = UserService;
           this.error;
-          this.teacher = {};
+          this.teacher = false;
 
           this.GoBack = function() {
             window.history.back();
@@ -25,6 +25,21 @@
 
           this.DeactivateTeacher = function(teacherID) {
             this.DeactivateTeachersService.DeactivateTeacher(teacherID)
+              .then(response => {
+                if (response.status) {
+                  var link = ['/all'];
+                  this.Router.navigate(link);
+                } else {
+                  this.error = 'There was an error';
+                }
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+
+          this.ReactivateTeacher = function(teacherID) {
+            this.DeactivateTeachersService.ReactivateTeacher(teacherID)
               .then(response => {
                 if (response.status) {
                   var link = ['/all'];

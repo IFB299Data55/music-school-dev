@@ -37,6 +37,7 @@ exports.include = (app) => {
 					response.send(result);
 				} else {
 					result.status = false;
+					result.error = 'You have no lesson requests from any students.';
 					response.send(result);
 				}
 			}
@@ -55,7 +56,7 @@ exports.include = (app) => {
 		var getQuery = "SELECT l.id as requestid, s.first_name as firstname, s.last_name as lastname, "
 						+"TO_CHAR(s.dob,'YYYY-MM-DD') as dob, it.name as instrument, se.grade as grade, "
 						+"l.lesson_start_time as starttime, l.lesson_end_time as endtime, l.lesson_year as year, "
-						+"l.lesson_term as term, l.lesson_fee as fee, l.lesson_notes as notes "
+						+"l.lesson_term as term, l.lesson_fee as fee, l.lesson_notes as notes, l.teacher_id as teacher "
 						+"FROM music_school.lessons l, music_school.students s, "
 						+"music_school.instrument_types it, music_school.student_experience se "
 						+"WHERE l.student_id = s.id AND l.inst_type_id = it.id AND l.id = "+requestID

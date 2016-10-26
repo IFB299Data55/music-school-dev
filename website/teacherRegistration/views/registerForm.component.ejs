@@ -37,14 +37,25 @@
 				[(ngModel)]="teacher.lastName" pattern="^[A-Za-z ]+$" required/>
 				<p class="errorMessage" [hidden]="(lastName.valid || lastName.untouched) && isValid.lastName">Invalid input. Must only contain letters.</p>
         	</div>
-        	<div class="col-sm-6">
-        	 	<label for="birthday">Date of Birth:</label>
-	            <input 	title="01/02/1992" type="text" id="birthday" name="birthday" #birthday="ngModel"
-				[(ngModel)]="teacher.birthday" pattern="^(\d){2}/(\d){2}/(\d){4}$|^(\d){2}-(\d){2}-(\d){4}$" required/>
-				<p class="errorMessage" [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy or dd-mm-yyyy.</p>
-	        </div>
+			<div class="col-sm-6">
+				<label 	for="birthday">Date of Birth: </label>
+				<input 	title="dd/mm/yyyy" type="text" id="birthday" class="datepicker" placeholder= "dd/mm/yyyy" name="birthday" #birthday="ngModel" [(ngModel)]="teacher.birthday" 
+						pattern="^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)[0-9]{2})$" 
+						autocomplete="off" required/>
+				<p class="errorMessage" [hidden]="(birthday.valid || birthday.untouched) && isValid.birthday">Invalid input. Must be a valid date in the format dd/mm/yyyy.</p>
+			</div>
 	    </div>
-	     
+		<div class="row">
+        	<div class="col-sm-6">
+        		<label for="gender">Gender:</label>
+	            <select id="gender" name="gender" #gender="ngModel" [(ngModel)]="teacher.gender" pattern="^Male$|^Female$" required>
+						<option value="" disabled selected>Select Gender</option>
+						<option value="Male">Male</option>
+						<option value="Female">Female</option>
+				</select>
+				<p class="errorMessage" [hidden]="(gender.valid || gender.untouched) && isValid.gender">A Value must be selected.</p>
+        	</div>
+	    </div>
     </fieldset>
     <fieldset id="professionalinfo"
     *ngIf="instrumentTypes.length + languagesList.length != 0">

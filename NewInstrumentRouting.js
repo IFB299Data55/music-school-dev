@@ -224,30 +224,14 @@ function validateModel(model, isValid) {
 }
 
 function validatePurchaseDate(purchaseDate, isValid) {
-	var regexp1 = "^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$";
-	var regexp2 = "^[0-9]{2}-[0-9]{2}-[0-9]{4}$";
+	var regexp = "^([0-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)[0-9]{2})$";
 	var days, months, years;
-	//if (regexp1.test(purchaseDate)) {
-	if (purchaseDate.match(regexp1)) {
-		var days = parseInt(purchaseDate.split('/')[0]);
-		var months = parseInt(purchaseDate.split('/')[1]);
-		var years = parseInt(purchaseDate.split('/')[2]);
-	//} else if (regexp2.test(purchaseDate)) {
-	} else if (purchaseDate.match(regexp2)) {
-		var days = parseInt(purchaseDate.split('-')[0]);
-		var months = parseInt(purchaseDate.split('-')[1]);
-		var years = parseInt(purchaseDate.split('-')[2]);
-	}
-	if (days && months && years) {
-		if (days > 0 && days < 32 &&
-			months > 0 && months < 13 &&
-			years > 2015) {
-			return true;
-		}
+	if (purchaseDate.match(regexp)) {
+		return true;
 	}
 	isValid.purchaseDate = false;
 	return false;
-}
+}	
 
 function validateHireFee(hireFee, isValid) {
 	var regexp = new RegExp("^.[0-9]+(.[0-9]{2})?$");

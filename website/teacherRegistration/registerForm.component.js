@@ -26,6 +26,7 @@
             email:              true,
             languages:          true,
             instrumentTypeIds:  true,
+            gender:             true,
             dbError:            false,
             dbErrorMessage:     ''
           };
@@ -88,5 +89,18 @@
     });
     app.RegisterFormComponent.prototype.ngOnInit = function() {
       this.GetDatabaseValues();
+    };
+    app.RegisterFormComponent.prototype.ngAfterViewInit = function() {
+      $('.datepicker').datepicker({
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true,
+        minDate: '01/01/1900',
+        maxDate: 0,
+        yearRange: "1900:-0",
+        monthRange: "Jan:Dec",
+        showAnim: "fadeIn",
+        onSelect: (date) => { this.teacher.birthday = date; }
+      }).attr('readonly', 'readonly');
     };
 })(window.app || (window.app = {}));

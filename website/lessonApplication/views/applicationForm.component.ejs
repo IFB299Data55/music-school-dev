@@ -114,6 +114,16 @@
 					</select>
 					<p class="errorMessage" [hidden]="(day.valid || day.untouched) && isValid.day">Invalid input. Must be a valid day format.</p>
 				</div>
+			</div>		
+			<div class="row">
+				<div class="col-sm-6">
+					<label 	for="duration">Class Duration: </label>
+					<select id="duration" name="duration"
+							[(ngModel)]="lesson.duration" #duration="ngModel" required>
+						<option *ngFor="let duration of durationList" value="{{duration.short}}" required>{{duration.length}}</option>
+					</select>
+					 <p class="errorMessage" [hidden]="(duration.valid || duration.untouched)">Invalid input. Choose a valid lesson duration.</p> 
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
