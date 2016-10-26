@@ -37,6 +37,7 @@
                 if (response.status) {
                   var link = ['/Confirmation'];
                   this.Router.navigate(link);
+
                 } else {
                   this.isValid = response.errorArray;
                   this.submitted = false;
@@ -51,7 +52,8 @@
       ]
     });
     app.RegisterFormComponent.prototype.ngOnInit = function() {
-      $('.datepicker').datepicker({
+      $('.datepicker')
+      .datepicker({
           dateFormat: 'dd/mm/yy',
           changeMonth: true,
           changeYear: true,
