@@ -339,11 +339,20 @@ function processTime(time) {
 	return response;
 }
 
-function TurnIntoDBTime(startTime) {
-	if (startTime < 10)
-		return ("0" + startTime.toString() + ":00");
+function TurnIntoDBTime(time) {
+	var res = '';
+	if (time < 10)
+		res = "0" + Math.floor(time).toString();
 	else
-		return (startTime.toString() + ":00");
+		res = Math.floor(time).toString();
+
+	if(time % 1 != 0) {
+		res += ':30';
+	} else {
+		res += ":00";
+	}
+
+	return res;
 
 }
 
@@ -447,7 +456,7 @@ function validateStartTime(startTime, isValid) {
 }
 
 function validateEndTime(endTime, isValid) {
-	var regexp = new RegExp("^[7-9]$|^1[0-9]$");
+	var regexp = new RegExp("^[7-9](\.5)?$|^1[0-9](\.5)?$");
 	if (regexp.test(endTime)) {
 		return true;
 	}

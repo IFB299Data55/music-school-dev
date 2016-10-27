@@ -16,7 +16,9 @@ exports.include = (app) => {
 		 ||availabilityCheck.startTime == ''
 		 ||availabilityCheck.duration == ''
 		 ||availabilityCheck.day == '') response.send('Unavailable');
-		else response.send('Available');
+		else {
+			response.send('Available');
+		}
 	});
 
 	app.get('/database/getUserDetails', function(request, response){
