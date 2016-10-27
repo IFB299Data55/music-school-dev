@@ -106,7 +106,7 @@ exports.include = (app) => {
 					, 1
 				]
 			}
-
+e
 			app.client.query(getQuery)
 			.on('error', function(err) {
 				if (!response.headersSent) {
