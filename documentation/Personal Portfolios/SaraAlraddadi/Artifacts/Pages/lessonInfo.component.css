@@ -1,0 +1,11 @@
+table {
+  border-spacing: 0.5rem;
+  margin-left: 50px;
+}
+td {
+  padding: 0.5rem;
+  color: white;
+}
+
+td:nth-child(1) { background: rgba(20, 13, 99, 1); }
+td:nth-child(2) { background: #708090; }
